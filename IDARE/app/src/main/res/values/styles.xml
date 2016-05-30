@@ -8,4 +8,25 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="btn_pink_background" parent="Widget.AppCompat.Button">
+        <item name="android:padding">@dimen/padding_btn</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_welcome_screen_btn</item>
+        <item name="android:background">@drawable/btn_selector_pink</item>
+        <item name="android:textColor">@color/idare_white</item>
+    </style>
+
+    <style name="btn_white_background" parent="Widget.AppCompat.Button">
+        <item name="android:padding">@dimen/padding_btn</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_welcome_screen_btn</item>
+        <item name="android:background">@drawable/btn_selector_white</item>
+        <item name="android:textColor">@color/idare_white</item>
+    </style>
+
+    <style name="btn_make_passive" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/btn_selector_white</item>
+        <item name="android:paddingLeft">@dimen/padding_btn</item>
+        <item name="android:paddingRight">@dimen/padding_btn</item>
+        <item name="android:textColor">@color/idare_pink</item>
+        <item name="android:text">@string/make_passive</item>
+    </style>
 </resources>

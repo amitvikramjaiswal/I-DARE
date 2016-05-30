@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="arr_nav_titles">
+        <item>HOME</item>
+        <item>CORE LIST</item>
+        <item>INVITE TO I-DARE</item>
+        <item>APP TOUR</item>
+        <item>CONTRIBUTE/DONATE</item>
+        <item>SETTINGS</item>
+        <item>LOG OUT</item>
+    </array>
+
+</resources>

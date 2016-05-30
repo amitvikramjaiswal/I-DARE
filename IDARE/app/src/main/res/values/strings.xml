@@ -1,4 +1,35 @@
 <resources>
-    <string name="app_name">IDARE</string>
-    <string name="progress_bar_message">Loading...</string>
+    <string name="app_name">I-DARE</string>
+
+    <string name="make_passive">MAKE PASSIVE</string>
+    <string name="passive_mode_description">Passive mode disables location services in this app to conserve battery.</string>
+    <string name="passive_mode_message">Your security app is in Passive mode and will need to be active to send real time location details</string>
+    <string name="welcome_title">Welcome <b>%1$s</b></string>
+    <string name="make_active_btn_help">Once active, you can alert others of your situation and location to get timely help.</string>
+    <string name="active_mode_message">Your security app is in Active mode. Shake the phone or use the button to alert others in case of emergency.</string>
+    <string name="call_nearest_police_station">Call nearest police station</string>
+    <string name="enter_passcode_to_make_passive">Enter your passcode to make passive.</string>
+    <string name="forgot_passcode">Forgot Passcode?</string>
+    <string name="welcome_to_idare">Welcome to I-DARE</string>
+    <string name="otp_text">I-DARE will send an SMS message to verify your phone number. Please enter your phone number:</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="verify_confirmation_message">We will be verifying the phone number : \n\n<b>%1$s</b> \n\nIs this OK, or would you like to edit the number?</string>
+    <string name="btn_edit">EDIT</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">CANCEL</string>
+    <string name="enter_otp_text">You have received a 6 digit pin via SMS. Please enter to verify your number.</string>
+    <string name="verify">Verify</string>
+    <string name="send_verification_pin">Send verification pin</string>
+    <string name="logout_message">Are you sure you want to log out?</string>
+    <string name="btn_logout">LOG OUT</string>
+    <string name="google_map_api_key">AIzaSyDzp46HCRv-FqeIhjIJ6QpCWfP96CbZYaU</string>
+    <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
+    <string name="name">Name*</string>
+    <string name="email">Email</string>
+    <string name="alternate_number">Alternate Number</string>
+    <string name="save">Save</string>
+    <string name="make_active">Make Active</string>
+    <string name="pick_image_intent_text">Select</string>
+    <string name="profile">PROFILE</string>
+    <string name="profile_pic">PROFILE PIC</string>
 </resources>

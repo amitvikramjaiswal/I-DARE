@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#565656</color>
+    <color name="colorPrimaryDark">#565656</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="idare_nav_drawer_background">#565656</color>
+    <color name="idare_pink">#FD575A</color>
+    <color name="idare_text_color_bold">#3D3D3D</color>
+    <color name="idare_text_color_body">#3B3C3B</color>
+    <color name="idare_nav_drawer_text">#C0C0C0</color>
+    <color name="idare_white">#FFFFFF</color>
+
 </resources>

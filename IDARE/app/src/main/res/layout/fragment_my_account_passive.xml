@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/idare_white"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/padding_welcome_text"
+                    android:paddingRight="@dimen/padding_welcome_text">
+
+                    <TextView
+                        android:id="@+id/tv_welcome_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/welcome_title"
+                        android:textAlignment="center"
+                        android:textColor="@color/idare_text_color_bold"
+                        android:textSize="@dimen/font_size_medium_minus_1" />
+
+                    <ImageView
+                        android:id="@+id/iv_edit_profile"
+                        android:layout_width="@dimen/width_edit_profile"
+                        android:layout_height="@dimen/height_edit_profile"
+                        android:layout_gravity="center_vertical"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/edit_user_profile" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_welcome_text"
+                    android:paddingRight="@dimen/padding_welcome_text"
+                    android:text="@string/passive_mode_message"
+                    android:textAlignment="center"
+                    android:textColor="@color/idare_text_color_bold"
+                    android:textSize="@dimen/font_size_medium_minus_1" />
+
+                <Button
+                    android:id="@+id/btn_make_active"
+                    style="@style/btn_pink_background"
+                    android:layout_width="@dimen/width_app_btn"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:text="@string/make_active"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/make_active_btn_help"
+                    android:textAlignment="center"
+                    android:textColor="@color/idare_pink"
+                    android:textSize="@dimen/font_size_small_minus_1" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</layout>
