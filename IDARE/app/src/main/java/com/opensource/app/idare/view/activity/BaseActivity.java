@@ -1,104 +1,60 @@
 package com.opensource.app.idare.view.activity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
+import com.opensource.app.idare.viewmodel.BaseViewModel;
+
+import java.util.regex.Pattern;
 
 /**
  * Created by amitvikramjaiswal on 24/05/16.
  */
-public class BaseActivity extends AppCompatActivity {
-    private ProgressDialog mProgressDialog;
+public class BaseActivity extends AppCompatActivity implements BaseViewModel.DataListener {
+    private ProgressDialog progressDialog;
+    private android.support.v7.app.AlertDialog alertDialog;
+    private android.support.v7.app.AlertDialog.Builder myAlertDialog;
 
-    public void setTitle(CharSequence title) {
-        super.setTitle(title);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
-    public void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
-    public boolean checkGooglePlayServices() {
-        int errorCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
-        if (errorCode == ConnectionResult.SUCCESS) {
-            return true;
-        } else {
-            Dialog d = GooglePlayServicesUtil.getErrorDialog(errorCode, this, 0);
-            if (d != null) {
-                d.show();
-            } else {
-                showToast("Could not initialize Google Play Services.");
-            }
-            return false;
-        }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
-    public void showProgressDialog(String status) {
-        hideProgressDialog();
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage(getString(R.string.progress_bar_message));
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.show();
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(android.R.anim.fade_in,
+                android.R.anim.fade_out);
     }
 
-    public void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-    }
 
-    public void hideKeyBoard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) this
-                .getSystemService(INPUT_METHOD_SERVICE);
-        View currentFocus = this.getCurrentFocus();
-        if (currentFocus != null) {
-            IBinder windowToken = this.getCurrentFocus().getWindowToken();
-            if (windowToken != null) {
-                inputMethodManager.hideSoftInputFromWindow(windowToken, 0);
-            }
-        }
-    }
-
-    public void showAlertDialog(String title, String message, String positiveButton, String negativeButton, final AlertDialogHandler alertDialogHandler) {
-
-        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
-
-
-        myAlertDialog.setTitle(getResources().getString(R.string.app_name));
-
-        if (message != null) {
-            myAlertDialog.setMessage(message);
-        }
-
-        if (positiveButton != null) {
-            myAlertDialog.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface arg0, int arg1) {
-                    if (alertDialogHandler != null) {
-                        alertDialogHandler.onPositiveButtonClicked();
-                    }
-                }
-            });
-        }
-
+    private void setNegativeButton(String negativeButton, final AlertDialogHandler alertDialogHandler, boolean cancelable) {
         if (negativeButton != null) {
             myAlertDialog.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
 
+                @Override
                 public void onClick(DialogInterface arg0, int arg1) {
                     if (alertDialogHandler != null) {
                         alertDialogHandler.onNegativeButtonClicked();
@@ -113,24 +69,89 @@ public class BaseActivity extends AppCompatActivity {
                 }
             });
         } else {
-            myAlertDialog.setCancelable(false);
+            myAlertDialog.setCancelable(cancelable);
+        }
+    }
+
+    private void setPositiveButton(String positiveButton, final AlertDialogHandler alertDialogHandler) {
+        if (positiveButton != null) {
+            myAlertDialog.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    if (alertDialogHandler != null) {
+                        alertDialogHandler.onPositiveButtonClicked();
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler) {
+        if (alertDialog != null) {
+            alertDialog.dismiss();
         }
 
-        myAlertDialog.show();
+        myAlertDialog = new android.support.v7.app.AlertDialog.Builder(this);
+
+        if (title != null) {
+            myAlertDialog.setTitle(title);
+        }
+
+        if (message != null) {
+            SpannableString spannableString = new SpannableString(message);
+            Pattern mobilePatern = Pattern.compile("((\\(\\d{3}\\) ?)|(\\d{3}-))?\\d{3}-\\d{4}");
+            Linkify.addLinks(spannableString, mobilePatern, "");
+            Linkify.addLinks(spannableString, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
+            myAlertDialog.setMessage(spannableString);
+        }
+
+        setPositiveButton(positiveButton, alertDialogHandler);
+        setNegativeButton(negativeButton, alertDialogHandler, cancelable);
+        alertDialog = myAlertDialog.create();
+        alertDialog.show();
+        ((TextView) (alertDialog.findViewById(android.R.id.message))).setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void showProgress() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this, R.style.AppTheme);
+        }
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+
+        progressDialog.show();
+
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    public void hideProgress() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void hideKeyBoard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) this
+                .getSystemService(INPUT_METHOD_SERVICE);
+        View currentFocus = this.getCurrentFocus();
+        if (currentFocus != null) {
+            IBinder windowToken = this.getCurrentFocus().getWindowToken();
+            if (windowToken != null) {
+                inputMethodManager.hideSoftInputFromWindow(windowToken, 0);
+            }
+        }
     }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in,
+                android.R.anim.fade_out);
+    }
+
 }

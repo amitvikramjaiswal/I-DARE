@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/app_tour"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/app_tour" />
+    <item
+        android:id="@+id/active_profile"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/active_profile" />
+</menu>

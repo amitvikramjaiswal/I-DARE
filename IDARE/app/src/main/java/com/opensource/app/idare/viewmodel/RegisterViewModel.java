@@ -7,12 +7,13 @@ import com.opensource.app.idare.viewmodel.to.RegisterTO;
 /**
  * Created by amitvikramjaiswal on 25/05/16.
  */
-public class RegisterViewModel implements BaseViewModel {
+public class RegisterViewModel extends BaseViewModel {
 
     private Context context;
     private RegisterTO registerTO;
 
     public RegisterViewModel(Context context, RegisterTO registerTO) {
+        super(context);
         this.context = context;
         this.registerTO = registerTO;
     }
@@ -25,8 +26,4 @@ public class RegisterViewModel implements BaseViewModel {
         this.registerTO = registerTO;
     }
 
-    @Override
-    public void onDestroy() {
-
-    }
 }

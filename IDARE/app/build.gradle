@@ -1,32 +1,17 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
-
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
-
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.opensource.app.idare"
-        minSdkVersion 14
-        targetSdkVersion 23
+        applicationId "com.opensource.app.idar"
+        minSdkVersion 15
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
-        dataBinding.enabled = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        dataBinding {
+            enabled = true
+        }
     }
     buildTypes {
         release {
@@ -36,18 +21,29 @@ android {
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(":volley")
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.google.android.gms:play-services-maps:9.0.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-        transitive = true;
+repositories {
+    flatDir {
+        dirs 'libs'
     }
-    compile 'com.google.android.gms:play-services-location:9.0.0'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    provided 'javax.annotation:jsr250-api:1.0'
+    compile 'javax.inject:javax.inject:1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.android.support:support-v4:<version>'
+    compile 'com.android.support:support-annotations:23.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.android.support:cardview-v7:23.3.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 }

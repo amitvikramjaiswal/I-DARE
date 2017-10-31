@@ -32,4 +32,15 @@
     <string name="pick_image_intent_text">Select</string>
     <string name="profile">PROFILE</string>
     <string name="profile_pic">PROFILE PIC</string>
+    <string name="progress_bar_message">Loading</string>
+
+    <!--Navigation Items-->
+    <string name="active_profile">Active Profile</string>
+    <string name="app_tour">App Tour</string>
+    <string name="core_list">Core List</string>
+    <string name="donate">Donate</string>
+    <string name="invite">Invite</string>
+    <string name="passive">Pasive</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

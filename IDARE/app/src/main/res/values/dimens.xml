@@ -24,4 +24,13 @@
     <dimen name="height_edit_profile">20dp</dimen>
     <dimen name="width_app_btn">250dp</dimen>
     <dimen name="padding_left">10dp</dimen>
+
+    <!--Related to MainActivity    -->
+    <dimen name="nav_header_text_margin_bottom">16dp</dimen>
+    <dimen name="nav_header_text_margin_left">16dp</dimen>
+    <dimen name="nav_header_textmargin_top">40dp</dimen>
+    <dimen name="nav_header_text_size">20sp</dimen>
+    <dimen name="nav_item_padding">10dp</dimen>
+    <dimen name="nav_item_padding_left">20dp</dimen>
+    <dimen name="nav_item_text_size">14dp</dimen>
 </resources>

@@ -3,6 +3,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.opensource.app.idare.viewmodel.AppTourFragmentViewModel" />
     </data>
 
     <ScrollView
@@ -15,7 +18,6 @@
             android:layout_height="match_parent"
             android:background="@color/idare_white"
             android:gravity="center">
-
 
         </RelativeLayout>
     </ScrollView>
