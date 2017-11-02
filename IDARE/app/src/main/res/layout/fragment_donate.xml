@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.opensource.app.idare.viewmodel.DonateViewModel" />
     </data>
 
     <ScrollView

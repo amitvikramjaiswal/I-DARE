@@ -9,6 +9,7 @@ public class Utility {
     public static final String APPLICATION_JSON = "application/json";
     public static final String TLS = "TLS";
     public static final String ERROR_OCCURRED_IN_SERVICE_CALL = "Error Occurred in the service call";
+    public static final long SPLASH_SLEEP_TIME = 3000;
     public static String SERVICE_URL = "";
     public static final int MY_SOCKET_TIMEOUT_MS = 60000;
     public static final String SERVICE_CALL_STARTED = "SERVICE CALL STARTED:";

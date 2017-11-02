@@ -1,6 +1,7 @@
 package com.opensource.app.idare.view.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,7 +16,12 @@ import android.view.MenuItem;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.ActivityMainBinding;
 import com.opensource.app.idare.databinding.NavHeaderMainBinding;
+import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
+import com.opensource.app.idare.view.fragment.CoreListFragment;
+import com.opensource.app.idare.view.fragment.DonateFragment;
+import com.opensource.app.idare.view.fragment.InviteToIDareFragment;
+import com.opensource.app.idare.view.fragment.SettingsFragment;
 import com.opensource.app.idare.viewmodel.MainActivityViewModel;
 import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
 
@@ -23,13 +29,20 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
  * Created by akokala on 10/31/2017.
  */
 
-public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
+        ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreListFragment.OnFragmentInteractionListener,
+        InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener {
     private Fragment currentFragment;
     private ActivityMainBinding binding;
     private Context context;
     private MainActivityViewModel viewModel;
     private NavHeaderMainBinding navigationMenuHeaderBinding;
     private Toolbar toolbar;
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

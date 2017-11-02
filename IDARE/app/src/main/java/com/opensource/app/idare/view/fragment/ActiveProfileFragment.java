@@ -1,5 +1,6 @@
 package com.opensource.app.idare.view.fragment;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.opensource.app.idare.viewmodel.ActiveProfileFragmentViewModel;
 public class ActiveProfileFragment extends BaseFragment implements ActiveProfileFragmentViewModel.DataListener {
     private FragmentMyAccountActiveBinding binding;
     private ActiveProfileFragmentViewModel viewModel;
+    private OnFragmentInteractionListener mListener;
 
     public ActiveProfileFragment() {
         // Required empty public constructor
@@ -27,6 +29,17 @@ public class ActiveProfileFragment extends BaseFragment implements ActiveProfile
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ActiveProfileFragment.OnFragmentInteractionListener) {
+            mListener = (ActiveProfileFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -34,6 +47,9 @@ public class ActiveProfileFragment extends BaseFragment implements ActiveProfile
         viewModel = new ActiveProfileFragmentViewModel(getActivity(), this);
         binding.setViewModel(viewModel);
         return binding.getRoot();
+    }
+
+    public interface OnFragmentInteractionListener {
     }
 
 }
