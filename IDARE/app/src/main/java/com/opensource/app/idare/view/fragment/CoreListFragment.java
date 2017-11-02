@@ -8,23 +8,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.databinding.FragmentAppTourBinding;
-import com.opensource.app.idare.viewmodel.AppTourFragmentViewModel;
+import com.opensource.app.idare.databinding.FragmentCoreListBinding;
+import com.opensource.app.idare.viewmodel.CoreListViewModel;
 
 /**
  * Created by ajaiswal on 4/4/2016.
  */
-public class AppTourFragment extends BaseFragment implements AppTourFragmentViewModel.DataListener {
-    private FragmentAppTourBinding binding;
-    private AppTourFragmentViewModel viewModel;
+public class CoreListFragment extends BaseFragment implements CoreListViewModel.DataListener {
+    private FragmentCoreListBinding binding;
+    private CoreListViewModel viewModel;
     private OnFragmentInteractionListener mListener;
 
-    public AppTourFragment() {
+    public CoreListFragment() {
         // Required empty public constructor
     }
 
-    public static AppTourFragment newInstance() {
-        AppTourFragment fragment = new AppTourFragment();
+    public static CoreListFragment newInstance() {
+        CoreListFragment fragment = new CoreListFragment();
         return fragment;
     }
 
@@ -32,8 +32,8 @@ public class AppTourFragment extends BaseFragment implements AppTourFragmentView
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_app_tour, container, false);
-        viewModel = new AppTourFragmentViewModel(getActivity(), this);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_core_list, container, false);
+        viewModel = new CoreListViewModel(getActivity(), this);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
@@ -42,14 +42,16 @@ public class AppTourFragment extends BaseFragment implements AppTourFragmentView
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AppTourFragment.OnFragmentInteractionListener) {
-            mListener = (AppTourFragment.OnFragmentInteractionListener) context;
+        if (context instanceof CoreListFragment.OnFragmentInteractionListener) {
+            mListener = (CoreListFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
 
+
     public interface OnFragmentInteractionListener {
     }
+
 }

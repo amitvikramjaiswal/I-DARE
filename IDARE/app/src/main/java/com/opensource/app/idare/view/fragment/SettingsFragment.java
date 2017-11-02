@@ -8,23 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.databinding.FragmentAppTourBinding;
-import com.opensource.app.idare.viewmodel.AppTourFragmentViewModel;
+import com.opensource.app.idare.databinding.FragmentSettingsBinding;
+import com.opensource.app.idare.viewmodel.SettingsViewModel;
 
 /**
- * Created by ajaiswal on 4/4/2016.
+ * Created by akokala on 11/2/2017.
  */
-public class AppTourFragment extends BaseFragment implements AppTourFragmentViewModel.DataListener {
-    private FragmentAppTourBinding binding;
-    private AppTourFragmentViewModel viewModel;
+
+public class SettingsFragment extends BaseFragment implements SettingsViewModel.DataListener {
+    private FragmentSettingsBinding binding;
+    private SettingsViewModel viewModel;
     private OnFragmentInteractionListener mListener;
 
-    public AppTourFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
-    public static AppTourFragment newInstance() {
-        AppTourFragment fragment = new AppTourFragment();
+    public static SettingsFragment newInstance() {
+        SettingsFragment fragment = new SettingsFragment();
         return fragment;
     }
 
@@ -32,8 +33,8 @@ public class AppTourFragment extends BaseFragment implements AppTourFragmentView
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_app_tour, container, false);
-        viewModel = new AppTourFragmentViewModel(getActivity(), this);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false);
+        viewModel = new SettingsViewModel(getActivity(), this);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
@@ -42,8 +43,8 @@ public class AppTourFragment extends BaseFragment implements AppTourFragmentView
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AppTourFragment.OnFragmentInteractionListener) {
-            mListener = (AppTourFragment.OnFragmentInteractionListener) context;
+        if (context instanceof SettingsFragment.OnFragmentInteractionListener) {
+            mListener = (SettingsFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
