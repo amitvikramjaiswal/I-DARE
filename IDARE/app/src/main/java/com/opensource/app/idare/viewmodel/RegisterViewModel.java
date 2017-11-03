@@ -26,4 +26,12 @@ public class RegisterViewModel extends BaseViewModel {
         this.registerTO = registerTO;
     }
 
+    public void onMobileTextChanged() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
 }
