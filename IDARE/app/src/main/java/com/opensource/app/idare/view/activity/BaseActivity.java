@@ -1,8 +1,10 @@
 package com.opensource.app.idare.view.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,8 @@ import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -26,10 +30,13 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
     private ProgressDialog progressDialog;
     private android.support.v7.app.AlertDialog alertDialog;
     private android.support.v7.app.AlertDialog.Builder myAlertDialog;
+    private SharedPreferences preferences;
+    private static final String PREF_KEY = "com.opensource.app.idare.PREF_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferences = getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -49,6 +56,10 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
                 android.R.anim.fade_out);
     }
 
+    @Override
+    public SharedPreferences getPreferences() {
+        return preferences;
+    }
 
     private void setNegativeButton(String negativeButton, final AlertDialogHandler alertDialogHandler, boolean cancelable) {
         if (negativeButton != null) {
@@ -154,4 +165,9 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
                 android.R.anim.fade_out);
     }
 
+    @Override
+    public void shakeView(View view) {
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        view.startAnimation(shake);
+    }
 }

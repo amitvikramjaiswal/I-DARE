@@ -32,18 +32,33 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
         viewModel = new SplashViewModel(this, this);
         binding.setViewModel(viewModel);
 
-        finishOnUiThread();
+        finishOnUiThread(false);
     }
 
-    public void finishOnUiThread() {
+    /*
+    * If User has done with registration, Then directly go to main Screen
+    * */
+    public void finishOnUiThread(final boolean isNotFirstLaunch) {
         new Handler().postDelayed(new Runnable() {
+            /*
+             * Showing splash screen with a timer. This will be useful when you
+             */
             @Override
             public void run() {
-                Intent i = MainActivity.getStartIntent(SplashActivity.this);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
                 finish();
+                Intent i = null;
+                if (isNotFirstLaunch) {
+                   /* UserContext userContext = new Gson().fromJson(getPreferences().getString(Utility.KEY_USER_CONTEXT, null), UserContext.class);
+                    userContext = userContext == null ? new UserContext() : userContext;
+                    IDareApp.setUserContext(userContext);
+                    i = new Intent(SplashActivity.this, MainActivity.class);*/
+                } else {
+                    i = new Intent(SplashActivity.this, RegisterActivity.class);
+                }
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                finish();
+                startActivity(i);
             }
-        }, Utility.SPLASH_SLEEP_TIME);
+        }, Utility.SPLASH_TIME_OUT);
     }
 }

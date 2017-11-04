@@ -29,9 +29,9 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/padding_welcome_text"
-                android:visibility="visible">
+                android:visibility="@{viewModel.visibilityOfSendVerification}">
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
@@ -39,7 +39,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/idare_text_color_bold" />
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
@@ -47,7 +47,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/idare_text_color_bold" />
 
-                <EditText
+                <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/et_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -56,15 +56,18 @@
                     android:hint="@string/phone_number"
                     android:inputType="number"
                     android:maxLength="10"
-                    android:singleLine="true"
+                    android:addTextChangedListener="@{viewModel.onPhoneNumberChanged()}"
+                    android:maxLines="1"
+                    android:text="@{viewModel.phoneNumber}"
                     android:textAlignment="center" />
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_send_verification"
                     style="@style/btn_pink_background"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/idare_pink"
+                    android:onClick="@{viewModel.onClickSendVerification()}"
                     android:text="@string/send_verification_pin" />
 
             </LinearLayout>
@@ -79,7 +82,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/padding_welcome_text"
-                android:visibility="gone">
+                android:visibility="@{viewModel.visibilityOfVerify}">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -106,7 +109,9 @@
                     android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
                     android:inputType="number"
                     android:maxLength="6"
-                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:addTextChangedListener="@{viewModel.onOtpChanged()}"
+                    android:text="@{viewModel.otpText}"
                     android:textAlignment="center" />
 
                 <Button
@@ -114,6 +119,7 @@
                     style="@style/btn_pink_background"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{viewModel.onclickOfVerify()}"
                     android:text="@string/verify" />
 
             </LinearLayout>

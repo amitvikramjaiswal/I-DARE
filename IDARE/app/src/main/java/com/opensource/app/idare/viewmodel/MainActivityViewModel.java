@@ -2,11 +2,15 @@ package com.opensource.app.idare.viewmodel;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.utils.handler.AlertDialogHandler;
+import com.opensource.app.idare.view.activity.RegisterActivity;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreListFragment;
@@ -62,17 +66,53 @@ public class MainActivityViewModel extends BaseViewModel {
                 fragment = settingsFragment;
                 break;
             case R.id.log_out:
+                logout();
                 break;
             default:
                 fragment = activeProfileFragment;
                 break;
         }
-        dataListener.replaceFragment(fragment);
+        if(fragment!=null) {
+            dataListener.replaceFragment(fragment);
+        }
         return true;
+    }
+
+    private void logout() {
+        dataListener.showAlertDialog(getContext().getResources().getString(R.string.app_name), getContext().getResources().getString(R.string.logout_message), false, getContext().getResources().getString(R.string.btn_logout), getContext().getResources().getString(R.string.btn_cancel), new AlertDialogHandler() {
+            @Override
+            public void onPositiveButtonClicked() {
+                logoutFromApp();
+            }
+
+            @Override
+            public void onNegativeButtonClicked() {
+            }
+        });
+    }
+
+    private void logoutFromApp() {
+        dataListener.getPreferences().edit().clear().commit();
+        relaunch();
+    }
+
+    public void relaunch() {
+        dataListener.finish();
+        Intent intent = new Intent(getContext(), RegisterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        dataListener.startActivity(intent);
     }
 
     public interface DataListener {
 
         void replaceFragment(Fragment fragment);
+
+        SharedPreferences getPreferences();
+
+        void startActivity(Intent intent);
+
+        void finish();
+
+        void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }
 }

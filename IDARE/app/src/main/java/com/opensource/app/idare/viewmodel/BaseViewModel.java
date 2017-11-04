@@ -2,6 +2,8 @@ package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.view.View;
 
 import com.opensource.app.idare.service.Impl.SessionFacadeImpl;
 import com.opensource.app.idare.service.SessionFacade;
@@ -42,6 +44,10 @@ public abstract class BaseViewModel {
         void hideKeyBoard();
 
         void startActivity(Intent startIntent);
+
+        void shakeView(View view);
+
+        SharedPreferences getPreferences();
     }
 
 }

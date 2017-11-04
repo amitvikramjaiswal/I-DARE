@@ -5,16 +5,16 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.EditText;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.ActivityRegisterBinding;
 import com.opensource.app.idare.viewmodel.RegisterViewModel;
-import com.opensource.app.idare.viewmodel.to.RegisterTO;
 
 /**
  * Created by amitvikramjaiswal on 25/05/16.
  */
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity implements RegisterViewModel.DataListener {
 
     private ActivityRegisterBinding binding;
     private RegisterViewModel viewModel;
@@ -28,7 +28,17 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
-        viewModel = new RegisterViewModel(this, new RegisterTO());
+        viewModel = new RegisterViewModel(this, this);
         binding.setViewModel(viewModel);
+    }
+
+    @Override
+    public EditText getPhoneNumber() {
+        return binding.etPhoneNumber;
+    }
+
+    @Override
+    public EditText getOtp() {
+        return binding.etOtpCode;
     }
 }
