@@ -1,9 +1,9 @@
-package com.opensource.app.idare.service.Impl;
+package com.opensource.app.idare.model.service.impl;
 
 
-import com.opensource.app.idare.service.SessionFacade;
+import com.opensource.app.idare.model.service.SessionFacade;
 
-public class SessionFacadeImpl implements SessionFacade {
+public class SessionFacadeImpl {
 
     private static SessionFacade sessionFacade;
 

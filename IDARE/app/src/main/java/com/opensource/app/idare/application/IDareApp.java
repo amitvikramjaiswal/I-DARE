@@ -6,7 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.opensource.app.idare.pojo.common.IDAREError;
-import com.opensource.app.idare.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.Utility;
 

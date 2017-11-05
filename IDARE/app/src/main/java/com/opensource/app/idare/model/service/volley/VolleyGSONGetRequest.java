@@ -1,59 +1,60 @@
-package com.opensource.app.idare.service.volley;
+package com.opensource.app.idare.model.service.volley;
 
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
-import com.opensource.app.idare.utils.Utility;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Handles Http Post calls
+ * Handles Http Get calls
  */
-public class VolleyGSONPostRequest<T> extends JsonRequest<T> {
+public class VolleyGSONGetRequest<T> extends Request<T> {
 
-    private static final String TAG = VolleyGSONPostRequest.class.getSimpleName();
+    private static final String TAG = VolleyGSONGetRequest.class.getSimpleName();
     private final Gson gson;
     private final Type type;
     private final Listener<T> listener;
     private Map<String, String> mHeaders;
-    private String body = null;
 
 
-    public VolleyGSONPostRequest(String url, Type type, String body, Map<String, String> mHeaders,
-                                 Listener<T> listener, Response.ErrorListener errorListener) {
+    public VolleyGSONGetRequest(int method, String url, Type type,
+                                Listener<T> listener, Response.ErrorListener errorListener) {
 
-        super(Method.POST, url, body, listener, errorListener);
+        super(method, url, errorListener);
         this.type = type;
         gson = new Gson();
         this.listener = listener;
-        this.mHeaders = mHeaders;
-        this.body = body;
+        mHeaders = new HashMap<>();
+
+    }
+
+    public VolleyGSONGetRequest(int method, String url, Type type, Map<String, String> headers,
+                                Listener<T> listener, Response.ErrorListener errorListener) {
+        this(method, url, type, listener, errorListener);
+        if (headers != null) {
+            mHeaders.putAll(headers);
+        }
     }
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         mHeaders = mHeaders != null ? mHeaders : super.getHeaders();
-        //mHeaders.put(Constants.COOKIE, Session.getInstance().getCookie());
-        mHeaders.put(Utility.CONTENT_TYPE, Utility.APPLICATION_JSON);
+//        mHeaders.put("Cookie", Session.getInstance().getCookie());
         return mHeaders;
-    }
-
-    @Override
-    public byte[] getBody() {
-        return body.getBytes();
     }
 
     @Override
@@ -71,6 +72,7 @@ public class VolleyGSONPostRequest<T> extends JsonRequest<T> {
             } catch (UnsupportedEncodingException e1) {
                 Log.e(TAG, "exception", e1);
                 return Response.error(new ParseError(e1));
+
             }
         }
     }

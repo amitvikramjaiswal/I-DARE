@@ -5,6 +5,14 @@ package com.opensource.app.idare.utils;
  */
 public class Utility {
 
+    // Kinvey Dev Environment
+    public static final String SERVICE_URL = "https://baas.kinvey.com";
+    public static final String APP_KEY = "kid_HykFqQjCZ";
+    public static final String APP_SECRET = "41968afb09a2461ab405fc48e751ac41";
+    public static final String MASTER_SECRET = "f06a916f1f3e419096d69e265f694e6d";
+    public static final String APP_DATA = "appdata";
+    public static final String FWD_SLASH = "/";
+
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String APPLICATION_JSON = "application/json";
     public static final String TLS = "TLS";
@@ -17,5 +25,5 @@ public class Utility {
     public static final String ERROR_RESPONSE_MSG = "Error response ";
     public static final String SUCCESS = "SUCCESS";
     public static final String SERVICE_CALL_ENDED = "SERVICE CALL ENDED:";
-    public static String SERVICE_URL = "";
+
 }

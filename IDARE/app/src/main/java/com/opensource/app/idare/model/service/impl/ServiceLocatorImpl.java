@@ -1,4 +1,4 @@
-package com.opensource.app.idare.service.Impl;
+package com.opensource.app.idare.model.service.impl;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,14 +10,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.opensource.app.idare.application.IDareApp;
-import com.opensource.app.idare.service.ServiceLocator;
-import com.opensource.app.idare.service.handler.IDAREResponseHandler;
-import com.opensource.app.idare.service.volley.VolleyGSONGetRequest;
-import com.opensource.app.idare.service.volley.VolleyGSONPostRequest;
-import com.opensource.app.idare.service.volley.VolleyService;
-import com.opensource.app.idare.service.volley.VolleyStringRequest;
+import com.opensource.app.idare.model.service.ServiceLocator;
+import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.volley.VolleyGSONGetRequest;
+import com.opensource.app.idare.model.service.volley.VolleyGSONPostRequest;
+import com.opensource.app.idare.model.service.volley.VolleyService;
+import com.opensource.app.idare.model.service.volley.VolleyStringRequest;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
-import com.opensource.app.idare.utils.URLs;
+import com.opensource.app.idare.model.service.URLs;
 import com.opensource.app.idare.utils.Utility;
 
 import java.util.HashMap;

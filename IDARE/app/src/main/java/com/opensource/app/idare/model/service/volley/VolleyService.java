@@ -1,4 +1,4 @@
-package com.opensource.app.idare.service.volley;
+package com.opensource.app.idare.model.service.volley;
 
 import android.content.Context;
 import android.graphics.Bitmap;

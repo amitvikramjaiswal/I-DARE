@@ -37,6 +37,20 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".component.service.IDareMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".component.service.IDareFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="0aafd5bfbed26df2872829dd45e99042396caca9" />
