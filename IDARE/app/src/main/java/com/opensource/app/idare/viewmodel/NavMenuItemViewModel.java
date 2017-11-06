@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 
-import com.opensource.app.idare.pojo.ExpandableMenu;
+import com.opensource.app.idare.utils.ExpandableMenu;
 
 public class NavMenuItemViewModel implements ViewModel {
 

@@ -1,5 +1,8 @@
 package com.opensource.app.idare.model.service;
 
+
+import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
+
 import java.lang.reflect.Type;
 
 import static com.opensource.app.idare.utils.Utility.APP_KEY;
@@ -11,7 +14,7 @@ import static com.opensource.app.idare.utils.Utility.SERVICE_URL;
  */
 public enum URLs {
 
-    URL_CREATE_ACCOUNT("/user/", null, null, null) {
+    URL_CREATE_ACCOUNT("/user/", null, UserProfileResponseModel.class, null) {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL()) + APP_KEY;

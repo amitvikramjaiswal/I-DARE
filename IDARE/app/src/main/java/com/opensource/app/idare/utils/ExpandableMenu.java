@@ -1,4 +1,4 @@
-package com.opensource.app.idare.pojo;
+package com.opensource.app.idare.utils;
 
 import java.util.List;
 

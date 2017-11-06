@@ -25,5 +25,8 @@ public class Utility {
     public static final String ERROR_RESPONSE_MSG = "Error response ";
     public static final String SUCCESS = "SUCCESS";
     public static final String SERVICE_CALL_ENDED = "SERVICE CALL ENDED:";
-
+    public static final String PHONE_NUMBER = "PHONE_NUMBER";
+    public static final String AUTHORISATION = "Authorization";
+    public static final String KEY_USER_CONTEXT = "KEY_USER_CONTEXT";
+    public static String BASIC = "Basic ";
 }
