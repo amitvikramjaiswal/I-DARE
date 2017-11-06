@@ -128,7 +128,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
     @Override
     public void showProgress() {
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this, R.style.AppTheme);
+            progressDialog = new ProgressDialog(this, R.style.MyTheme);
         }
         progressDialog.setCancelable(false);
         progressDialog.setIndeterminate(true);

@@ -31,8 +31,8 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         viewModel = new SplashViewModel(this, this);
         binding.setViewModel(viewModel);
-
-        finishOnUiThread(false);
+        
+        finishOnUiThread(true);
     }
 
     /*
@@ -48,10 +48,10 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
                 finish();
                 Intent i = null;
                 if (isNotFirstLaunch) {
-                   /* UserContext userContext = new Gson().fromJson(getPreferences().getString(Utility.KEY_USER_CONTEXT, null), UserContext.class);
-                    userContext = userContext == null ? new UserContext() : userContext;
-                    IDareApp.setUserContext(userContext);
-                    i = new Intent(SplashActivity.this, MainActivity.class);*/
+                    /*UserProfileResponseModel userContext = new Gson().fromJson(getPreferences().getString(Utility.KEY_USER_CONTEXT, null), UserProfileResponseModel.class);
+                    userContext = userContext == null ? new UserProfileResponseModel() : userContext;
+                    IDareApp.setUserProfileResponseModel(userContext);*/
+                    i = new Intent(SplashActivity.this, MainActivity.class);
                 } else {
                     i = new Intent(SplashActivity.this, RegisterActivity.class);
                 }

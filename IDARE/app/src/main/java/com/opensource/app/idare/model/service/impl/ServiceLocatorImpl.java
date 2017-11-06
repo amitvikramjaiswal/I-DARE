@@ -2,6 +2,7 @@ package com.opensource.app.idare.model.service.impl;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -11,13 +12,13 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.opensource.app.idare.application.IDareApp;
 import com.opensource.app.idare.model.service.ServiceLocator;
+import com.opensource.app.idare.model.service.URLs;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.model.service.volley.VolleyGSONGetRequest;
 import com.opensource.app.idare.model.service.volley.VolleyGSONPostRequest;
 import com.opensource.app.idare.model.service.volley.VolleyService;
 import com.opensource.app.idare.model.service.volley.VolleyStringRequest;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
-import com.opensource.app.idare.model.service.URLs;
 import com.opensource.app.idare.utils.Utility;
 
 import java.util.HashMap;
@@ -216,6 +217,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
                     url = uri.buildUpon().appendQueryParameter(Constants.USER_NAME, params.get(Constants.USER_NAME)).appendQueryParameter(Constants.PASSWORD, params.get(Constants.PASSWORD)).build().toString();
                 }
                 break;*/
+            case URL_CREATE_ACCOUNT:
+                break;
             default:
                 if (urLs.getRequestParam() != null) {
                     url += urLs.getRequestParam();
@@ -231,6 +234,12 @@ public class ServiceLocatorImpl implements ServiceLocator {
         // Add Required Headers
         Map<String, String> headers = new HashMap<>();
         headers.put(Utility.CONTENT_TYPE, Utility.APPLICATION_JSON);
+        // add headers <key,value>
+        String credentials = Utility.APP_KEY + ":" + Utility.APP_SECRET;
+        String auth = Utility.BASIC
+                + Base64.encodeToString(credentials.getBytes(),
+                Base64.NO_WRAP);
+        headers.put(Utility.AUTHORISATION, auth);
         return headers;
     }
 

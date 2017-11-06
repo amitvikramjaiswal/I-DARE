@@ -21,6 +21,7 @@ import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreListFragment;
 import com.opensource.app.idare.view.fragment.DonateFragment;
 import com.opensource.app.idare.view.fragment.InviteToIDareFragment;
+import com.opensource.app.idare.view.fragment.PassiveFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
 import com.opensource.app.idare.viewmodel.MainActivityViewModel;
 import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
@@ -31,7 +32,8 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
 
 public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
         ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreListFragment.OnFragmentInteractionListener,
-        InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener {
+        InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener,PassiveFragment.OnFragmentInteractionListener {
     private Fragment currentFragment;
     private ActivityMainBinding binding;
     private Context context;

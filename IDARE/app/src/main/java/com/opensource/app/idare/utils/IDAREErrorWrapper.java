@@ -3,7 +3,7 @@ package com.opensource.app.idare.utils;
 import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
-import com.opensource.app.idare.pojo.common.IDAREError;
+import com.opensource.app.idare.model.data.entity.IDAREError;
 
 /**
  * Created by akokala on 10/31/2017.

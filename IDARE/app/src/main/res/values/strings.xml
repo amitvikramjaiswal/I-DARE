@@ -25,14 +25,20 @@
     <string name="google_map_api_key">AIzaSyDzp46HCRv-FqeIhjIJ6QpCWfP96CbZYaU</string>
     <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
     <string name="name">Name*</string>
-    <string name="email">Email</string>
-    <string name="alternate_number">Alternate Number</string>
+    <string name="email">Email*</string>
+    <string name="alternate_number">Alternate Number*</string>
+    <string name="password">Password*</string>
     <string name="save">Save</string>
     <string name="make_active">Make Active</string>
     <string name="pick_image_intent_text">Select</string>
     <string name="profile">PROFILE</string>
     <string name="profile_pic">PROFILE PIC</string>
     <string name="progress_bar_message">Loading</string>
+    <string name="positive_button">Ok</string>
+    <string name="error_title">Error</string>
+    <string name="network_error_message">Please check your internet/network connection</string>
+    <string name="error_message">Something went wrong!</string>
+    <string name="active_mode_message_from_passive">"The active mode wants to access your location."</string>
 
     <!--Navigation Items-->
     <string name="active_profile">Home</string>

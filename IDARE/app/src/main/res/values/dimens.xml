@@ -24,6 +24,12 @@
     <dimen name="height_edit_profile">20dp</dimen>
     <dimen name="width_app_btn">250dp</dimen>
     <dimen name="padding_left">10dp</dimen>
+    <dimen name="image_elevation">10dp</dimen>
+    <dimen name="image_height">100dp</dimen>
+    <dimen name="image_weight">100dp</dimen>
+    <dimen name="text_input_layer_margin">10dp</dimen>
+    <dimen name="button_elevation">5dp</dimen>
+
 
     <!--Related to MainActivity    -->
     <dimen name="nav_header_text_margin_bottom">16dp</dimen>

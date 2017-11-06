@@ -12,6 +12,7 @@ import com.opensource.app.idare.R;
 import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
+import com.opensource.app.idare.view.activity.EditProfileActivity;
 
 /**
  * Created by amitvikramjaiswal on 25/05/16.
@@ -75,7 +76,7 @@ public class RegisterViewModel extends BaseViewModel {
         };
     }
 
-    // Set the value for Otp in TextWatcher
+    // Set the value for otp in TextWatcher
     public TextWatcher onOtpChanged() {
         return new TextWatcher() {
             @Override
@@ -113,11 +114,8 @@ public class RegisterViewModel extends BaseViewModel {
     }
 
     private void onVerifyButtonClick() {
-        /*dataListener.finish();
-        registerPresenter.saveUserData(etPhoneNumber.getText().toString());
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(Utility.KEY_SHOW_EDIT_PROFILE, true);
-        startActivity(intent);*/
+        dataListener.finish();
+        dataListener.startActivity(EditProfileActivity.getStartIntent(getContext(), phoneNumber.get()));
     }
 
     private void onSendVerificationClick(String phoneNumber) {

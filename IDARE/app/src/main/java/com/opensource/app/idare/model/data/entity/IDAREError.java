@@ -1,4 +1,4 @@
-package com.opensource.app.idare.pojo.common;
+package com.opensource.app.idare.model.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 

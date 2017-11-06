@@ -5,6 +5,8 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,5 +73,23 @@ public class Utils {
 
         return actuallyUsableBitmap;
     }
+
+    // Method to check the internet connection
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    // IsEmpty or IsNull Check
+    public static boolean emptyOrNullCheck(String val) {
+        if (val != null && !val.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }
