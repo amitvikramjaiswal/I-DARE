@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "556813615312",
+    "firebase_url": "https://i-dare-2bdc8.firebaseio.com",
+    "project_id": "i-dare-2bdc8",
+    "storage_bucket": "i-dare-2bdc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556813615312:android:6fe37482a1afb799",
+        "android_client_info": {
+          "package_name": "com.opensource.app.idar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "556813615312-t0p1o1bfktbhsbv8ddjbdkrhoq0cdnht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.opensource.app.idar",
+            "certificate_hash": "3512217547de1ddd9b7b17d1bb7d5234edd84d1f"
+          }
+        },
+        {
+          "client_id": "556813615312-no53af1vq9m3s0sehl9keh38a7qemtkn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjA3_qUJ59Qq27ml9xcjXQmYvGJ2lN7Bs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "556813615312-no53af1vq9m3s0sehl9keh38a7qemtkn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

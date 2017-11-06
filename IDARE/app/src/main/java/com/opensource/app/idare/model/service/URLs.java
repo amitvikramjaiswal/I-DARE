@@ -1,6 +1,9 @@
-package com.opensource.app.idare.utils;
+package com.opensource.app.idare.model.service;
 
 import java.lang.reflect.Type;
+
+import static com.opensource.app.idare.utils.Utility.APP_KEY;
+import static com.opensource.app.idare.utils.Utility.SERVICE_URL;
 
 /**
  * URL enumerator. Base URL is loaded from build.gradle based on profile.
@@ -8,10 +11,15 @@ import java.lang.reflect.Type;
  */
 public enum URLs {
 
-    URL_CREATE_ACCOUNT("", null, null, null) {
+    URL_CREATE_ACCOUNT("/user/", null, null, null) {
         @Override
         public String fullURL() {
-            return Utility.SERVICE_URL + String.format(this.getRelURL());
+            return SERVICE_URL + String.format(this.getRelURL()) + APP_KEY;
+        }
+    }, URL_REGISTER_FOR_PUSH("/register-device", null, null, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + APP_KEY + String.format(this.getRelURL());
         }
     };
 

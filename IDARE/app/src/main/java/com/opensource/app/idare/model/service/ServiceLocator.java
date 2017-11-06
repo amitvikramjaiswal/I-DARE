@@ -1,9 +1,8 @@
-package com.opensource.app.idare.service;
+package com.opensource.app.idare.model.service;
 
 import android.content.Context;
 
-import com.opensource.app.idare.service.handler.IDAREResponseHandler;
-import com.opensource.app.idare.utils.URLs;
+import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 
 import java.util.Map;
 

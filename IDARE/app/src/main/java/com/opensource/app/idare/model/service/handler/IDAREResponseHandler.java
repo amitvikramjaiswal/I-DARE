@@ -1,4 +1,4 @@
-package com.opensource.app.idare.service.handler;
+package com.opensource.app.idare.model.service.handler;
 
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 

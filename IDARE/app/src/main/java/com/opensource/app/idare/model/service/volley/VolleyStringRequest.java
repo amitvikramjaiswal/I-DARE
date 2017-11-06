@@ -1,4 +1,4 @@
-package com.opensource.app.idare.service.volley;
+package com.opensource.app.idare.model.service.volley;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;

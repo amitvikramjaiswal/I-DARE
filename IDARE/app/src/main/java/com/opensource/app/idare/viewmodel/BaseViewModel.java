@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
 
-import com.opensource.app.idare.service.Impl.SessionFacadeImpl;
-import com.opensource.app.idare.service.SessionFacade;
+import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
+import com.opensource.app.idare.model.service.SessionFacade;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 
 /**
