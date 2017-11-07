@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -33,13 +34,14 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
 public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
         ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreListFragment.OnFragmentInteractionListener,
         InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener,PassiveFragment.OnFragmentInteractionListener {
+        SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener {
     private Fragment currentFragment;
     private ActivityMainBinding binding;
     private Context context;
     private MainActivityViewModel viewModel;
     private NavHeaderMainBinding navigationMenuHeaderBinding;
     private Toolbar toolbar;
+    private AlertDialog alertDialog;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -60,7 +62,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         navigationMenuHeaderBinding.setHeaderViewModel(new NavigationMenuHeaderViewModel(context));
         setUpNavigationDrawer();
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content, new AppTourFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, new PassiveFragment()).commit();
         }
     }
 
@@ -72,6 +74,23 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void showMakePassivePopUp() {
+        getDrawer().closeDrawer(GravityCompat.START);
+/*
+        View popupView = getLayoutInflater().inflate(R.layout.layout_popup_view, null);
+
+        alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setView(popupView);
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        alertDialog.show();*/
+    }
+
+    @Override
+    public DrawerLayout getDrawer() {
+        return binding.drawerLayout;
+    }
+
     private void setUpNavigationDrawer() {
         binding.navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -80,12 +99,8 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-/*
         //Bydefault first item should be selected
-        binding.navigationView.getMenu().findItem(R.id.item_dashboard).setChecked(true);
-        NavigationHelper.setItemVisibility(binding.navigationView.getMenu());
-*/
-
+        binding.navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
@@ -96,7 +111,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = getDrawer();
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

@@ -16,6 +16,7 @@ import com.opensource.app.idare.utils.Utility;
  */
 public class IDareApp extends Application {
     public static IDareApp application;
+    private static boolean isActive;
 
     private static Context context;
     private static Context applicationContext;
@@ -27,6 +28,14 @@ public class IDareApp extends Application {
             applicationContext = application.getApplicationContext();
         }
         return application;
+    }
+
+    public static boolean isActive() {
+        return isActive;
+    }
+
+    public static void setIsActive(boolean isActive) {
+        IDareApp.isActive = isActive;
     }
 
     public static Context getContext() {

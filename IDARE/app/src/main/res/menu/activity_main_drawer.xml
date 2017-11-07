@@ -1,33 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/active_profile"
-        android:icon="@mipmap/ic_launcher"
-        android:title="@string/active_profile" />
-    <item
-        android:id="@+id/core_list"
-        android:icon="@mipmap/ic_launcher"
-        android:title="@string/core_list" />
-    <item
-        android:id="@+id/invite"
-        android:icon="@mipmap/ic_launcher"
-        android:title="@string/invite" />
-    <item
-        android:id="@+id/app_tour"
-        android:icon="@mipmap/ic_launcher"
-        android:title="@string/app_tour" />
-    <item
-        android:id="@+id/donate"
-        android:icon="@mipmap/ic_launcher"
-        android:title="@string/donate" />
-    <item
-        android:id="@+id/settings"
-        android:icon="@mipmap/ic_launcher"
-        android:title="@string/settings" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/active_profile"
+            android:title="@string/active_profile" />
+        <item
+            android:id="@+id/core_list"
+            android:title="@string/core_list" />
+        <item
+            android:id="@+id/invite"
+            android:title="@string/invite" />
+        <item
+            android:id="@+id/app_tour"
+            android:title="@string/app_tour" />
+        <item
+            android:id="@+id/donate"
+            android:title="@string/donate" />
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings" />
 
-    <item
-        android:id="@+id/log_out"
-        android:icon="@mipmap/ic_launcher"
-        android:title="@string/log_out" />
+        <item
+            android:id="@+id/log_out"
+            android:title="@string/log_out" />
+    </group>
 </menu>
