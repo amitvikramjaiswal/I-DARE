@@ -29,7 +29,7 @@ public class PassiveProfileFragmentViewModel extends BaseViewModel {
             @Override
             public void onClick(View v) {
                 // Onclick  - Check location is enabled, then make app Active
-//                onMakeActiveClicked();
+                onMakeActiveClicked();
             }
         };
     }

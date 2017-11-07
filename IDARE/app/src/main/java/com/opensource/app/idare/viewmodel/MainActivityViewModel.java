@@ -4,11 +4,15 @@ package com.opensource.app.idare.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.ObservableField;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.application.IDareApp;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.RegisterActivity;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
@@ -16,34 +20,72 @@ import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreListFragment;
 import com.opensource.app.idare.view.fragment.DonateFragment;
 import com.opensource.app.idare.view.fragment.InviteToIDareFragment;
+import com.opensource.app.idare.view.fragment.PassiveFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
 
 /**
  * Created by akokala on 10/31/2017.
  */
 
-public class MainActivityViewModel extends BaseViewModel {
+public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpViewModel.DataListener {
     private DataListener dataListener;
     private MenuItem mPreviousMenuItem;
+    private LayoutPopUpViewModel layoutPopUpViewModel;
+
+    private ObservableField<Boolean> enableMakePassive = new ObservableField<>(false);
+    private ObservableField<LayoutPopUpViewModel> drawerLayoutInflater = new ObservableField<>();
 
     public MainActivityViewModel(Context context, DataListener dataListener) {
         super(context);
         this.dataListener = dataListener;
+
+        enableOrDisableButton();
+    }
+
+    public ObservableField<Boolean> getEnableMakePassive() {
+        return enableMakePassive;
+    }
+
+    public ObservableField<LayoutPopUpViewModel> getDrawerLayoutInflater() {
+        return drawerLayoutInflater;
+    }
+
+    // Enable or disable the make passive button,
+    // Based on app is Active or Passive
+    public void enableOrDisableButton() {
+        if (IDareApp.isActive()) {
+            enableMakePassive.set(true);
+        } else {
+            enableMakePassive.set(false);
+        }
+
+         /*Intialise the LayoutPopUpViewModel and set the observable field*/
+        layoutPopUpViewModel = new LayoutPopUpViewModel(getContext(), this);
+        drawerLayoutInflater.set(layoutPopUpViewModel);
+    }
+
+    // Onclick of make passive
+    public View.OnClickListener onClickMakePassive() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open dialog
+                dataListener.showMakePassivePopUp();
+            }
+        };
     }
 
     public boolean onNavigationItemSelected(MenuItem menuItem, FragmentTransaction fragmentTransaction) {
-        menuItem.setCheckable(true);
-        menuItem.setChecked(true);
-
-        if (mPreviousMenuItem != null) {
-            mPreviousMenuItem.setChecked(false);
-        }
         mPreviousMenuItem = menuItem;
         ActiveProfileFragment activeProfileFragment = ActiveProfileFragment.newInstance();
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.active_profile:
-                fragment = activeProfileFragment;
+                if (IDareApp.isActive()) {
+                    fragment = activeProfileFragment;
+                } else {
+                    fragment = PassiveFragment.newInstance();
+                }
                 break;
             case R.id.core_list:
                 CoreListFragment coreListFragment = CoreListFragment.newInstance();
@@ -72,7 +114,7 @@ public class MainActivityViewModel extends BaseViewModel {
                 fragment = activeProfileFragment;
                 break;
         }
-        if(fragment!=null) {
+        if (fragment != null) {
             dataListener.replaceFragment(fragment);
         }
         return true;
@@ -112,6 +154,10 @@ public class MainActivityViewModel extends BaseViewModel {
         void startActivity(Intent intent);
 
         void finish();
+
+        void showMakePassivePopUp();
+
+        DrawerLayout getDrawer();
 
         void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }

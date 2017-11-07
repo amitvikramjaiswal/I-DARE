@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.application.IDareApp;
 import com.opensource.app.idare.databinding.FragmentMyAccountActiveBinding;
 import com.opensource.app.idare.viewmodel.ActiveProfileFragmentViewModel;
 
@@ -45,6 +46,7 @@ public class ActiveProfileFragment extends BaseFragment implements ActiveProfile
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_account_active, container, false);
         viewModel = new ActiveProfileFragmentViewModel(getActivity(), this);
+        IDareApp.setIsActive(false);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

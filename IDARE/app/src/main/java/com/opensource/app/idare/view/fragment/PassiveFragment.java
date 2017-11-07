@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.application.IDareApp;
 import com.opensource.app.idare.databinding.FragmentMyAccountPassiveBinding;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.viewmodel.PassiveProfileFragmentViewModel;
@@ -38,6 +39,7 @@ public class PassiveFragment extends BaseFragment implements PassiveProfileFragm
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_account_passive, container, false);
         viewModel = new PassiveProfileFragmentViewModel(getActivity(), this);
+        IDareApp.setIsActive(false);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
