@@ -32,35 +32,21 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
     private MenuItem mPreviousMenuItem;
     private LayoutPopUpViewModel layoutPopUpViewModel;
 
-    private ObservableField<Boolean> enableMakePassive = new ObservableField<>(false);
     private ObservableField<LayoutPopUpViewModel> drawerLayoutInflater = new ObservableField<>();
 
     public MainActivityViewModel(Context context, DataListener dataListener) {
         super(context);
         this.dataListener = dataListener;
-
-        enableOrDisableButton();
-    }
-
-    public ObservableField<Boolean> getEnableMakePassive() {
-        return enableMakePassive;
     }
 
     public ObservableField<LayoutPopUpViewModel> getDrawerLayoutInflater() {
         return drawerLayoutInflater;
     }
 
-    // Enable or disable the make passive button,
-    // Based on app is Active or Passive
-    public void enableOrDisableButton() {
-        if (IDareApp.isActive()) {
-            enableMakePassive.set(true);
-        } else {
-            enableMakePassive.set(false);
-        }
-
-         /*Intialise the LayoutPopUpViewModel and set the observable field*/
+    public void initializeViewModel() {
+        /*Intialise the LayoutPopUpViewModel and set the observable field*/
         layoutPopUpViewModel = new LayoutPopUpViewModel(getContext(), this);
+        layoutPopUpViewModel.getAlertVisibility().set(View.VISIBLE);
         drawerLayoutInflater.set(layoutPopUpViewModel);
     }
 
@@ -76,6 +62,13 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
     }
 
     public boolean onNavigationItemSelected(MenuItem menuItem, FragmentTransaction fragmentTransaction) {
+        menuItem.setCheckable(true);
+        menuItem.setChecked(true);
+
+        if (mPreviousMenuItem != null) {
+            mPreviousMenuItem.setChecked(false);
+        }
+        mPreviousMenuItem = menuItem;
         mPreviousMenuItem = menuItem;
         ActiveProfileFragment activeProfileFragment = ActiveProfileFragment.newInstance();
         Fragment fragment = null;

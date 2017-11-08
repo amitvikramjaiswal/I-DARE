@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -48,6 +48,16 @@
         <item name="android:textColor">@color/idare_pink</item>
         <item name="android:text">@string/make_passive</item>
     </style>
+
+    <style name="Theme.AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Button Color -->
+        <item name="android:colorAccent" tools:targetApi="lollipop">@color/colorPrimary</item>
+        <!-- Title Color -->
+        <item name="android:textColor">@color/idare_white</item>
+        <!-- Message Color -->
+        <item name="android:textColorPrimary">@color/idare_white</item>
+    </style>
+
 
 
     <style name="NavigationMenuStyle">

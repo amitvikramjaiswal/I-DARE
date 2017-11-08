@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
@@ -36,6 +37,8 @@ public class PassiveProfileFragmentViewModel extends BaseViewModel {
 
     private void onMakeActiveClicked() {
         if (Utils.isLocationServicesEnabled(getContext())) {
+            // Once user becomes active - store in shared preference
+            PreferencesManager.getInstance(getContext()).setIsActive(true);
             dataListener.replaceFragment(ActiveProfileFragment.newInstance());
         } else {
             dataListener.showAlertDialog(null, getContext().getResources().getString(R.string.active_mode_message_from_passive), false, getContext().getResources().getString(R.string.btn_ok),

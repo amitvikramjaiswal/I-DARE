@@ -21,7 +21,7 @@ public abstract class BaseViewModel {
         this.context = context;
     }
 
-    public Context getContext() {
+    public static Context getContext() {
         return context;
     }
 

@@ -14,16 +14,29 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
+        android:paddingTop="@dimen/nav_header_top_padding"
+        android:paddingBottom="@dimen/nav_header_bottom_padding"
+        android:paddingLeft="@dimen/nav_header_bottom_left"
         app:theme="@style/NavigationMenuStyle">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_user_profile"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:elevation="@dimen/image_elevation"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/female_avatar" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/nav_header_text_margin_bottom"
-            android:layout_marginLeft="@dimen/nav_header_text_margin_left"
-            android:layout_marginTop="@dimen/nav_header_textmargin_top"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="ARCHANA KOKS"
+            android:textColor="@color/idare_white"
+            android:layout_gravity="center"
             android:textSize="@dimen/nav_header_text_size" />
+
     </LinearLayout>
 </layout>
 

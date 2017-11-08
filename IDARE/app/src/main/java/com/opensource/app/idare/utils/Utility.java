@@ -28,5 +28,6 @@ public class Utility {
     public static final String PHONE_NUMBER = "PHONE_NUMBER";
     public static final String AUTHORISATION = "Authorization";
     public static final String KEY_USER_CONTEXT = "KEY_USER_CONTEXT";
+    public static final String IS_ACTIVE = "IS_ACTIVE";
     public static String BASIC = "Basic ";
 }

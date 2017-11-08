@@ -58,9 +58,8 @@
                     style="@style/btn_make_passive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="@{viewModel.enableMakePassive}"
-                    android:onClick="@{viewModel.onClickMakePassive()}"
-                    android:backgroundTint="@color/idare_white" />
+                    android:backgroundTint="@color/idare_white"
+                    android:onClick="@{viewModel.onClickMakePassive()}" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -74,13 +73,11 @@
 
         </android.support.design.widget.NavigationView>
 
-<!--
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inflate="@{viewModel.drawerLayoutInflater}" />
--->
 
     </android.support.v4.widget.DrawerLayout>
 </layout>
