@@ -32,4 +32,15 @@ public class PreferencesManager {
         editor.putString(Utility.KEY_USER_CONTEXT, new Gson().toJson(IDareApp.getUserProfileResponseModel()));
         editor.commit();
     }
+
+    public boolean appIsActive() {
+        return preferences.getBoolean(Utility.IS_ACTIVE, false);
+    }
+
+    public void setIsActive(boolean isActive) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(Utility.IS_ACTIVE, isActive);
+        editor.commit();
+    }
+
 }

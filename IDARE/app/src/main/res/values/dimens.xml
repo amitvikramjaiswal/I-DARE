@@ -35,8 +35,11 @@
     <dimen name="nav_header_text_margin_bottom">16dp</dimen>
     <dimen name="nav_header_text_margin_left">16dp</dimen>
     <dimen name="nav_header_textmargin_top">20dp</dimen>
-    <dimen name="nav_header_text_size">20sp</dimen>
+    <dimen name="nav_header_text_size">12sp</dimen>
     <dimen name="nav_item_padding">10dp</dimen>
     <dimen name="nav_item_padding_left">20dp</dimen>
     <dimen name="nav_item_text_size">14dp</dimen>
+    <dimen name="nav_header_top_padding">50dp</dimen>
+    <dimen name="nav_header_bottom_padding">20dp</dimen>
+    <dimen name="nav_header_bottom_left">10dp</dimen>
 </resources>

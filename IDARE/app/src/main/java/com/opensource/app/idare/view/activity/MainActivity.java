@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.ActivityMainBinding;
 import com.opensource.app.idare.databinding.NavHeaderMainBinding;
+import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreListFragment;
@@ -76,7 +77,11 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
 
     @Override
     public void showMakePassivePopUp() {
-        getDrawer().closeDrawer(GravityCompat.START);
+        if (PreferencesManager.getInstance(this).appIsActive()) {
+            getDrawer().closeDrawer(GravityCompat.START);
+            viewModel.initializeViewModel();
+        }
+
 /*
         View popupView = getLayoutInflater().inflate(R.layout.layout_popup_view, null);
 

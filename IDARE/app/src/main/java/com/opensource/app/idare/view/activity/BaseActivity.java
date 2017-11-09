@@ -145,6 +145,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
         }
     }
 
+
     @Override
     public void hideKeyBoard() {
         InputMethodManager inputMethodManager = (InputMethodManager) this
