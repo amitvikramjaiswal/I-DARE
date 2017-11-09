@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:visibility="@{viewModel.alertVisibility}"
         android:orientation="vertical"
         android:padding="@dimen/padding_popup">
 
@@ -21,10 +20,10 @@
             android:id="@+id/et_passcode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:addTextChangedListener="@{viewModel.passCodeChanged()}"
             android:inputType="numberPassword"
             android:maxLines="1"
             android:text="@{viewModel.passCodeEditText}"
-            android:addTextChangedListener="@{viewModel.passCodeChanged()}"
             android:textAlignment="center" />
 
         <TextView
@@ -39,8 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
-            android:onClick="@{viewModel.onClickMakePassive()}"
-            android:backgroundTint="@color/idare_white" />
+            android:backgroundTint="@color/idare_white"
+            android:onClick="@{viewModel.onClickMakePassive()}" />
 
         <TextView
             android:layout_width="wrap_content"

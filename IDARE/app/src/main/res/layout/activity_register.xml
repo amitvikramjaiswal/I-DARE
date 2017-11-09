@@ -8,123 +8,133 @@
             type="com.opensource.app.idare.viewmodel.RegisterViewModel" />
     </data>
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_welcome_text">
+            android:fillViewport="true">
 
             <LinearLayout
-                android:id="@+id/ll_enter_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:descendantFocusability="beforeDescendants"
-                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="@dimen/padding_welcome_text"
-                android:visibility="@{viewModel.visibilityOfSendVerification}">
+                android:padding="@dimen/padding_welcome_text">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
-                    android:text="@string/welcome_to_idare"
-                    android:textAlignment="center"
-                    android:textColor="@color/idare_text_color_bold" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
-                    android:text="@string/otp_text"
-                    android:textAlignment="center"
-                    android:textColor="@color/idare_text_color_bold" />
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/et_phone_number"
+                <LinearLayout
+                    android:id="@+id/ll_enter_number"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
-                    android:addTextChangedListener="@{viewModel.onPhoneNumberChanged()}"
-                    android:gravity="center_horizontal"
-                    android:hint="@string/phone_number"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:maxLines="1"
-                    android:text="@{viewModel.phoneNumber}"
-                    android:textAlignment="center" />
+                    android:layout_height="match_parent"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_welcome_text"
+                    android:visibility="@{viewModel.visibilityOfSendVerification}">
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_send_verification"
-                    style="@style/btn_pink_background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/idare_pink"
-                    android:onClick="@{viewModel.onClickSendVerification()}"
-                    android:text="@string/send_verification_pin" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
+                        android:text="@string/welcome_to_idare"
+                        android:textAlignment="center"
+                        android:textColor="@color/idare_text_color_bold" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
+                        android:text="@string/otp_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/idare_text_color_bold" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/et_phone_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
+                        android:addTextChangedListener="@{viewModel.onPhoneNumberChanged()}"
+                        android:gravity="center_horizontal"
+                        android:hint="@string/phone_number"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:text="@{viewModel.phoneNumber}"
+                        android:textAlignment="center" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_send_verification"
+                        style="@style/btn_pink_background"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/idare_pink"
+                        android:onClick="@{viewModel.onClickSendVerification()}"
+                        android:text="@string/send_verification_pin" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_enter_otp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_welcome_text"
+                    android:visibility="@{viewModel.visibilityOfVerify}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
+                        android:text="@string/welcome_to_idare"
+                        android:textAlignment="center"
+                        android:textColor="@color/idare_text_color_bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
+                        android:text="@string/enter_otp_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/idare_text_color_bold" />
+
+                    <EditText
+                        android:id="@+id/et_otp_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
+                        android:addTextChangedListener="@{viewModel.onOtpChanged()}"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:maxLines="1"
+                        android:text="@{viewModel.otpText}"
+                        android:textAlignment="center" />
+
+                    <Button
+                        android:id="@+id/btn_verify"
+                        style="@style/btn_pink_background"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{viewModel.onclickOfVerify()}"
+                        android:text="@string/verify" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/ll_enter_otp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:descendantFocusability="beforeDescendants"
-                android:focusableInTouchMode="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_welcome_text"
-                android:visibility="@{viewModel.visibilityOfVerify}">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
-                    android:text="@string/welcome_to_idare"
-                    android:textAlignment="center"
-                    android:textColor="@color/idare_text_color_bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
-                    android:text="@string/enter_otp_text"
-                    android:textAlignment="center"
-                    android:textColor="@color/idare_text_color_bold" />
-
-                <EditText
-                    android:id="@+id/et_otp_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
-                    android:inputType="number"
-                    android:maxLength="6"
-                    android:maxLines="1"
-                    android:addTextChangedListener="@{viewModel.onOtpChanged()}"
-                    android:text="@{viewModel.otpText}"
-                    android:textAlignment="center" />
-
-                <Button
-                    android:id="@+id/btn_verify"
-                    style="@style/btn_pink_background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{viewModel.onclickOfVerify()}"
-                    android:text="@string/verify" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
 </layout>

@@ -2,12 +2,20 @@ package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.StyleSpan;
 import android.view.View;
+import android.widget.TextView;
 
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.utils.PreferencesManager;
+import com.opensource.app.idare.application.IDareApp;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
@@ -37,8 +45,6 @@ public class PassiveProfileFragmentViewModel extends BaseViewModel {
 
     private void onMakeActiveClicked() {
         if (Utils.isLocationServicesEnabled(getContext())) {
-            // Once user becomes active - store in shared preference
-            PreferencesManager.getInstance(getContext()).setIsActive(true);
             dataListener.replaceFragment(ActiveProfileFragment.newInstance());
         } else {
             dataListener.showAlertDialog(null, getContext().getResources().getString(R.string.active_mode_message_from_passive), false, getContext().getResources().getString(R.string.btn_ok),
@@ -57,11 +63,31 @@ public class PassiveProfileFragmentViewModel extends BaseViewModel {
         }
     }
 
+    // Set the user value in passiveUser Screen
+    public void setValues() {
+        String name = IDareApp.getUserProfileResponseModel() == null ? "" : IDareApp.getUserProfileResponseModel().getName();
+        String welcomeTitle = getContext().getResources().getString(R.string.welcome_title, name);
+        SpannableString spannableString = new SpannableString(welcomeTitle);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 8, welcomeTitle.length(), 0);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                // OnEdit click Opens the EditProfile Screen with Prepopulated values
+//                onEditProfileClick();
+            }
+        }, 8, welcomeTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        dataListener.getTextView().setHighlightColor(Color.BLACK);
+        dataListener.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
+        dataListener.getTextView().setText(spannableString);
+    }
+
     public interface DataListener {
 
         void replaceFragment(Fragment fragment);
 
         void startActivity(Intent intent);
+
+        TextView getTextView();
 
         void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }

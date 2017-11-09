@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,11 +14,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.ActivityMainBinding;
 import com.opensource.app.idare.databinding.NavHeaderMainBinding;
-import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreListFragment;
@@ -43,6 +44,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
     private NavHeaderMainBinding navigationMenuHeaderBinding;
     private Toolbar toolbar;
     private AlertDialog alertDialog;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -60,6 +62,8 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         setSupportActionBar(toolbar);
         navigationMenuHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_main, binding.navigationView, false);
         binding.navigationView.addHeaderView(navigationMenuHeaderBinding.getRoot());
+
+
         navigationMenuHeaderBinding.setHeaderViewModel(new NavigationMenuHeaderViewModel(context));
         setUpNavigationDrawer();
         if (savedInstanceState == null) {
@@ -76,29 +80,18 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
     }
 
     @Override
-    public void showMakePassivePopUp() {
-        if (PreferencesManager.getInstance(this).appIsActive()) {
-            getDrawer().closeDrawer(GravityCompat.START);
-            viewModel.initializeViewModel();
-        }
-
-/*
-        View popupView = getLayoutInflater().inflate(R.layout.layout_popup_view, null);
-
-        alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setView(popupView);
-        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        alertDialog.show();*/
-    }
-
-    @Override
     public DrawerLayout getDrawer() {
         return binding.drawerLayout;
     }
-
+    
     private void setUpNavigationDrawer() {
         binding.navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                viewModel.toggleMakePassiveButton();
+            }
         };
 
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -106,12 +99,6 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
 
         //Bydefault first item should be selected
         binding.navigationView.getMenu().getItem(0).setChecked(true);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
-        binding.drawerLayout.closeDrawers();
-        return viewModel.onNavigationItemSelected(menuItem, getSupportFragmentManager().beginTransaction());
     }
 
     @Override
@@ -128,5 +115,16 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        binding.drawerLayout.closeDrawers();
+        return viewModel.onNavigationItemSelected(item, getSupportFragmentManager().beginTransaction());
     }
 }

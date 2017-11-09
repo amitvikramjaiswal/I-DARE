@@ -48,7 +48,7 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
                 finish();
                 Intent i = null;
                 if (isNotFirstLaunch) {
-                    /*UserProfileResponseModel userContext = new Gson().fromJson(getPreferences().getString(Utility.KEY_USER_CONTEXT, null), UserProfileResponseModel.class);
+                   /* UserProfileResponseModel userContext = new Gson().fromJson(getPreferences().getString(Utility.KEY_USER_CONTEXT, null), UserProfileResponseModel.class);
                     userContext = userContext == null ? new UserProfileResponseModel() : userContext;
                     IDareApp.setUserProfileResponseModel(userContext);*/
                     i = new Intent(SplashActivity.this, MainActivity.class);

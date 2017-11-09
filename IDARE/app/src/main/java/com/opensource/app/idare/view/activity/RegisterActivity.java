@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 
 import com.opensource.app.idare.R;
@@ -18,6 +19,7 @@ public class RegisterActivity extends BaseActivity implements RegisterViewModel.
 
     private ActivityRegisterBinding binding;
     private RegisterViewModel viewModel;
+    private Toolbar toolbar;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, RegisterActivity.class);
@@ -29,6 +31,9 @@ public class RegisterActivity extends BaseActivity implements RegisterViewModel.
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         viewModel = new RegisterViewModel(this, this);
+        toolbar = (Toolbar) binding.toolbar.findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.registration));
+        setSupportActionBar(toolbar);
         binding.setViewModel(viewModel);
     }
 
@@ -36,6 +41,7 @@ public class RegisterActivity extends BaseActivity implements RegisterViewModel.
     public EditText getPhoneNumber() {
         return binding.etPhoneNumber;
     }
+
 
     @Override
     public EditText getOtp() {
