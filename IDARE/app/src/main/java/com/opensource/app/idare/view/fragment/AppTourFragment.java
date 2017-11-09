@@ -3,6 +3,7 @@ package com.opensource.app.idare.view.fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,12 @@ public class AppTourFragment extends BaseFragment implements AppTourFragmentView
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        parentActivity.setTitle(getContext().getResources().getString(R.string.app_tour));
     }
 
     public interface OnFragmentInteractionListener {

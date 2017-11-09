@@ -3,6 +3,7 @@ package com.opensource.app.idare.view.fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,12 @@ public class SettingsFragment extends BaseFragment implements SettingsViewModel.
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        parentActivity.setTitle(getContext().getResources().getString(R.string.settings));
     }
 
     public interface OnFragmentInteractionListener {

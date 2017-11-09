@@ -45,29 +45,16 @@ public class IDareApp extends Application {
         return applicationContext;
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     public static UserProfileResponseModel getUserProfileResponseModel() {
         return userProfileResponseModel;
     }
 
     public static void setUserProfileResponseModel(UserProfileResponseModel userProfileResponseModel) {
         IDareApp.userProfileResponseModel = userProfileResponseModel;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    @Override
-    public void onCreate() {
-
-        super.onCreate();
-        context = this.getApplicationContext();
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        application = this;
     }
 
     public static boolean isConnectedToInternet(IDAREResponseHandler.ErrorListener errorListener) {
@@ -88,5 +75,18 @@ public class IDareApp extends Application {
 
         }
         return false;
+    }
+
+    @Override
+    public void onCreate() {
+
+        super.onCreate();
+        context = this.getApplicationContext();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        application = this;
     }
 }

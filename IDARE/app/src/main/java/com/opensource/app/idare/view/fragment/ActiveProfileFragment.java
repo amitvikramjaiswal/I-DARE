@@ -3,6 +3,7 @@ package com.opensource.app.idare.view.fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,15 @@ public class ActiveProfileFragment extends BaseFragment implements ActiveProfile
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_account_active, container, false);
         viewModel = new ActiveProfileFragmentViewModel(getActivity(), this);
-        IDareApp.setIsActive(false);
+        IDareApp.setIsActive(true);
         binding.setViewModel(viewModel);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        parentActivity.setTitle(getContext().getResources().getString(R.string.active_profile));
     }
 
     public interface OnFragmentInteractionListener {

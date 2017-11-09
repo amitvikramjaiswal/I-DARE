@@ -8,6 +8,7 @@ import android.databinding.ObservableField;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -33,21 +34,23 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
     private LayoutPopUpViewModel layoutPopUpViewModel;
 
     private ObservableField<LayoutPopUpViewModel> drawerLayoutInflater = new ObservableField<>();
+    private ObservableField<Boolean> enableMakePassive = new ObservableField<>(false);
 
     public MainActivityViewModel(Context context, DataListener dataListener) {
         super(context);
         this.dataListener = dataListener;
+
+         /*Intialise the LayoutPopUpViewModel and set the observable field*/
+        layoutPopUpViewModel = new LayoutPopUpViewModel(getContext(), this);
+        drawerLayoutInflater.set(layoutPopUpViewModel);
     }
 
     public ObservableField<LayoutPopUpViewModel> getDrawerLayoutInflater() {
         return drawerLayoutInflater;
     }
 
-    public void initializeViewModel() {
-        /*Intialise the LayoutPopUpViewModel and set the observable field*/
-        layoutPopUpViewModel = new LayoutPopUpViewModel(getContext(), this);
-        layoutPopUpViewModel.getAlertVisibility().set(View.VISIBLE);
-        drawerLayoutInflater.set(layoutPopUpViewModel);
+    public ObservableField<Boolean> getEnableMakePassive() {
+        return enableMakePassive;
     }
 
     // Onclick of make passive
@@ -56,9 +59,18 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
             @Override
             public void onClick(View v) {
                 // Open dialog
-                dataListener.showMakePassivePopUp();
+                dataListener.getDrawer().closeDrawer(Gravity.START);
+                layoutPopUpViewModel.showAlertDialog();
             }
         };
+    }
+
+    public void toggleMakePassiveButton() {
+        if (IDareApp.isActive()) {
+            enableMakePassive .set(true);
+        } else {
+            enableMakePassive.set(false);
+        }
     }
 
     public boolean onNavigationItemSelected(MenuItem menuItem, FragmentTransaction fragmentTransaction) {
@@ -138,6 +150,16 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
         dataListener.startActivity(intent);
     }
 
+    @Override
+    public void finish() {
+        dataListener.finish();
+    }
+
+    @Override
+    public void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler) {
+        dataListener.showAlertDialog(view, positiveButton, negativeButton, alertDialogHandler);
+    }
+
     public interface DataListener {
 
         void replaceFragment(Fragment fragment);
@@ -148,7 +170,7 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
 
         void finish();
 
-        void showMakePassivePopUp();
+        void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
 
         DrawerLayout getDrawer();
 

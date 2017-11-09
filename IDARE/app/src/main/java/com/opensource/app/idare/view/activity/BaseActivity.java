@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -27,11 +29,11 @@ import java.util.regex.Pattern;
  * Created by amitvikramjaiswal on 24/05/16.
  */
 public class BaseActivity extends AppCompatActivity implements BaseViewModel.DataListener {
+    private static final String PREF_KEY = "com.opensource.app.idare.PREF_KEY";
     private ProgressDialog progressDialog;
     private android.support.v7.app.AlertDialog alertDialog;
     private android.support.v7.app.AlertDialog.Builder myAlertDialog;
     private SharedPreferences preferences;
-    private static final String PREF_KEY = "com.opensource.app.idare.PREF_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,32 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
     @Override
     public SharedPreferences getPreferences() {
         return preferences;
+    }
+
+    @Override
+    public void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler) {
+        if (alertDialog != null) {
+            alertDialog.dismiss();
+        }
+
+        myAlertDialog = new AlertDialog.Builder(this, R.style.Theme_AlertDialogTheme);
+
+        setPositiveButton(positiveButton, alertDialogHandler);
+        setNegativeButton(negativeButton, alertDialogHandler, false);
+
+        if (view != null) {
+            myAlertDialog.setView(view);
+        }
+
+        myAlertDialog.setCancelable(false);
+
+        alertDialog = myAlertDialog.create();
+
+        alertDialog.setCanceledOnTouchOutside(true);
+
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+        alertDialog.show();
     }
 
     private void setNegativeButton(String negativeButton, final AlertDialogHandler alertDialogHandler, boolean cancelable) {
