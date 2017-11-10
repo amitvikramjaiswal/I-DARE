@@ -32,13 +32,15 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
     private DataListener dataListener;
     private MenuItem mPreviousMenuItem;
     private LayoutPopUpViewModel layoutPopUpViewModel;
+    private String nameFromBundle;
 
     private ObservableField<LayoutPopUpViewModel> drawerLayoutInflater = new ObservableField<>();
     private ObservableField<Boolean> enableMakePassive = new ObservableField<>(false);
 
-    public MainActivityViewModel(Context context, DataListener dataListener) {
+    public MainActivityViewModel(Context context, DataListener dataListener, String nameFromBundle) {
         super(context);
         this.dataListener = dataListener;
+        this.nameFromBundle = nameFromBundle;
 
          /*Intialise the LayoutPopUpViewModel and set the observable field*/
         layoutPopUpViewModel = new LayoutPopUpViewModel(getContext(), this);
@@ -67,7 +69,7 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
 
     public void toggleMakePassiveButton() {
         if (IDareApp.isActive()) {
-            enableMakePassive .set(true);
+            enableMakePassive.set(true);
         } else {
             enableMakePassive.set(false);
         }
