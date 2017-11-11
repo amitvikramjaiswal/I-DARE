@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
-            android:text="ARCHANA KOKS"
+            android:text="@{headerViewModel.userName}"
             android:textColor="@color/idare_white"
             android:layout_gravity="center"
             android:textSize="@dimen/nav_header_text_size" />

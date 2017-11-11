@@ -13,7 +13,9 @@ import com.opensource.app.idare.model.data.entity.UserProfileRequestModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
+import com.opensource.app.idare.pojo.UserContext;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
+import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.MainActivity;
@@ -32,6 +34,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
     private ObservableField<Boolean> enableSaveButton = new ObservableField<>(false);
 
     private String phoneNumberFromBundle;
+    private UserContext userContext;
 
     public EditProfileViewModel(Context context, DataListener dataListener, String phoneNumberFromBundle) {
         super(context);
@@ -39,6 +42,19 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
         this.phoneNumberFromBundle = phoneNumberFromBundle;
 
         setListener();
+    }
+
+    // Show the prepopulated value in the Ui for Edit User
+    private void prepopulateUserDetails(UserProfileResponseModel response) {
+        if (userContext == null) {
+            userContext = new UserContext();
+        }
+        userContext.setUsername(response.getUsername());
+        userContext.setPassword(response.getPassword());
+        userContext.setName(response.getName());
+        userContext.setEmail(response.getEmail());
+        userContext.setAlternate(response.getAlternate());
+        userContext.setMobile(response.getMobile());
     }
 
     private void setListener() {
@@ -150,12 +166,13 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
             @Override
             public void onSuccess(UserProfileResponseModel response) {
                 dataListener.hideProgress();
-                //OnSuccess Handle
-//                PreferencesManager.getInstance(getContext()).setUserContext();
+                // Store response in UserContext Model
+                PreferencesManager.getInstance(getContext()).setIsFirstLaunch(true);
+                prepopulateUserDetails(response);
 
                 dataListener.hideKeyBoard();
                 dataListener.finish();
-                dataListener.startActivity(MainActivity.getStartIntent(getContext()));
+                dataListener.startActivity(MainActivity.getStartIntent(getContext(), response.getName()));
             }
         }, new IDAREResponseHandler.ErrorListener() {
             @Override
@@ -208,7 +225,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (Utils.emptyOrNullCheck(nameFromEditTExt.get().trim()) && Utils.emptyOrNullCheck(emailFromEditText.get().trim())
-                && Utils.emptyOrNullCheck(alternativeNumFromEditText.get().trim()) && Utils.emptyOrNullCheck(passwordFromEditText.get().trim())) {
+                && Utils.isValidEmail(emailFromEditText.get().trim()) && Utils.emptyOrNullCheck(passwordFromEditText.get().trim())) {
             enableSaveButton.set(true);
         } else {
             enableSaveButton.set(false);

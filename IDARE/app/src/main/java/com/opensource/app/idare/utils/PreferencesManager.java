@@ -23,4 +23,14 @@ public class PreferencesManager {
         }
         return preferencesManager;
     }
+
+    public void setIsFirstLaunch(boolean isFirstLaunch) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(Utility.KEY_NOT_FIRST_LAUNCH, isFirstLaunch);
+        editor.commit();
+    }
+
+    public boolean isFirstLaunch() {
+        return preferences.getBoolean(Utility.KEY_NOT_FIRST_LAUNCH, false);
+    }
 }

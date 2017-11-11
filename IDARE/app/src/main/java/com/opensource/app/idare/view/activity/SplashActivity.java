@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.ActivitySplashBinding;
+import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.viewmodel.SplashViewModel;
 
@@ -31,8 +32,8 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         viewModel = new SplashViewModel(this, this);
         binding.setViewModel(viewModel);
-        
-        finishOnUiThread(true);
+
+        finishOnUiThread(PreferencesManager.getInstance(this).isFirstLaunch());
     }
 
     /*
@@ -48,9 +49,9 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
                 finish();
                 Intent i = null;
                 if (isNotFirstLaunch) {
-                   /* UserProfileResponseModel userContext = new Gson().fromJson(getPreferences().getString(Utility.KEY_USER_CONTEXT, null), UserProfileResponseModel.class);
-                    userContext = userContext == null ? new UserProfileResponseModel() : userContext;
-                    IDareApp.setUserProfileResponseModel(userContext);*/
+                   /* UserContext userContext = new Gson().fromJson(getPreferences().getString(Utility.KEY_USER_CONTEXT, null), UserContext.class);
+                    userContext = userContext == null ? new UserContext() : userContext;
+                    Session.setUserContext(userContext);*/
                     i = new Intent(SplashActivity.this, MainActivity.class);
                 } else {
                     i = new Intent(SplashActivity.this, RegisterActivity.class);
