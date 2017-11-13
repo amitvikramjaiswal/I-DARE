@@ -35,4 +35,8 @@ public class SessionFacadeImpl implements SessionFacade {
     public void postProfileDetails(Context context, UserProfileRequestModel userProfile, IDAREResponseHandler.ResponseListener<UserProfileResponseModel> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
         profileService.postProfileDetails(context, userProfile, responseListener, errorListener);
     }
+
+//    public void checkIfUserExists(String username, IDAREResponseHandler.ResponseListener<Boolean> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
+//        profileService.
+//    }
 }

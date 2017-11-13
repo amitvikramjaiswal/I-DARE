@@ -17,8 +17,9 @@ import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.model.service.volley.VolleyGSONGetRequest;
 import com.opensource.app.idare.model.service.volley.VolleyGSONPostRequest;
 import com.opensource.app.idare.model.service.volley.VolleyService;
-import com.opensource.app.idare.model.service.volley.VolleyStringRequest;
+import com.opensource.app.idare.utils.AuthType;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
+import com.opensource.app.idare.utils.Session;
 import com.opensource.app.idare.utils.Utility;
 
 import java.util.HashMap;
@@ -47,35 +48,20 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * @param context          The android application conetext
      * @param url              The url of the servive to invoke
      * @param params           The request parameters
-     * @param responseListener The reference to the response handler
-     * @param errorListener    The reference to the error handler
-     * @param headers
-     */
-    @Override
-    public void executeGetRequest(Context context, URLs url, Map<String, String> params, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener, Map<String, String> headers) {
-        executeGetRequest(context, url, params, headers, responseListener, errorListener);
-    }
-
-
-    /**
-     * This method has to be used for all Json GET request
-     *
-     * @param context          The android application conetext
-     * @param url              The url of the servive to invoke
-     * @param params           The request parameters
+     * @param authType         The type of authentication required for the call
      * @param headers          The headers to be passed in the request
      * @param responseListener The reference to the response handler
      * @param errorListener    The reference to the error handler
      */
     @Override
-    public void executeGetRequest(Context context, URLs url, Map<String, String> params, Map<String, String> headers, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+    public void executeGetRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> headers, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         if (!IDareApp.isConnectedToInternet(errorListener)) {
             return;
         }
         if (headers != null) {
-            headers.putAll(getCommonHeaders());
+            headers.putAll(getCommonHeaders(authType));
         }
-        VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, buildUrl(url, params), url.getType(), headers, new Response.Listener() {
+        VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, buildUrl(url, params, null), url.getType(), headers, new Response.Listener() {
             @Override
             public void onResponse(Object response) {
                 try {
@@ -100,60 +86,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
         VolleyService.getVolleyService(IDareApp.getContext()).addToRequestQueue(request);
     }
 
-
-    /**
-     * This method has to be used for all String GET request
-     *
-     * @param context
-     * @param url
-     * @param responseListener
-     * @param errorListener
-     */
-    @Override
-    public void executeGetStringRequest(Context context, URLs url, Map<String, String> params, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        if (!IDareApp.isConnectedToInternet(errorListener)) {
-            return;
-        }
-        VolleyStringRequest request = new VolleyStringRequest(Request.Method.GET, buildUrl(url, params), new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-                try {
-                    processResponse(response, responseListener, errorListener);
-                } catch (Exception e) {
-                    Log.e(TAG, Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e);
-                    errorListener.onError(new IDAREErrorWrapper(Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e));
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                errorListener.onError(new IDAREErrorWrapper(Utility.ERROR_RESPONSE_MSG, error));
-            }
-        });
-
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                Utility.MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Log.d(TAG, Utility.SERVICE_CALL_STARTED);
-        VolleyService.getVolleyService(IDareApp.getContext()).addToRequestQueue(request);
-    }
-
-    /**
-     * This method has to be used for all Json POST request
-     *
-     * @param context          The application context
-     * @param url              The service url
-     * @param params           The request parameters
-     * @param body             The request payload
-     * @param responseListener The reference to the response handler
-     * @param errorListener    The refernece to the error handler
-     */
-    @Override
-    public void executePostRequest(Context context, URLs url, Map<String, String> params, String body, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        executePostRequest(context, url, params, null, body, responseListener, errorListener);
-    }
-
     /**
      * This method has to be used for all Json POST request
      *
@@ -166,18 +98,18 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * @param errorListener     The refernece to the error handler
      */
     @Override
-    public void executePostRequest(Context context, URLs url, Map<String, String> params, Map<String, String> additionalHeaders, String body, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+    public void executePostRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, String body, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         if (!IDareApp.isConnectedToInternet(errorListener)) {
             return;
         }
         Log.d(TAG, "@@@ URL : " + url + " @@@");
         Log.d(TAG, "@@@ POST REQUEST @@@");
-        Map<String, String> headers = getCommonHeaders();
+        Map<String, String> headers = getCommonHeaders(authType);
         if (additionalHeaders != null) {
             headers.putAll(additionalHeaders);
         }
 
-        VolleyGSONPostRequest request = new VolleyGSONPostRequest(buildUrl(url, params), url.getType(), body, headers, new Response.Listener() {
+        VolleyGSONPostRequest request = new VolleyGSONPostRequest(buildUrl(url, params, null), url.getType(), body, headers, new Response.Listener() {
 
             @Override
             public void onResponse(Object response) {
@@ -207,16 +139,14 @@ public class ServiceLocatorImpl implements ServiceLocator {
         VolleyService.getVolleyService(IDareApp.getContext()).addToRequestQueue(request);
     }
 
-    protected String buildUrl(URLs urLs, Map<String, String> params) {
+    protected String buildUrl(URLs urLs, Map<String, String> queryParam, Map<String, String> modifier) {
         String url = urLs.fullURL();
         Uri uri = Uri.parse(url);
         switch (urLs) {
-            /*** FALLTHROUGH CASES **/
-            /*case URL_LOGIN:
-                if (params != null && !params.isEmpty()) {
-                    url = uri.buildUpon().appendQueryParameter(Constants.USER_NAME, params.get(Constants.USER_NAME)).appendQueryParameter(Constants.PASSWORD, params.get(Constants.PASSWORD)).build().toString();
-                }
-                break;*/
+            /** FALLTHROUGH CASES **/
+            case URL_CHECK_IF_USER_REGISTERED:
+                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}");
+                break;
             case URL_CREATE_ACCOUNT:
                 break;
             default:
@@ -230,12 +160,23 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return url;
     }
 
-    private Map<String, String> getCommonHeaders() {
+    private Map<String, String> getCommonHeaders(AuthType authType) {
         // Add Required Headers
         Map<String, String> headers = new HashMap<>();
         headers.put(Utility.CONTENT_TYPE, Utility.APPLICATION_JSON);
         // add headers <key,value>
-        String credentials = Utility.APP_KEY + ":" + Utility.APP_SECRET;
+        String credentials;
+        switch (authType) {
+            case USER_CREDENTIALS:
+                credentials = Session.getInstance().getUserContext().getUsername() + ":" + Session.getInstance().getUserContext().getPassword();
+                break;
+            case MASTER_SECRET:
+                credentials = Utility.APP_KEY + ":" + Utility.MASTER_SECRET;
+                break;
+            case APP_CREDENTIALS:
+            default:
+                credentials = Utility.APP_KEY + ":" + Utility.APP_SECRET;
+        }
         String auth = Utility.BASIC
                 + Base64.encodeToString(credentials.getBytes(),
                 Base64.NO_WRAP);

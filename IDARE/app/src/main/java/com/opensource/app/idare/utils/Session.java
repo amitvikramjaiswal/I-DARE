@@ -8,7 +8,7 @@ import com.opensource.app.idare.pojo.UserContext;
 
 public class Session {
 
-    public static UserContext userContext;
+    public UserContext userContext;
 
     private static Session session;
 
@@ -24,11 +24,11 @@ public class Session {
         Session.session = null;
     }
 
-    public static UserContext getUserContext() {
+    public UserContext getUserContext() {
         return userContext;
     }
 
-    public static void setUserContext(UserContext userContext) {
-        Session.userContext = userContext;
+    public void setUserContext(UserContext userContext) {
+        this.userContext = userContext;
     }
 }

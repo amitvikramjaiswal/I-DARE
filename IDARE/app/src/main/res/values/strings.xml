@@ -20,6 +20,7 @@
     <string name="enter_otp_text">You have received a 6 digit pin via SMS. Please enter to verify your number.</string>
     <string name="verify">Verify</string>
     <string name="send_verification_pin">Send verification pin</string>
+    <string name="str_continue">Continue</string>
     <string name="logout_message">Are you sure you want to log out?</string>
     <string name="btn_logout">LOG OUT</string>
     <string name="google_map_api_key">AIzaSyDzp46HCRv-FqeIhjIJ6QpCWfP96CbZYaU</string>
