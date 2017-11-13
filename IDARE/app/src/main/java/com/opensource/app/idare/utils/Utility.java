@@ -31,5 +31,7 @@ public class Utility {
     public static final String IS_ACTIVE = "IS_ACTIVE";
     public static final String KEY_NOT_FIRST_LAUNCH = "KEY_NOT_FIRST_LAUNCH";
     public static final String USER_NAME = "USER_NAME";
+    public static final String USERNAME = "username";
+    public static final String QUERY = "query=";
     public static String BASIC = "Basic ";
 }

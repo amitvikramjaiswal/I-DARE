@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.model.service.SessionFacade;
+import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
@@ -114,6 +116,9 @@ public class RegisterViewModel extends BaseViewModel {
     }
 
     private void onVerifyButtonClick() {
+
+//        SessionFacadeImpl.getInstance().checkIfUserExists(phoneNumber.get());
+
         dataListener.finish();
         dataListener.startActivity(EditProfileActivity.getStartIntent(getContext(), phoneNumber.get()));
     }

@@ -14,15 +14,25 @@ import static com.opensource.app.idare.utils.Utility.SERVICE_URL;
  */
 public enum URLs {
 
-    URL_CREATE_ACCOUNT("/user/", null, UserProfileResponseModel.class, null) {
+    URL_CREATE_ACCOUNT("/user/%s", null, UserProfileResponseModel.class, null) {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL()) + APP_KEY;
         }
-    }, URL_REGISTER_FOR_PUSH("/register-device", null, null, null) {
+    }, URL_REGISTER_FOR_PUSH("/%s/register-device", null, null, null) {
         @Override
         public String fullURL() {
-            return SERVICE_URL + APP_KEY + String.format(this.getRelURL());
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
+        }
+    }, URL_FETCH_USERS("/%s/iDareUsers", null, UserProfileResponseModel[].class, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
+        }
+    }, URL_CHECK_IF_USER_REGISTERED("/user/%s?", null, UserProfileResponseModel.class, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + String.format(getRelURL(), APP_KEY);
         }
     };
 

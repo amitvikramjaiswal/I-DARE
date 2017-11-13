@@ -77,7 +77,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/idare_pink"
                         android:onClick="@{viewModel.onClickSendVerification()}"
-                        android:text="@string/send_verification_pin" />
+                        android:text="@string/str_continue" />
 
                 </LinearLayout>
 
@@ -129,7 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="@{viewModel.onclickOfVerify()}"
-                        android:text="@string/verify" />
+                        android:text="@string/str_continue" />
 
                 </LinearLayout>
 
