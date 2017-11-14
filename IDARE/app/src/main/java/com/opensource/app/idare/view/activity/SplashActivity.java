@@ -13,6 +13,8 @@ import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.viewmodel.SplashViewModel;
 
+import static com.opensource.app.idare.application.IDareApp.getContext;
+
 /**
  * Created by akokala on 11/2/2017.
  */
@@ -20,6 +22,7 @@ import com.opensource.app.idare.viewmodel.SplashViewModel;
 public class SplashActivity extends BaseActivity implements SplashViewModel.DataListener {
     private ActivitySplashBinding binding;
     private SplashViewModel viewModel;
+    private Context context;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -31,15 +34,33 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         viewModel = new SplashViewModel(this, this);
+        context = getApplicationContext();
         binding.setViewModel(viewModel);
 
-        finishOnUiThread(PreferencesManager.getInstance(this).isFirstLaunch());
+        finishOnUiThread();
+    }
+
+    public void checkLoginStatus() {
+        if (PreferencesManager.getInstance(context).getUserDetails() != null
+                && PreferencesManager.getInstance(context).getUserDetails().getUsername() != null
+                && PreferencesManager.getInstance(context).getUserDetails().getPassword() != null) {
+            // User has already crated the account - Fetch User Call - Redirect to Home screen
+            Intent intent = MainActivity.getStartIntent(getContext(), null);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = RegisterActivity.getStartIntent(context);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
     /*
     * If User has done with registration, Then directly go to main Screen
     * */
-    public void finishOnUiThread(final boolean isNotFirstLaunch) {
+    public void finishOnUiThread() {
         new Handler().postDelayed(new Runnable() {
             /*
              * Showing splash screen with a timer. This will be useful when you
@@ -47,18 +68,7 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
             @Override
             public void run() {
                 finish();
-                Intent i = null;
-                if (isNotFirstLaunch) {
-                   /* UserContext userContext = new Gson().fromJson(getPreferences().getString(Utility.KEY_USER_CONTEXT, null), UserContext.class);
-                    userContext = userContext == null ? new UserContext() : userContext;
-                    Session.setUserContext(userContext);*/
-                    i = new Intent(SplashActivity.this, MainActivity.class);
-                } else {
-                    i = new Intent(SplashActivity.this, RegisterActivity.class);
-                }
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                finish();
-                startActivity(i);
+                checkLoginStatus();
             }
         }, Utility.SPLASH_TIME_OUT);
     }

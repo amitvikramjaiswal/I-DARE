@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.opensource.app.idare.model.data.entity.IDAREError;
-import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.Utility;
@@ -20,7 +19,6 @@ public class IDareApp extends Application {
 
     private static Context context;
     private static Context applicationContext;
-    private static UserProfileResponseModel userProfileResponseModel;
 
     public static IDareApp getInstance() {
         if (application == null) {
@@ -47,14 +45,6 @@ public class IDareApp extends Application {
 
     public void setContext(Context context) {
         this.context = context;
-    }
-
-    public static UserProfileResponseModel getUserProfileResponseModel() {
-        return userProfileResponseModel;
-    }
-
-    public static void setUserProfileResponseModel(UserProfileResponseModel userProfileResponseModel) {
-        IDareApp.userProfileResponseModel = userProfileResponseModel;
     }
 
     public static boolean isConnectedToInternet(IDAREResponseHandler.ErrorListener errorListener) {

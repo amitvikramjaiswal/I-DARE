@@ -16,6 +16,7 @@
         android:orientation="horizontal"
         android:paddingTop="@dimen/nav_header_top_padding"
         android:paddingBottom="@dimen/nav_header_bottom_padding"
+        android:onClick="@{headerViewModel.onClickHeader()}"
         android:paddingLeft="@dimen/nav_header_bottom_left"
         app:theme="@style/NavigationMenuStyle">
 

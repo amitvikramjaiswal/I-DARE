@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
+
 /**
  * Created by akokala on 11/6/2017.
  */
@@ -24,13 +27,14 @@ public class PreferencesManager {
         return preferencesManager;
     }
 
-    public void setIsFirstLaunch(boolean isFirstLaunch) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(Utility.KEY_NOT_FIRST_LAUNCH, isFirstLaunch);
-        editor.commit();
+    public UserProfileResponseModel getUserDetails() {
+        UserProfileResponseModel userProfileResponseModel = new Gson().fromJson(preferences.getString(Utility.KEY_USER_CONTEXT, null), UserProfileResponseModel.class);
+        return userProfileResponseModel;
     }
 
-    public boolean isFirstLaunch() {
-        return preferences.getBoolean(Utility.KEY_NOT_FIRST_LAUNCH, false);
+    public void setUserProfileResponse(UserProfileResponseModel userContext) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Utility.KEY_USER_CONTEXT, new Gson().toJson(userContext));
+        editor.commit();
     }
 }

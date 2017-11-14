@@ -37,7 +37,7 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
 public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
         ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreListFragment.OnFragmentInteractionListener,
         InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener,NavigationMenuHeaderViewModel.DataListener {
+        SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {
     private Fragment currentFragment;
     private ActivityMainBinding binding;
     private Context context;
@@ -46,10 +46,11 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
     private Toolbar toolbar;
     private AlertDialog alertDialog;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private NavigationMenuHeaderViewModel navigationMenuHeaderViewModel;
 
-    public static Intent getStartIntent(Context context,String name) {
+    public static Intent getStartIntent(Context context, String name) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Utility.USER_NAME,name);
+        intent.putExtra(Utility.USER_NAME, name);
         return intent;
     }
 
@@ -67,7 +68,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         binding.navigationView.addHeaderView(navigationMenuHeaderBinding.getRoot());
 
 
-        navigationMenuHeaderBinding.setHeaderViewModel(new NavigationMenuHeaderViewModel(context,this));
+        navigationMenuHeaderBinding.setHeaderViewModel(new NavigationMenuHeaderViewModel(context, this, nameFromBundle));
         setUpNavigationDrawer();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content, new PassiveFragment()).commit();
@@ -86,7 +87,12 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
     public DrawerLayout getDrawer() {
         return binding.drawerLayout;
     }
-    
+
+    @Override
+    public void getUserName(String userName) {
+        navigationMenuHeaderViewModel = new NavigationMenuHeaderViewModel(this,this,userName);
+    }
+
     private void setUpNavigationDrawer() {
         binding.navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -130,4 +136,5 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         binding.drawerLayout.closeDrawers();
         return viewModel.onNavigationItemSelected(item, getSupportFragmentManager().beginTransaction());
     }
+
 }

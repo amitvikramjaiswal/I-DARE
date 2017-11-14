@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.model.service.SessionFacade;
-import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
+import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
+import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
@@ -28,6 +29,9 @@ public class RegisterViewModel extends BaseViewModel {
     private ObservableField<Integer> visibilityOfVerify = new ObservableField<>(View.GONE);
     private ObservableField<String> otpText = new ObservableField<>("");
 
+    private ObservableField<Integer> visibilityOfPassword = new ObservableField<>(View.GONE);
+    private ObservableField<String> password = new ObservableField<>("");
+
     public RegisterViewModel(Context context, DataListener dataListener) {
         super(context);
         this.context = context;
@@ -42,6 +46,14 @@ public class RegisterViewModel extends BaseViewModel {
         return phoneNumber;
     }
 
+    public ObservableField<Integer> getVisibilityOfPassword() {
+        return visibilityOfPassword;
+    }
+
+    public ObservableField<String> getPassword() {
+        return password;
+    }
+
     public ObservableField<Integer> getVisibilityOfVerify() {
         return visibilityOfVerify;
     }
@@ -50,12 +62,108 @@ public class RegisterViewModel extends BaseViewModel {
         return otpText;
     }
 
+    // Onclick of Continue - After entering Password
+    public View.OnClickListener onClickPassword() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Service call to check user present created account or not!
+            }
+        };
+    }
+
     // Onclick of Send Verification
     public View.OnClickListener onClickSendVerification() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSendVerificationClick(phoneNumber.get());
+                // Check User is created or not,
+                // If Yes - User enters password - Redirect to Main Screen
+                // If NO - User enters OTP - Normal Flow
+                if (Utils.hasContent(phoneNumber.get()) && phoneNumber.get().length() == 10) {
+                    serviceCallIsUserExists();
+                } else {
+                    dataListener.shakeView(dataListener.getPhoneNumber());
+                }
+            }
+        };
+    }
+
+    private void serviceCallIsUserExists() {
+        dataListener.hideKeyBoard();
+        dataListener.showProgress();
+        getSessionFacade().checkIfUserExists(getContext(), password.get(), new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
+            @Override
+            public void onSuccess(UserProfileResponseModel[] response) {
+                dataListener.hideKeyBoard();
+                dataListener.hideProgress();
+                if (response != null) {
+                    if (response.length > 0) {
+                        if (response[0].getUsername().equalsIgnoreCase(password.get())) {
+                            // Show Password Screen
+                            visibilityOfSendVerification.set(View.GONE);
+                            visibilityOfVerify.set(View.GONE);
+                            visibilityOfPassword.set(View.VISIBLE);
+                        }
+                    } else {
+                        // User is not created - Normal flow
+                        visibilityOfSendVerification.set(View.VISIBLE);
+                        visibilityOfVerify.set(View.GONE);
+                        visibilityOfPassword.set(View.VISIBLE);
+                        onSendVerificationClick(phoneNumber.get());
+                    }
+                }
+
+            }
+        }, new IDAREResponseHandler.ErrorListener() {
+            @Override
+            public void onError(IDAREErrorWrapper error) {
+                dataListener.hideProgress();
+                dataListener.hideKeyBoard();
+                if (!Utils.isNetworkAvailable(getContext())) {
+                    dataListener.showAlertDialog(getContext().getResources().getString(R.string.error_title),
+                            getContext().getResources().getString(R.string.network_error_message), false, getContext().getResources().getString(R.string.positive_button),
+                            null, new AlertDialogHandler() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                }
+
+                                @Override
+                                public void onNegativeButtonClicked() {
+                                }
+                            });
+                } else {
+                    dataListener.showAlertDialog(getContext().getResources().getString(R.string.error_title),
+                            getContext().getResources().getString(R.string.error_message), false, getContext().getResources().getString(R.string.positive_button),
+                            null, new AlertDialogHandler() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                }
+
+                                @Override
+                                public void onNegativeButtonClicked() {
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+    // Set the pasword for TextWatcher
+    public TextWatcher onPasswordChanged() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                password.set(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         };
     }
@@ -116,9 +224,6 @@ public class RegisterViewModel extends BaseViewModel {
     }
 
     private void onVerifyButtonClick() {
-
-//        SessionFacadeImpl.getInstance().checkIfUserExists(phoneNumber.get());
-
         dataListener.finish();
         dataListener.startActivity(EditProfileActivity.getStartIntent(getContext(), phoneNumber.get()));
     }
@@ -146,6 +251,7 @@ public class RegisterViewModel extends BaseViewModel {
 
     public void onSendVerificationClick() {
         visibilityOfSendVerification.set(View.GONE);
+        visibilityOfPassword.set(View.GONE);
         visibilityOfVerify.set(View.VISIBLE);
     }
 
@@ -162,6 +268,10 @@ public class RegisterViewModel extends BaseViewModel {
         void startActivity(Intent intent);
 
         void shakeView(View view);
+
+        void hideProgress();
+
+        void showProgress();
 
         void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }

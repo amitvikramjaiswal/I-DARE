@@ -1,6 +1,6 @@
 package com.opensource.app.idare.utils;
 
-import com.opensource.app.idare.pojo.UserContext;
+import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 
 /**
  * Created by akokala on 11/10/2017.
@@ -8,9 +8,8 @@ import com.opensource.app.idare.pojo.UserContext;
 
 public class Session {
 
-    public UserContext userContext;
-
     private static Session session;
+    private UserProfileResponseModel userProfileResponseModel;
 
     public static Session getInstance() {
         if (session == null) {
@@ -24,11 +23,11 @@ public class Session {
         Session.session = null;
     }
 
-    public UserContext getUserContext() {
-        return userContext;
+    public UserProfileResponseModel getUserProfileResponseModel() {
+        return userProfileResponseModel;
     }
 
-    public void setUserContext(UserContext userContext) {
-        this.userContext = userContext;
+    public void setUserProfileResponseModel(UserProfileResponseModel userProfileResponseModel) {
+        this.userProfileResponseModel = userProfileResponseModel;
     }
 }

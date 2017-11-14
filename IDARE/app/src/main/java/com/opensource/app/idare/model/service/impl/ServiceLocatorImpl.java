@@ -19,7 +19,7 @@ import com.opensource.app.idare.model.service.volley.VolleyGSONPostRequest;
 import com.opensource.app.idare.model.service.volley.VolleyService;
 import com.opensource.app.idare.utils.AuthType;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
-import com.opensource.app.idare.utils.Session;
+import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utility;
 
 import java.util.HashMap;
@@ -45,21 +45,22 @@ public class ServiceLocatorImpl implements ServiceLocator {
     /**
      * This method has to be used for all Json GET request
      *
-     * @param context          The android application conetext
-     * @param url              The url of the servive to invoke
-     * @param params           The request parameters
-     * @param authType         The type of authentication required for the call
-     * @param headers          The headers to be passed in the request
-     * @param responseListener The reference to the response handler
-     * @param errorListener    The reference to the error handler
+     * @param context           The android application conetext
+     * @param url               The url of the servive to invoke
+     * @param params            The request parameters
+     * @param authType          The type of authentication required for the call
+     * @param additionalHeaders The headers to be passed in the request
+     * @param responseListener  The reference to the response handler
+     * @param errorListener     The reference to the error handler
      */
     @Override
-    public void executeGetRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> headers, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+    public void executeGetRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         if (!IDareApp.isConnectedToInternet(errorListener)) {
             return;
         }
-        if (headers != null) {
-            headers.putAll(getCommonHeaders(authType));
+        Map<String, String> headers = getCommonHeaders(authType, context);
+        if (additionalHeaders != null) {
+            headers.putAll(getCommonHeaders(authType, context));
         }
         VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, buildUrl(url, params, null), url.getType(), headers, new Response.Listener() {
             @Override
@@ -104,7 +105,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         }
         Log.d(TAG, "@@@ URL : " + url + " @@@");
         Log.d(TAG, "@@@ POST REQUEST @@@");
-        Map<String, String> headers = getCommonHeaders(authType);
+        Map<String, String> headers = getCommonHeaders(authType, context);
         if (additionalHeaders != null) {
             headers.putAll(additionalHeaders);
         }
@@ -145,9 +146,21 @@ public class ServiceLocatorImpl implements ServiceLocator {
         switch (urLs) {
             /** FALLTHROUGH CASES **/
             case URL_CHECK_IF_USER_REGISTERED:
-                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}");
+                String key = queryParam.keySet().iterator().next();
+                String value = queryParam.get(key);
+                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}", key, value);
                 break;
             case URL_CREATE_ACCOUNT:
+                break;
+            case URL_IS_USER_EXISTS:
+                String keyUsername = queryParam.keySet().iterator().next();
+                String valueUserName = queryParam.get(keyUsername);
+                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}", keyUsername, valueUserName);
+                break;
+            case URL_FETCH_USERS:
+                String keyVal = queryParam.keySet().iterator().next();
+                String valuee = queryParam.get(keyVal);
+                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}", keyVal, valuee);
                 break;
             default:
                 if (urLs.getRequestParam() != null) {
@@ -160,7 +173,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return url;
     }
 
-    private Map<String, String> getCommonHeaders(AuthType authType) {
+    private Map<String, String> getCommonHeaders(AuthType authType, Context context) {
         // Add Required Headers
         Map<String, String> headers = new HashMap<>();
         headers.put(Utility.CONTENT_TYPE, Utility.APPLICATION_JSON);
@@ -168,7 +181,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
         String credentials;
         switch (authType) {
             case USER_CREDENTIALS:
-                credentials = Session.getInstance().getUserContext().getUsername() + ":" + Session.getInstance().getUserContext().getPassword();
+                credentials = PreferencesManager.getInstance(context).getUserDetails().getUsername() + ":" +
+                        PreferencesManager.getInstance(context).getUserDetails().getPassword();
                 break;
             case MASTER_SECRET:
                 credentials = Utility.APP_KEY + ":" + Utility.MASTER_SECRET;

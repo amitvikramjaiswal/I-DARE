@@ -133,6 +133,59 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/ll_enter_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_welcome_text"
+                    android:visibility="@{viewModel.visibilityOfPassword}">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
+                        android:text="@string/welcome_to_idare"
+                        android:textAlignment="center"
+                        android:textColor="@color/idare_text_color_bold" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
+                        android:text="@string/password_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/idare_text_color_bold" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
+                        android:addTextChangedListener="@{viewModel.onPasswordChanged()}"
+                        android:gravity="center_horizontal"
+                        android:hint="@string/phone_number"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:text="@{viewModel.password}"
+                        android:textAlignment="center" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_password"
+                        style="@style/btn_pink_background"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/idare_pink"
+                        android:onClick="@{viewModel.onClickPassword()}"
+                        android:text="@string/str_continue" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
         </ScrollView>
