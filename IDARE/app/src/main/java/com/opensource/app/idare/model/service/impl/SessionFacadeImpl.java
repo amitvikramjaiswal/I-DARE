@@ -32,6 +32,11 @@ public class SessionFacadeImpl implements SessionFacade {
     }
 
     @Override
+    public void checkIfPasswordExists(Context context,String userName, String password, IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
+        profileService.checkIfPasswordExists(context, userName,password, responseListener, errorListener);
+    }
+
+    @Override
     public void fetchUserDetails(Context context, String userName, IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
         profileService.fetchUserDetails(context, userName, responseListener, errorListener);
     }

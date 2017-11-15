@@ -30,6 +30,7 @@
     <string name="email">Email*</string>
     <string name="alternate_number">Alternate Number</string>
     <string name="password">Password*</string>
+    <string name="password_hint">password</string>
     <string name="save">Save</string>
     <string name="make_active">Make Active</string>
     <string name="pick_image_intent_text">Select</string>
@@ -41,6 +42,7 @@
     <string name="network_error_message">Please check your internet/network connection</string>
     <string name="error_message">Something went wrong!</string>
     <string name="active_mode_message_from_passive">"The active mode wants to access your location."</string>
+    <string name="invalid_credentials">Please enter valid password</string>
 
     <!--Navigation Items-->
     <string name="active_profile">HOME</string>

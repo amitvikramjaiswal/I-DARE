@@ -8,14 +8,18 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import com.android.volley.AuthFailureError;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
+import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.EditProfileActivity;
+import com.opensource.app.idare.view.activity.MainActivity;
 
 /**
  * Created by amitvikramjaiswal on 25/05/16.
@@ -67,7 +71,9 @@ public class RegisterViewModel extends BaseViewModel {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Service call to check user present created account or not!
+                // Check the entered password is correct, If wrong-Show Alert Message
+                // If Yes - FetchUser Details
+                serviceCallIfPasswordExists();
             }
         };
     }
@@ -92,26 +98,24 @@ public class RegisterViewModel extends BaseViewModel {
     private void serviceCallIsUserExists() {
         dataListener.hideKeyBoard();
         dataListener.showProgress();
-        getSessionFacade().checkIfUserExists(getContext(), password.get(), new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
+        getSessionFacade().checkIfUserExists(getContext(), phoneNumber.get(), new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
             @Override
             public void onSuccess(UserProfileResponseModel[] response) {
                 dataListener.hideKeyBoard();
                 dataListener.hideProgress();
-                if (response != null) {
-                    if (response.length > 0) {
-                        if (response[0].getUsername().equalsIgnoreCase(password.get())) {
-                            // Show Password Screen
-                            visibilityOfSendVerification.set(View.GONE);
-                            visibilityOfVerify.set(View.GONE);
-                            visibilityOfPassword.set(View.VISIBLE);
-                        }
-                    } else {
-                        // User is not created - Normal flow
-                        visibilityOfSendVerification.set(View.VISIBLE);
+                if (response != null && response.length > 0) {
+                    if (response[0].getUsername().equalsIgnoreCase(phoneNumber.get())) {
+                        // Show Password Screen
+                        visibilityOfSendVerification.set(View.GONE);
                         visibilityOfVerify.set(View.GONE);
                         visibilityOfPassword.set(View.VISIBLE);
-                        onSendVerificationClick(phoneNumber.get());
                     }
+                } else {
+                    // User is not created - Normal flow
+                    visibilityOfSendVerification.set(View.VISIBLE);
+                    visibilityOfVerify.set(View.GONE);
+                    visibilityOfPassword.set(View.VISIBLE);
+                    onSendVerificationClick(phoneNumber.get());
                 }
 
             }
@@ -149,23 +153,66 @@ public class RegisterViewModel extends BaseViewModel {
         });
     }
 
-    // Set the pasword for TextWatcher
-    public TextWatcher onPasswordChanged() {
-        return new TextWatcher() {
+    // Service call if password exists
+    private void serviceCallIfPasswordExists() {
+        dataListener.hideKeyBoard();
+        dataListener.showProgress();
+        SessionFacadeImpl.getInstance().checkIfPasswordExists(getContext(), PreferencesManager.getInstance(getContext()).getUserDetails().getUsername(), password.get(), new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onSuccess(UserProfileResponseModel[] response) {
+                dataListener.hideKeyBoard();
+                dataListener.hideProgress();
+                if (response != null) {
+                    // If data is present - Go to next Screen - Store details in Session
+                    dataListener.finish();
+                    dataListener.startActivity(MainActivity.getStartIntent(getContext(), response[0].getName()));
+                }
             }
-
+        }, new IDAREResponseHandler.ErrorListener() {
             @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                password.set(charSequence.toString());
-            }
+            public void onError(IDAREErrorWrapper error) {
+                dataListener.hideProgress();
+                dataListener.hideKeyBoard();
+                if (!Utils.isNetworkAvailable(getContext())) {
+                    dataListener.showAlertDialog(getContext().getResources().getString(R.string.error_title),
+                            getContext().getResources().getString(R.string.network_error_message), false, getContext().getResources().getString(R.string.positive_button),
+                            null, new AlertDialogHandler() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                                @Override
+                                public void onNegativeButtonClicked() {
+                                }
+                            });
+                } else if (error.getException() instanceof AuthFailureError) {
+                    // Invalid Credentials - Show dialog saying invalid credentials
+                    dataListener.showAlertDialog(getContext().getResources().getString(R.string.app_name),
+                            getContext().getResources().getString(R.string.invalid_credentials), false, getContext().getResources().getString(R.string.positive_button),
+                            null, new AlertDialogHandler() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                }
 
+                                @Override
+                                public void onNegativeButtonClicked() {
+                                }
+                            });
+                } else {
+                    dataListener.showAlertDialog(getContext().getResources().getString(R.string.error_title),
+                            getContext().getResources().getString(R.string.error_message), false, getContext().getResources().getString(R.string.positive_button),
+                            null, new AlertDialogHandler() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                }
+
+                                @Override
+                                public void onNegativeButtonClicked() {
+                                }
+                            });
+                }
             }
-        };
+        });
     }
 
     // Set the value for phoneNumber in TextWatcher
@@ -204,6 +251,26 @@ public class RegisterViewModel extends BaseViewModel {
         };
     }
 
+    // Set value for password in Textwatcher
+    public TextWatcher onPasswordChanged() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                password.set(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+    }
+
     // Onclick of Verify
     public View.OnClickListener onclickOfVerify() {
         return new View.OnClickListener() {
@@ -229,6 +296,7 @@ public class RegisterViewModel extends BaseViewModel {
     }
 
     private void onSendVerificationClick(String phoneNumber) {
+        visibilityOfPassword.set(View.GONE);
         if (Utils.hasContent(phoneNumber) && phoneNumber.length() == 10) {
             dataListener.hideKeyBoard();
             dataListener.showAlertDialog(getContext().getResources().getString(R.string.app_name), getContext().getResources().getString(R.string.verify_confirmation_message, phoneNumber), false, getContext().getResources().getString(R.string.btn_ok), getContext().getResources().getString(R.string.btn_edit), new AlertDialogHandler() {

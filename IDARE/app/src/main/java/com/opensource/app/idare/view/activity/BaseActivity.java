@@ -1,10 +1,8 @@
 package com.opensource.app.idare.view.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AlertDialog;
@@ -29,16 +27,13 @@ import java.util.regex.Pattern;
  * Created by amitvikramjaiswal on 24/05/16.
  */
 public class BaseActivity extends AppCompatActivity implements BaseViewModel.DataListener {
-    private static final String PREF_KEY = "com.opensource.app.idare.PREF_KEY";
     private ProgressDialog progressDialog;
     private AlertDialog alertDialog;
     private AlertDialog.Builder myAlertDialog;
-    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferences = getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -56,11 +51,6 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
         super.finish();
         overridePendingTransition(android.R.anim.fade_in,
                 android.R.anim.fade_out);
-    }
-
-    @Override
-    public SharedPreferences getPreferences() {
-        return preferences;
     }
 
     @Override

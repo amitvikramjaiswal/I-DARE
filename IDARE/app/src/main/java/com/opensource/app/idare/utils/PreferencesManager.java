@@ -27,6 +27,10 @@ public class PreferencesManager {
         return preferencesManager;
     }
 
+    public void clearAllPreferences() {
+        preferences.edit().clear().commit();
+    }
+
     public UserProfileResponseModel getUserDetails() {
         UserProfileResponseModel userProfileResponseModel = new Gson().fromJson(preferences.getString(Utility.KEY_USER_CONTEXT, null), UserProfileResponseModel.class);
         return userProfileResponseModel;

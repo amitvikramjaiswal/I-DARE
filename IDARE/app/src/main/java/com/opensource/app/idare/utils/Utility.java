@@ -33,5 +33,6 @@ public class Utility {
     public static final String USER_NAME = "USER_NAME";
     public static final String USERNAME = "username";
     public static final String QUERY = "?query=";
+    public static final String PASSWORD = "password";
     public static String BASIC = "Basic ";
 }
