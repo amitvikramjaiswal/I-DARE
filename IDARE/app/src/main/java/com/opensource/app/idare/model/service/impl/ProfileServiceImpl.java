@@ -10,8 +10,8 @@ import com.opensource.app.idare.model.service.URLs;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.utils.AuthType;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
+import com.opensource.app.idare.utils.Session;
 import com.opensource.app.idare.utils.Utility;
-import com.opensource.app.idare.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,11 +55,36 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
+    public void fetchUserDetails(Context context, String userName, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Utility.USERNAME, userName);
+        ServiceLocatorImpl.getInstance().executeGetRequest(context, URLs.URL_FETCH_USERS, params, AuthType.USER_CREDENTIALS, null,
+                new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
+                    @Override
+                    public void onSuccess(UserProfileResponseModel[] response) {
+                        if (response != null) {
+                            Session.getInstance().setUserProfileResponseModel(response[0]);
+                            responseListener.onSuccess(response);
+                        } else {
+                            IDAREErrorWrapper idareErrorWrapper = new IDAREErrorWrapper("Unexpected Response null from Server", null);
+                            errorListener.onError(idareErrorWrapper);
+                        }
+                    }
+                }, new IDAREResponseHandler.ErrorListener() {
+                    @Override
+                    public void onError(IDAREErrorWrapper error) {
+                        errorListener.onError(error);
+                    }
+                });
+    }
+
+    @Override
     public void postProfileDetails(Context context, UserProfileRequestModel userProfile, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_CREATE_ACCOUNT,null, APP_CREDENTIALS, null, userProfileRequestBody, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel>() {
+        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_CREATE_ACCOUNT, null, APP_CREDENTIALS, null, userProfileRequestBody, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel>() {
             @Override
             public void onSuccess(UserProfileResponseModel response) {
                 if (response != null) {
+                    Session.getInstance().setUserProfileResponseModel(response);
                     responseListener.onSuccess(response);
                 } else {
                     IDAREErrorWrapper idareErrorWrapper = new IDAREErrorWrapper("Unexpected Response null from Server", null);
@@ -74,18 +99,28 @@ public class ProfileServiceImpl implements ProfileService {
         });
     }
 
-    public void checkIfUserExists(Context context, String username, IDAREResponseHandler.ResponseListener<UserProfileResponseModel> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
+
+    @Override
+    public void checkIfUserExists(Context context, String username, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         Map<String, String> params = new HashMap<>();
         params.put(Utility.USERNAME, username);
-        ServiceLocatorImpl.getInstance().executeGetRequest(context, URLs.URL_CREATE_ACCOUNT, params, MASTER_SECRET, null, new IDAREResponseHandler.ResponseListener() {
+        ServiceLocatorImpl.getInstance().executeGetRequest(context, URLs.URL_IS_USER_EXISTS, params, MASTER_SECRET, null, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
             @Override
-            public void onSuccess(Object response) {
-
+            public void onSuccess(UserProfileResponseModel[] response) {
+                if (response != null) {
+                    if (response.length > 0) {
+                        Session.getInstance().setUserProfileResponseModel(response[0]);
+                    }
+                    responseListener.onSuccess(response);
+                } else {
+                    IDAREErrorWrapper idareErrorWrapper = new IDAREErrorWrapper("Unexpected Response null from Server", null);
+                    errorListener.onError(idareErrorWrapper);
+                }
             }
         }, new IDAREResponseHandler.ErrorListener() {
             @Override
             public void onError(IDAREErrorWrapper error) {
-
+                errorListener.onError(error);
             }
         });
     }

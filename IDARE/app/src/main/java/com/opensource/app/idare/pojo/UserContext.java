@@ -1,14 +1,17 @@
+/*
 package com.opensource.app.idare.pojo;
 
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+*/
 /**
  * Created by akokala on 11/6/2017.
- */
+ *//*
 
-public class UserContext implements Parcelable {
+
+public class UserContexttt implements Parcelable {
 
     public static final Creator<UserContext> CREATOR = new Creator<UserContext>() {
         @Override
@@ -114,3 +117,4 @@ public class UserContext implements Parcelable {
         dest.writeString(this.alternate);
     }
 }
+*/

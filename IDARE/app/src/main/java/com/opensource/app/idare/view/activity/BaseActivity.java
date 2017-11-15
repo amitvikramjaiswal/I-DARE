@@ -31,8 +31,8 @@ import java.util.regex.Pattern;
 public class BaseActivity extends AppCompatActivity implements BaseViewModel.DataListener {
     private static final String PREF_KEY = "com.opensource.app.idare.PREF_KEY";
     private ProgressDialog progressDialog;
-    private android.support.v7.app.AlertDialog alertDialog;
-    private android.support.v7.app.AlertDialog.Builder myAlertDialog;
+    private AlertDialog alertDialog;
+    private AlertDialog.Builder myAlertDialog;
     private SharedPreferences preferences;
 
     @Override
@@ -132,7 +132,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
             alertDialog.dismiss();
         }
 
-        myAlertDialog = new android.support.v7.app.AlertDialog.Builder(this);
+        myAlertDialog = new AlertDialog.Builder(this);
 
         if (title != null) {
             myAlertDialog.setTitle(title);

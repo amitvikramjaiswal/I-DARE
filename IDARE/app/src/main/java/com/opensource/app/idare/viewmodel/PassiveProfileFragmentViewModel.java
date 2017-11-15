@@ -15,9 +15,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.application.IDareApp;
+import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
+import com.opensource.app.idare.view.activity.EditProfileActivity;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 
 /**
@@ -65,7 +66,7 @@ public class PassiveProfileFragmentViewModel extends BaseViewModel {
 
     // Set the user value in passiveUser Screen
     public void setValues() {
-        String name = IDareApp.getUserProfileResponseModel() == null ? "" : IDareApp.getUserProfileResponseModel().getName();
+        String name = PreferencesManager.getInstance(getContext()).getUserDetails() == null ? "" : PreferencesManager.getInstance(getContext()).getUserDetails().getName();
         String welcomeTitle = getContext().getResources().getString(R.string.welcome_title, name);
         SpannableString spannableString = new SpannableString(welcomeTitle);
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), 8, welcomeTitle.length(), 0);
@@ -73,7 +74,7 @@ public class PassiveProfileFragmentViewModel extends BaseViewModel {
             @Override
             public void onClick(View widget) {
                 // OnEdit click Opens the EditProfile Screen with Prepopulated values
-//                onEditProfileClick();
+                dataListener.startActivity(EditProfileActivity.getStartIntent(getContext(), null));
             }
         }, 8, welcomeTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         dataListener.getTextView().setHighlightColor(Color.BLACK);

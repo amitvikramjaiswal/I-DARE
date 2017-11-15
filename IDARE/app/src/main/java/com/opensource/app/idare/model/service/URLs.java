@@ -17,14 +17,14 @@ public enum URLs {
     URL_CREATE_ACCOUNT("/user/%s", null, UserProfileResponseModel.class, null) {
         @Override
         public String fullURL() {
-            return SERVICE_URL + String.format(this.getRelURL()) + APP_KEY;
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
         }
     }, URL_REGISTER_FOR_PUSH("/%s/register-device", null, null, null) {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
         }
-    }, URL_FETCH_USERS("/%s/iDareUsers", null, UserProfileResponseModel[].class, null) {
+    }, URL_FETCH_USERS("/appdata/%s/iDareUsers", null, UserProfileResponseModel[].class, null) {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
@@ -33,6 +33,11 @@ public enum URLs {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(getRelURL(), APP_KEY);
+        }
+    }, URL_IS_USER_EXISTS("/user/%s", null, UserProfileResponseModel[].class, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
         }
     };
 

@@ -14,6 +14,12 @@ import android.view.View;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.application.IDareApp;
+import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
+import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
+import com.opensource.app.idare.utils.IDAREErrorWrapper;
+import com.opensource.app.idare.utils.PreferencesManager;
+import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.RegisterActivity;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
@@ -32,19 +38,24 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
     private DataListener dataListener;
     private MenuItem mPreviousMenuItem;
     private LayoutPopUpViewModel layoutPopUpViewModel;
-    private String nameFromBundle;
+    private String userNameFromBundle;
 
     private ObservableField<LayoutPopUpViewModel> drawerLayoutInflater = new ObservableField<>();
     private ObservableField<Boolean> enableMakePassive = new ObservableField<>(false);
 
-    public MainActivityViewModel(Context context, DataListener dataListener, String nameFromBundle) {
+    public MainActivityViewModel(Context context, DataListener dataListener, String userNameFromBundle) {
         super(context);
         this.dataListener = dataListener;
-        this.nameFromBundle = nameFromBundle;
+        this.userNameFromBundle = userNameFromBundle;
 
          /*Intialise the LayoutPopUpViewModel and set the observable field*/
         layoutPopUpViewModel = new LayoutPopUpViewModel(getContext(), this);
         drawerLayoutInflater.set(layoutPopUpViewModel);
+
+        // User is already logged in
+        if (userNameFromBundle == null) {
+            fetchUserDetails();
+        }
     }
 
     public ObservableField<LayoutPopUpViewModel> getDrawerLayoutInflater() {
@@ -162,6 +173,54 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
         dataListener.showAlertDialog(view, positiveButton, negativeButton, alertDialogHandler);
     }
 
+    // Service call to fetch the user
+    public void fetchUserDetails() {
+        dataListener.showProgress();
+        dataListener.hideKeyBoard();
+        SessionFacadeImpl.getInstance().fetchUserDetails(getContext(), PreferencesManager.getInstance(getContext()).getUserDetails().getUsername(),
+                new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
+                    @Override
+                    public void onSuccess(UserProfileResponseModel[] response) {
+                        dataListener.hideProgress();
+                        if (response != null) {
+                            dataListener.getUserName(response[0].getName());
+                        }
+                    }
+                }, new IDAREResponseHandler.ErrorListener() {
+                    @Override
+                    public void onError(IDAREErrorWrapper error) {
+                        dataListener.hideProgress();
+                        dataListener.hideKeyBoard();
+                        if (!Utils.isNetworkAvailable(getContext())) {
+                            dataListener.showAlertDialog(getContext().getResources().getString(R.string.error_title),
+                                    getContext().getResources().getString(R.string.network_error_message), false, getContext().getResources().getString(R.string.positive_button),
+                                    null, new AlertDialogHandler() {
+                                        @Override
+                                        public void onPositiveButtonClicked() {
+                                        }
+
+                                        @Override
+                                        public void onNegativeButtonClicked() {
+                                        }
+                                    });
+                        } else {
+                            dataListener.showAlertDialog(getContext().getResources().getString(R.string.error_title),
+                                    getContext().getResources().getString(R.string.error_message), false, getContext().getResources().getString(R.string.positive_button),
+                                    null, new AlertDialogHandler() {
+                                        @Override
+                                        public void onPositiveButtonClicked() {
+                                        }
+
+                                        @Override
+                                        public void onNegativeButtonClicked() {
+                                        }
+                                    });
+                        }
+
+                    }
+                });
+    }
+
     public interface DataListener {
 
         void replaceFragment(Fragment fragment);
@@ -172,9 +231,17 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
 
         void finish();
 
+        void showProgress();
+
+        void hideProgress();
+
         void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
 
         DrawerLayout getDrawer();
+
+        void hideKeyBoard();
+
+        void getUserName(String userName);
 
         void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }

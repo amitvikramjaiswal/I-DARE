@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activity.MainActivity">
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +30,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activity.RegisterActivity">
+        <activity
+            android:name=".view.activity.RegisterActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +40,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activity.EditProfileActivity">
+        <activity
+            android:name=".view.activity.EditProfileActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
