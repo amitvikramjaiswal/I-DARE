@@ -2,7 +2,6 @@ package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.View;
 
 import com.opensource.app.idare.model.service.SessionFacade;
@@ -46,8 +45,6 @@ public abstract class BaseViewModel {
         void startActivity(Intent startIntent);
 
         void shakeView(View view);
-
-        SharedPreferences getPreferences();
 
         void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }

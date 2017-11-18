@@ -19,7 +19,13 @@ public enum URLs {
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
         }
-    }, URL_REGISTER_FOR_PUSH("/%s/register-device", null, null, null) {
+    }, URL_IS_PASSWORD_EXISTS("/user/%s", null, UserProfileResponseModel[].class, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
+        }
+    },
+    URL_REGISTER_FOR_PUSH("/%s/register-device", null, null, null) {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
@@ -28,11 +34,6 @@ public enum URLs {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
-        }
-    }, URL_CHECK_IF_USER_REGISTERED("/user/%s?", null, UserProfileResponseModel.class, null) {
-        @Override
-        public String fullURL() {
-            return SERVICE_URL + String.format(getRelURL(), APP_KEY);
         }
     }, URL_IS_USER_EXISTS("/user/%s", null, UserProfileResponseModel[].class, null) {
         @Override

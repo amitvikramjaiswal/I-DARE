@@ -3,7 +3,6 @@ package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.databinding.ObservableField;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -152,7 +151,7 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
     }
 
     private void logoutFromApp() {
-        dataListener.getPreferences().edit().clear().commit();
+        PreferencesManager.getInstance(getContext()).clearAllPreferences();
         relaunch();
     }
 
@@ -224,8 +223,6 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
     public interface DataListener {
 
         void replaceFragment(Fragment fragment);
-
-        SharedPreferences getPreferences();
 
         void startActivity(Intent intent);
 

@@ -54,13 +54,13 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * @param errorListener     The reference to the error handler
      */
     @Override
-    public void executeGetRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+    public void executeGetRequest(Context context, String password, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         if (!IDareApp.isConnectedToInternet(errorListener)) {
             return;
         }
-        Map<String, String> headers = getCommonHeaders(authType, context);
+        Map<String, String> headers = getCommonHeaders(authType, context, password);
         if (additionalHeaders != null) {
-            headers.putAll(getCommonHeaders(authType, context));
+            headers.putAll(getCommonHeaders(authType, context, password));
         }
         VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, buildUrl(url, params, null), url.getType(), headers, new Response.Listener() {
             @Override
@@ -105,7 +105,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         }
         Log.d(TAG, "@@@ URL : " + url + " @@@");
         Log.d(TAG, "@@@ POST REQUEST @@@");
-        Map<String, String> headers = getCommonHeaders(authType, context);
+        Map<String, String> headers = getCommonHeaders(authType, context, null);
         if (additionalHeaders != null) {
             headers.putAll(additionalHeaders);
         }
@@ -145,17 +145,17 @@ public class ServiceLocatorImpl implements ServiceLocator {
         Uri uri = Uri.parse(url);
         switch (urLs) {
             /** FALLTHROUGH CASES **/
-            case URL_CHECK_IF_USER_REGISTERED:
-                String key = queryParam.keySet().iterator().next();
-                String value = queryParam.get(key);
-                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}", key, value);
-                break;
             case URL_CREATE_ACCOUNT:
                 break;
             case URL_IS_USER_EXISTS:
                 String keyUsername = queryParam.keySet().iterator().next();
                 String valueUserName = queryParam.get(keyUsername);
                 url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}", keyUsername, valueUserName);
+                break;
+            case URL_IS_PASSWORD_EXISTS:
+                String key = queryParam.keySet().iterator().next();
+                String value = queryParam.get(key);
+                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}", key, value);
                 break;
             case URL_FETCH_USERS:
                 String keyVal = queryParam.keySet().iterator().next();
@@ -173,7 +173,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return url;
     }
 
-    private Map<String, String> getCommonHeaders(AuthType authType, Context context) {
+    private Map<String, String> getCommonHeaders(AuthType authType, Context context, String password) {
         // Add Required Headers
         Map<String, String> headers = new HashMap<>();
         headers.put(Utility.CONTENT_TYPE, Utility.APPLICATION_JSON);
@@ -181,8 +181,14 @@ public class ServiceLocatorImpl implements ServiceLocator {
         String credentials;
         switch (authType) {
             case USER_CREDENTIALS:
+                String passwordVal;
+                if (PreferencesManager.getInstance(context).getUserDetails().getPassword() == null) {
+                    passwordVal = password;
+                } else {
+                    passwordVal = PreferencesManager.getInstance(context).getUserDetails().getPassword();
+                }
                 credentials = PreferencesManager.getInstance(context).getUserDetails().getUsername() + ":" +
-                        PreferencesManager.getInstance(context).getUserDetails().getPassword();
+                        passwordVal;
                 break;
             case MASTER_SECRET:
                 credentials = Utility.APP_KEY + ":" + Utility.MASTER_SECRET;
