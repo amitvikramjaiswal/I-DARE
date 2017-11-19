@@ -2,10 +2,17 @@ package com.opensource.app.idare.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.opensource.app.idare.model.data.entity.IDareLocation;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
+
+import static com.opensource.app.idare.utils.Utility.LATITUDE;
+import static com.opensource.app.idare.utils.Utility.LONGITUDE;
+import static com.opensource.app.idare.utils.Utility.PASSWORD;
+import static com.opensource.app.idare.utils.Utility.USERNAME;
 
 /**
  * Created by akokala on 11/6/2017.
@@ -39,6 +46,34 @@ public class PreferencesManager {
     public void setUserProfileResponse(UserProfileResponseModel userContext) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(Utility.KEY_USER_CONTEXT, new Gson().toJson(userContext));
-        editor.commit();
+        editor.apply();
+    }
+
+    public void rememberForSingleSignOn(String userName, String password) {
+        preferences.edit().putString(USERNAME, userName).putString(Utility.PASSWORD, password).apply();
+    }
+
+    public boolean wasUserLoggedIn() {
+        return preferences.contains(USERNAME) && preferences.contains(PASSWORD);
+    }
+
+    public String getUserPass() {
+        return preferences.getString(PASSWORD, null);
+    }
+
+    public String getUsername() {
+        return preferences.getString(USERNAME, null);
+    }
+
+    public void updateUserLocation(Location lastLocation) {
+        preferences.edit().putString(LATITUDE, String.valueOf(lastLocation.getLatitude()))
+                .putString(LONGITUDE, String.valueOf(lastLocation.getLongitude())).apply();
+    }
+
+    public IDareLocation getLastLocation() {
+        IDareLocation iDareLocation = new IDareLocation();
+        iDareLocation.setLatitude(Double.parseDouble(preferences.getString(LATITUDE, "0.0")));
+        iDareLocation.setLongitude(Double.parseDouble(preferences.getString(LONGITUDE, "0.0")));
+        return iDareLocation;
     }
 }

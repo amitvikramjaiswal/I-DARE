@@ -9,6 +9,7 @@
     <color name="idare_text_color_bold">#3D3D3D</color>
     <color name="idare_text_color_body">#3B3C3B</color>
     <color name="idare_nav_drawer_text">#C0C0C0</color>
+    <color name="idare_light_grey">#f0f0f0</color>
     <color name="idare_white">#FFFFFF</color>
 
     <color name="light_grey">#EBEBEB</color>

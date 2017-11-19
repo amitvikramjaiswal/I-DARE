@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         this.context = this.getApplicationContext();
         String nameFromBundle = getIntent().getStringExtra(Utility.USER_NAME);
-        viewModel = new MainActivityViewModel(this, this,nameFromBundle);
+        viewModel = new MainActivityViewModel(this, this, nameFromBundle);
         binding.setViewModel(viewModel);
         toolbar = (Toolbar) binding.toolbar.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
 
     @Override
     public void getUserName(String userName) {
-        navigationMenuHeaderViewModel = new NavigationMenuHeaderViewModel(this,this,userName);
+        navigationMenuHeaderViewModel = new NavigationMenuHeaderViewModel(this, this, userName);
     }
 
     private void setUpNavigationDrawer() {

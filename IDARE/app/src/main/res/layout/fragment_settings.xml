@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.opensource.app.idare.viewmodel.SettingsViewModel" />
@@ -12,13 +13,99 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/idare_white"
-            android:gravity="center">
+            android:orientation="vertical">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/light_grey">
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_half"
+                    android:layout_marginLeft="@dimen/margin_full"
+                    android:layout_marginRight="@dimen/margin_full"
+                    android:layout_marginTop="@dimen/margin_half"
+                    android:text="@string/select_safe_house_msg"
+                    android:textColor="@color/idare_nav_drawer_background" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_full"
+                android:layout_marginRight="@dimen/margin_full"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/shopping_mall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_full"
+                    android:checked="@{viewModel.isShoppingMallChecked}"
+                    android:onCheckedChanged="@{viewModel.onCheckChanged()}"
+                    android:text="@string/shopping_mall" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/police_station"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_full"
+                    android:checked="@{viewModel.isPoliceStationChecked}"
+                    android:onCheckedChanged="@{viewModel.onCheckChanged()}"
+                    android:text="@string/police_station" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/cafe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_full"
+                    android:checked="@{viewModel.isCafeChecked}"
+                    android:onCheckedChanged="@{viewModel.onCheckChanged()}"
+                    android:text="@string/police_station" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_full"
+                android:background="@color/light_grey">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_half"
+                    android:layout_marginLeft="@dimen/margin_full"
+                    android:layout_marginRight="@dimen/margin_full"
+                    android:layout_marginTop="@dimen/margin_half"
+                    android:text="Drag to change the search radius for your safe house."
+                    android:textColor="@color/idare_nav_drawer_background" />
+            </FrameLayout>
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_full"
+                android:layout_marginRight="@dimen/margin_full"
+                android:layout_marginTop="@dimen/margin_full"
+                android:max="10"
+                android:onProgressChanged="@{viewModel.onProgressChanged()}"
+                android:progress="@{viewModel.progressValue}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.progressLabel}"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
     </ScrollView>
+
 </layout>

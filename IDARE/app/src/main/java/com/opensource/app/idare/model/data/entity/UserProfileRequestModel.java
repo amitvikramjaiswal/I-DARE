@@ -12,10 +12,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserProfileRequestModel implements Parcelable {
 
+
     public static final Creator<UserProfileRequestModel> CREATOR = new Creator<UserProfileRequestModel>() {
         @Override
-        public UserProfileRequestModel createFromParcel(Parcel source) {
-            return new UserProfileRequestModel(source);
+        public UserProfileRequestModel createFromParcel(Parcel in) {
+            return new UserProfileRequestModel(in);
         }
 
         @Override
@@ -41,17 +42,36 @@ public class UserProfileRequestModel implements Parcelable {
     @SerializedName("alternate")
     @Expose
     private String alternate;
+    @SerializedName("location")
+    @Expose
+    private IDareLocation iDareLocation;
+
 
     public UserProfileRequestModel() {
     }
 
     protected UserProfileRequestModel(Parcel in) {
-        this.username = in.readString();
-        this.password = in.readString();
-        this.name = in.readString();
-        this.email = in.readString();
-        this.mobile = in.readString();
-        this.alternate = in.readString();
+        username = in.readString();
+        password = in.readString();
+        name = in.readString();
+        email = in.readString();
+        mobile = in.readString();
+        alternate = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(username);
+        dest.writeString(password);
+        dest.writeString(name);
+        dest.writeString(email);
+        dest.writeString(mobile);
+        dest.writeString(alternate);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public String getUsername() {
@@ -102,19 +122,12 @@ public class UserProfileRequestModel implements Parcelable {
         this.alternate = alternate;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public IDareLocation getiDareLocation() {
+        return iDareLocation;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.username);
-        dest.writeString(this.password);
-        dest.writeString(this.name);
-        dest.writeString(this.email);
-        dest.writeString(this.mobile);
-        dest.writeString(this.alternate);
+    public void setiDareLocation(IDareLocation iDareLocation) {
+        this.iDareLocation = iDareLocation;
     }
 
     @Override

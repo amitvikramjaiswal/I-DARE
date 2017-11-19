@@ -13,11 +13,13 @@ public class Utility {
     public static final String APP_DATA = "appdata";
     public static final String FWD_SLASH = "/";
 
+    public static final String NEAR_BY_SEARCH_BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
+
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String APPLICATION_JSON = "application/json";
     public static final String TLS = "TLS";
     public static final String ERROR_OCCURRED_IN_SERVICE_CALL = "Error Occurred in the service call";
-    public static final long SPLASH_TIME_OUT = 3000;
+    public static final long SPLASH_TIME_OUT = 2000;
     public static final String OTP_VALIDATION = "123456";
     public static final int MY_SOCKET_TIMEOUT_MS = 60000;
     public static final String SERVICE_CALL_STARTED = "SERVICE CALL STARTED:";
@@ -34,5 +36,10 @@ public class Utility {
     public static final String USERNAME = "username";
     public static final String QUERY = "?query=";
     public static final String PASSWORD = "password";
+    public static final String ANDROID = "android";
+    public static final String LATITUDE = "LATITUDE";
+    public static final String LONGITUDE = "LONGITUDE";
+    public static final String ID = "_id";
+    public static final String SEPARATOR = "/";
     public static String BASIC = "Basic ";
 }

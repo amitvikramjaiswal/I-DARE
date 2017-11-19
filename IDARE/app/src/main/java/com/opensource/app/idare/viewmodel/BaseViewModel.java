@@ -47,6 +47,8 @@ public abstract class BaseViewModel {
         void shakeView(View view);
 
         void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
+
+        void finish();
     }
 
 }

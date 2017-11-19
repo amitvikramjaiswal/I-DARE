@@ -33,6 +33,7 @@ public class EditProfileActivity extends BaseActivity implements EditProfileView
         String phoneNumber = getIntent().getStringExtra(Utility.PHONE_NUMBER);
         viewModel = new EditProfileViewModel(this, this, phoneNumber);
         binding.setViewModel(viewModel);
+        startLocationUpdates();
     }
 
     @Override
@@ -54,4 +55,5 @@ public class EditProfileActivity extends BaseActivity implements EditProfileView
     public EditText getPassword() {
         return binding.etPassword;
     }
+
 }

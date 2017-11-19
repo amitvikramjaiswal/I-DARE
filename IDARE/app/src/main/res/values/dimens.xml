@@ -42,4 +42,7 @@
     <dimen name="nav_header_top_padding">50dp</dimen>
     <dimen name="nav_header_bottom_padding">20dp</dimen>
     <dimen name="nav_header_bottom_left">10dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="margin_full">16dp</dimen>
+    <dimen name="margin_half">8dp</dimen>
 </resources>

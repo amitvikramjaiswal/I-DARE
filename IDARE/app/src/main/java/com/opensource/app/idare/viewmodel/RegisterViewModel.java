@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
+import com.opensource.app.idare.model.service.NotificationService;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
@@ -73,7 +76,7 @@ public class RegisterViewModel extends BaseViewModel {
             public void onClick(View v) {
                 // Check the entered password is correct, If wrong-Show Alert Message
                 // If Yes - FetchUser Details
-                serviceCallIfPasswordExists();
+                login();
             }
         };
     }
@@ -154,10 +157,10 @@ public class RegisterViewModel extends BaseViewModel {
     }
 
     // Service call if password exists
-    private void serviceCallIfPasswordExists() {
+    private void login() {
         dataListener.hideKeyBoard();
         dataListener.showProgress();
-        SessionFacadeImpl.getInstance().checkIfPasswordExists(getContext(), PreferencesManager.getInstance(getContext()).getUserDetails().getUsername(), password.get(), new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
+        SessionFacadeImpl.getInstance().login(getContext(), phoneNumber.get(), password.get(), new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
             @Override
             public void onSuccess(UserProfileResponseModel[] response) {
                 dataListener.hideKeyBoard();
@@ -166,6 +169,7 @@ public class RegisterViewModel extends BaseViewModel {
                     // If data is present - Go to next Screen - Store details in Session
                     dataListener.finish();
                     dataListener.startActivity(MainActivity.getStartIntent(getContext(), response[0].getName()));
+                    registerDeviceToFcm();
                 }
             }
         }, new IDAREResponseHandler.ErrorListener() {
@@ -213,6 +217,11 @@ public class RegisterViewModel extends BaseViewModel {
                 }
             }
         });
+    }
+
+    private void registerDeviceToFcm() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        SessionFacadeImpl.getInstance().registerDeviceToFCM(context, NotificationServiceImpl.getRequestBody(token), null, null);
     }
 
     // Set the value for phoneNumber in TextWatcher

@@ -9,8 +9,11 @@ import java.util.Map;
 
 public interface ServiceLocator {
 
-    void executeGetRequest(Context context,String password, URLs url, Map<String, String> params, AuthType authType, Map<String, String> headers, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
+    void login(Context context, String username, String userPass, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
 
-    void executePostRequest(Context context,URLs url, Map<String, String> params, AuthType authType, Map<String, String> headers, String body, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
+    void executeGetRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> headers, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
 
+    void executePostRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> headers, String body, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
+
+    void executePutRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, String body, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
 }
