@@ -1,17 +1,18 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.ObservableField;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.model.data.entity.UserProfileRequestModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
@@ -54,7 +55,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
             nameFromEditTExt.set(PreferencesManager.getInstance(getContext()).getUserDetails().getName());
             emailFromEditText.set(userProfileResponseModel.getEmail());
             alternativeNumFromEditText.set(userProfileResponseModel.getAlternate());
-            passwordFromEditText.set(PreferencesManager.getInstance(getContext()).getUserDetails().getPassword());
+            passwordFromEditText.set(PreferencesManager.getInstance(getContext()).getUserPass());
         }
     }
 
@@ -163,7 +164,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
         dataListener.hideKeyBoard();
         dataListener.showProgress();
         UserProfileRequestModel userProfileBody = SessionFacadeImpl.getInstance().getRequestBody(phoneNumberFromBundle, passwordFromEditText.get(), nameFromEditTExt.get(),
-                emailFromEditText.get(), phoneNumberFromBundle, alternativeNumFromEditText.get());
+                emailFromEditText.get(), phoneNumberFromBundle, alternativeNumFromEditText.get(), PreferencesManager.getInstance(getContext()).getLastLocation());
         SessionFacadeImpl.getInstance().postProfileDetails(getContext(), userProfileBody, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel>() {
             @Override
             public void onSuccess(UserProfileResponseModel response) {
@@ -174,6 +175,8 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
 
                     dataListener.hideKeyBoard();
                     dataListener.finish();
+                    if (!Session.getInstance().isRegisteredToFCM())
+                        registerDeviceToFcm();
                     dataListener.startActivity(MainActivity.getStartIntent(getContext(), response.getName()));
                 }
             }
@@ -211,14 +214,39 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
         });
     }
 
+    private void registerDeviceToFcm() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        SessionFacadeImpl.getInstance().registerDeviceToFCM(getContext(), NotificationServiceImpl.getRequestBody(token), null, null);
+    }
+
     // Onclick Save Button
     public View.OnClickListener saveClick() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postProfileDetails();
+                if (PreferencesManager.getInstance(getContext()).wasUserLoggedIn()) {
+                    updateProfile();
+                } else {
+                    postProfileDetails();
+                }
             }
         };
+    }
+
+    private void updateProfile() {
+        UserProfileRequestModel requestBody = SessionFacadeImpl.getInstance().getRequestBody(Session.getInstance().getUserProfileResponseModel().getUsername(), null, nameFromEditTExt.get(), emailFromEditText.get(),
+                Session.getInstance().getUserProfileResponseModel().getUsername(), alternativeNumFromEditText.get(), PreferencesManager.getInstance(getContext()).getLastLocation());
+        SessionFacadeImpl.getInstance().updateProfile(getContext(), Session.getInstance().getUserProfileResponseModel().getId(), requestBody, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel>() {
+            @Override
+            public void onSuccess(UserProfileResponseModel response) {
+                enableSaveButton.set(false);
+            }
+        }, new IDAREResponseHandler.ErrorListener() {
+            @Override
+            public void onError(IDAREErrorWrapper error) {
+                enableSaveButton.set(true);
+            }
+        });
     }
 
     @Override
@@ -239,15 +267,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
     public void afterTextChanged(Editable s) {
     }
 
-    public interface DataListener {
-
-        void hideProgress();
-
-        void showProgress();
-
-        void hideKeyBoard();
-
-        void finish();
+    public interface DataListener extends BaseViewModel.DataListener {
 
         EditText getName();
 
@@ -257,8 +277,5 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
 
         EditText getPassword();
 
-        void startActivity(Intent intent);
-
-        void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }
 }

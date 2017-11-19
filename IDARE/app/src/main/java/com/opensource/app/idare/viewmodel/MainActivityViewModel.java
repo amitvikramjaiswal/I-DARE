@@ -11,10 +11,12 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.application.IDareApp;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
@@ -151,6 +153,8 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
     }
 
     private void logoutFromApp() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        SessionFacadeImpl.getInstance().unregisterDeviceToFCM(getContext(), NotificationServiceImpl.getRequestBody(token), null, null);
         PreferencesManager.getInstance(getContext()).clearAllPreferences();
         relaunch();
     }

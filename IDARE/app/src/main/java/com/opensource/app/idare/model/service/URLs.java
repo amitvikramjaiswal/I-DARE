@@ -1,11 +1,14 @@
 package com.opensource.app.idare.model.service;
 
 
+import com.opensource.app.idare.model.data.entity.NearBySafeHouseListEntity;
+import com.opensource.app.idare.model.data.entity.RegisterDeviceResponse;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 
 import java.lang.reflect.Type;
 
 import static com.opensource.app.idare.utils.Utility.APP_KEY;
+import static com.opensource.app.idare.utils.Utility.NEAR_BY_SEARCH_BASE_URL;
 import static com.opensource.app.idare.utils.Utility.SERVICE_URL;
 
 /**
@@ -24,8 +27,17 @@ public enum URLs {
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
         }
-    },
-    URL_REGISTER_FOR_PUSH("/%s/register-device", null, null, null) {
+    }, URL_UNREGISTER_FOR_PUSH("/appdata/%s/unregister-device", null, RegisterDeviceResponse.class, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
+        }
+    }, URL_REGISTER_FOR_PUSH("/appdata/%s/register-device", null, RegisterDeviceResponse.class, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
+        }
+    }, URL_UPDATE_PROFILE("/appdata/%s/iDareUsers", null, UserProfileResponseModel[].class, null) {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
@@ -39,6 +51,11 @@ public enum URLs {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
+        }
+    }, URL_NEAR_BY_SEARCH_BASE_URL(null, null, NearBySafeHouseListEntity.class, null) {
+        @Override
+        public String fullURL() {
+            return NEAR_BY_SEARCH_BASE_URL;
         }
     };
 

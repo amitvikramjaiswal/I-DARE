@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
+import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
+import com.opensource.app.idare.utils.Session;
 
 /**
  * Created by amitvikramjaiswal on 05/11/17.
@@ -23,6 +26,11 @@ public class IDareFirebaseInstanceIdService extends FirebaseInstanceIdService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-//        sendRegistrationToServer(refreshedToken);
+        sendRegistrationToServer(refreshedToken);
+    }
+
+    private void sendRegistrationToServer(String refreshedToken) {
+        if (Session.getInstance().getUserProfileResponseModel() != null)
+            SessionFacadeImpl.getInstance().registerDeviceToFCM(getApplicationContext(), NotificationServiceImpl.getRequestBody(refreshedToken), null, null);
     }
 }

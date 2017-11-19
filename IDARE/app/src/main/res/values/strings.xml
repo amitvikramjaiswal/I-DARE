@@ -55,4 +55,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="registration">I-DARE</string>
+    <string name="search_filters">Search Filters</string>
+    <string name="shopping_mall">Shopping Mall</string>
+    <string name="police_station">Police Station</string>
+    <string name="select_safe_house_msg">Please select your safe houses that you would like to find in the vicinity.</string>
+    <string name="add_to_you_core_list_msg">Please enter the phone number of the user you want to add to you core list</string>
 </resources>

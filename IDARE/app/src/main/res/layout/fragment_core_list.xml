@@ -37,6 +37,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_margin="20dp"
                 android:elevation="10dp"
+                android:onClick="@{viewModel.onAddClicked}"
                 android:src="@mipmap/ic_add"
                 app:borderWidth="0dp" />
 

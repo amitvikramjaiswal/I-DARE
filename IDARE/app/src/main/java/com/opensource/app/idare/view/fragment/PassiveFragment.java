@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import com.opensource.app.idare.R;
 import com.opensource.app.idare.application.IDareApp;
 import com.opensource.app.idare.databinding.FragmentMyAccountPassiveBinding;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
+import com.opensource.app.idare.view.activity.NearBySafeHouseActivity;
 import com.opensource.app.idare.viewmodel.PassiveProfileFragmentViewModel;
 
 /**
@@ -43,6 +47,7 @@ public class PassiveFragment extends BaseFragment implements PassiveProfileFragm
         viewModel = new PassiveProfileFragmentViewModel(getActivity(), this);
         IDareApp.setIsActive(false);
         binding.setViewModel(viewModel);
+        setHasOptionsMenu(true);
         return binding.getRoot();
     }
 
@@ -83,6 +88,38 @@ public class PassiveFragment extends BaseFragment implements PassiveProfileFragm
         super.onActivityCreated(savedInstanceState);
         parentActivity.setTitle(getContext().getResources().getString(R.string.active_profile));
     }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        menu.clear();
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_near_by, menu);
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_near_by, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_safe_house:
+                showNearBySafeHouses();
+                break;
+        }
+        return true;
+    }
+
+    private void showNearBySafeHouses() {
+        startActivity(NearBySafeHouseActivity.getStartIntent(context));
+    }
+
 
     public interface OnFragmentInteractionListener {
 

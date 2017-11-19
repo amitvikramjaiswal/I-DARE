@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.ActivitySplashBinding;
-import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.viewmodel.SplashViewModel;
 
@@ -32,29 +31,10 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         viewModel = new SplashViewModel(this, this);
-        context = getApplicationContext();
         binding.setViewModel(viewModel);
-
-        finishOnUiThread();
-    }
-
-    public void checkLoginStatus() {
-        if (PreferencesManager.getInstance(context).getUserDetails() != null
-                && PreferencesManager.getInstance(context).getUserDetails().getUsername() != null
-                && PreferencesManager.getInstance(context).getUserDetails().getPassword() != null) {
-            // User has already crated the account - Fetch User Call - Redirect to Home screen
-            Intent intent = MainActivity.getStartIntent(getContext(), null);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        } else {
-            Intent intent = RegisterActivity.getStartIntent(context);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        }
     }
 
     /*
@@ -67,8 +47,10 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
              */
             @Override
             public void run() {
+                Intent intent = RegisterActivity.getStartIntent(getContext());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 finish();
-                checkLoginStatus();
             }
         }, Utility.SPLASH_TIME_OUT);
     }

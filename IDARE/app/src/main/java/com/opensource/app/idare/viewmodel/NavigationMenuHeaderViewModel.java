@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.databinding.ObservableField;
 import android.view.View;
 
-import com.opensource.app.idare.utils.PreferencesManager;
+import com.opensource.app.idare.utils.Session;
 import com.opensource.app.idare.view.activity.EditProfileActivity;
 
 public class NavigationMenuHeaderViewModel extends BaseViewModel {
@@ -18,12 +18,7 @@ public class NavigationMenuHeaderViewModel extends BaseViewModel {
         super(context);
         this.context = context;
         this.dataListener = dataListener;
-
-        if (userNameFromBundle != null) {
-            userName.set(userNameFromBundle);
-        } else {
-            userName.set(PreferencesManager.getInstance(getContext()).getUserDetails().getName());
-        }
+        userName.set(Session.getInstance().getUserProfileResponseModel().getName());
     }
 
     // Onclick Navigation Header

@@ -33,7 +33,6 @@ public class VolleyStringRequest extends StringRequest {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         mHeaders = mHeaders != null ? mHeaders : super.getHeaders();
-       // mHeaders.put("Cookie", Session.getInstance().getCookie());
         return mHeaders;
     }
 
