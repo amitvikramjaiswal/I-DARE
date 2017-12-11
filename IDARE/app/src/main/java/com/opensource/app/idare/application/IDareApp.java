@@ -5,10 +5,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.crashlytics.android.Crashlytics;
 import com.opensource.app.idare.model.data.entity.IDAREError;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.Utility;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by amitvikramjaiswal on 24/05/16.
@@ -71,6 +73,7 @@ public class IDareApp extends Application {
     public void onCreate() {
 
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         context = this.getApplicationContext();
     }
 

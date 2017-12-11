@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -34,8 +35,12 @@ import com.opensource.app.idare.utils.Session;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.opensource.app.idare.utils.SearchPlace.BUS_STATION;
 import static com.opensource.app.idare.utils.SearchPlace.CAFE;
+import static com.opensource.app.idare.utils.SearchPlace.CONVENIENCE_STORE;
+import static com.opensource.app.idare.utils.SearchPlace.HOSPITAL;
 import static com.opensource.app.idare.utils.SearchPlace.POLICE_STATION;
+import static com.opensource.app.idare.utils.SearchPlace.RESTAURANT;
 import static com.opensource.app.idare.utils.SearchPlace.SHOPPING_MALL;
 
 /**
@@ -80,7 +85,7 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
         // Update values using data stored in the Bundle.
         updateValuesFromBundle(savedInstanceState);
         myLocation = String.format("%s,%s", session.getLastLocation().getLatitude(), session.getLastLocation().getLongitude());
-        getNearBySafeHouses();
+        getNearBySafeHouses("5000");
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
@@ -96,14 +101,16 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
         }
     }
 
-    private void getNearBySafeHouses() {
-        SessionFacadeImpl.getInstance().getNearBySafeHouses(getApplicationContext(), getString(R.string.google_map_api_key), myLocation, getSearchRadius(), getSearchPlace(), new IDAREResponseHandler.ResponseListener<NearBySafeHouseListEntity>() {
+    private void getNearBySafeHouses(String radius) {
+        SessionFacadeImpl.getInstance().getNearBySafeHouses(getApplicationContext(), getString(R.string.google_map_api_key), myLocation, radius, getSearchPlace(), new IDAREResponseHandler.ResponseListener<NearBySafeHouseListEntity>() {
             @Override
             public void onSuccess(NearBySafeHouseListEntity nearBySafeHouses) {
                 System.out.println("RESULT " + nearBySafeHouses);
                 if (nearBySafeHouses.getNearBySafeHouseResultEntities() != null && !nearBySafeHouses.getNearBySafeHouseResultEntities().isEmpty()) {
                     googleMap.clear();
                     addMarkers(nearBySafeHouses);
+                } else {
+                    getNearBySafeHouses("10000");
                 }
             }
         }, new IDAREResponseHandler.ErrorListener() {
@@ -115,18 +122,9 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
     }
 
     private String getSearchPlace() {
-        String searchPlace = "";
-        if (session.isShoppingMallChecked()) {
-            searchPlace += SHOPPING_MALL.getValue();
-        }
-        if (session.isPoliceStationChecked()) {
-            searchPlace = searchPlace.isEmpty() ? searchPlace : searchPlace + "|";
-            searchPlace += POLICE_STATION.getValue();
-        }
-        if (session.isCafeChecked()) {
-            searchPlace = searchPlace.isEmpty() ? searchPlace : searchPlace + "|";
-            searchPlace += CAFE.getValue();
-        }
+        String searchPlace = String.format("%s|%s|%s|%s|%s|%s|%s",
+                SHOPPING_MALL.getValue(),POLICE_STATION.getValue(), CAFE.getValue(),
+                BUS_STATION.getValue(), HOSPITAL.getValue(), RESTAURANT.getValue(), CONVENIENCE_STORE.getValue());
         return searchPlace;
     }
 
@@ -148,10 +146,32 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
     public void addMarkers(NearBySafeHouseListEntity nearBySafeHouses) {
         mMarkers = new ArrayList<>();
         for (NearBySafeHouseResultEntity entity : nearBySafeHouses.getNearBySafeHouseResultEntities()) {
-            MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(entity.getGeometry().getLocation().getLatitude(), entity.getGeometry().getLocation().getLongitude())).title(entity.getName()).snippet(entity.getVicinity());
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(new LatLng(entity.getGeometry().getLocation().getLatitude(), entity.getGeometry().getLocation().getLongitude()))
+                    .icon(BitmapDescriptorFactory.fromResource(getIconForType(entity.getTypes())))
+                    .title(entity.getName())
+                    .snippet(entity.getVicinity());
             mMarkers.add(googleMap.addMarker(markerOptions));
         }
         setBounds();
+    }
+
+    private int getIconForType(List<String> types) {
+        if (types.contains("shopping_mall") || types.contains("convenience_store")) {
+            return R.mipmap.shopping;
+        } else if (types.contains("police")){
+            return R.mipmap.police;
+        } else if (types.contains("cafe")) {
+            return R.mipmap.cafe;
+        } else if (types.contains("bus_station")) {
+            return R.mipmap.bus;
+        } else if (types.contains("hospital")) {
+            return R.mipmap.hospital;
+        } else if (types.contains("restaurant")) {
+            return R.mipmap.restaurant;
+        } else {
+            return R.mipmap.safe_house;
+        }
     }
 
     public void setBounds() {

@@ -46,6 +46,12 @@ public class ActiveProfileFragment extends BaseFragment implements ActiveProfile
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        viewModel.onDestroy();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment

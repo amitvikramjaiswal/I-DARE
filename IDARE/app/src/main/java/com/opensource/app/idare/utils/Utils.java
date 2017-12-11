@@ -1,6 +1,9 @@
 package com.opensource.app.idare.utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.opensource.app.idare.component.receiver.FakeCallReceiver;
+import com.opensource.app.idare.view.activity.MainActivity;
 
 import java.io.FileNotFoundException;
 
@@ -20,6 +27,9 @@ import java.io.FileNotFoundException;
  * Created by amitvikramjaiswal on 17/03/16.
  */
 public class Utils {
+
+    private static String fakeName = "Home";
+    private static String fakeNumber = "9987658954";
 
     /**
      * Returns true if the string has a value
@@ -99,5 +109,18 @@ public class Utils {
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
+    }
+
+    public static void fakeCall(Context context) {
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, FakeCallReceiver.class);
+
+        intent.putExtra("FAKENAME", fakeName);
+        intent.putExtra("FAKENUMBER", fakeNumber);
+
+        PendingIntent fakePendingIntent = PendingIntent.getBroadcast(context, 0,  intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, 15000, fakePendingIntent);
+//        Toast.makeText(context, "Your fake call time has been set", Toast.LENGTH_SHORT).show();
+
     }
 }

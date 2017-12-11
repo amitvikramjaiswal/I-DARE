@@ -5,10 +5,46 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by ajaiswal on 4/6/2016.
  */
 public class NearBySafeHouseResultEntity implements Parcelable {
+
+    @SerializedName("geometry")
+    private Geometry geometry;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("place_id")
+    private String placeId;
+    @SerializedName("vicinity")
+    private String vicinity;
+    @SerializedName("types")
+    private List<String> types;
+
+
+    protected NearBySafeHouseResultEntity(Parcel in) {
+        geometry = in.readParcelable(Geometry.class.getClassLoader());
+        name = in.readString();
+        placeId = in.readString();
+        vicinity = in.readString();
+        types = in.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(geometry, flags);
+        dest.writeString(name);
+        dest.writeString(placeId);
+        dest.writeString(vicinity);
+        dest.writeStringList(types);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     public static final Creator<NearBySafeHouseResultEntity> CREATOR = new Creator<NearBySafeHouseResultEntity>() {
         @Override
@@ -21,21 +57,6 @@ public class NearBySafeHouseResultEntity implements Parcelable {
             return new NearBySafeHouseResultEntity[size];
         }
     };
-    @SerializedName("geometry")
-    private Geometry geometry;
-    @SerializedName("name")
-    private String name;
-    @SerializedName("place_id")
-    private String placeId;
-    @SerializedName("vicinity")
-    private String vicinity;
-
-    protected NearBySafeHouseResultEntity(Parcel in) {
-        geometry = in.readParcelable(Geometry.class.getClassLoader());
-        name = in.readString();
-        placeId = in.readString();
-        vicinity = in.readString();
-    }
 
     public Geometry getGeometry() {
         return geometry;
@@ -53,16 +74,7 @@ public class NearBySafeHouseResultEntity implements Parcelable {
         return vicinity;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(geometry, flags);
-        dest.writeString(name);
-        dest.writeString(placeId);
-        dest.writeString(vicinity);
+    public List<String> getTypes() {
+        return types;
     }
 }
