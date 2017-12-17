@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -62,6 +63,7 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
 
     private GoogleMap googleMap;
     private String myLocation;
+    private List<NearBySafeHouseResultEntity> nearBySafeHouses;
     private List<Marker> mMarkers;
     private Session session;
 
@@ -84,8 +86,9 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
 
         // Update values using data stored in the Bundle.
         updateValuesFromBundle(savedInstanceState);
+        nearBySafeHouses = new ArrayList<>();
         myLocation = String.format("%s,%s", session.getLastLocation().getLatitude(), session.getLastLocation().getLongitude());
-        getNearBySafeHouses("5000");
+        getNearBySafeHouses("5000", null);
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
@@ -101,16 +104,22 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
         }
     }
 
-    private void getNearBySafeHouses(String radius) {
-        SessionFacadeImpl.getInstance().getNearBySafeHouses(getApplicationContext(), getString(R.string.google_map_api_key), myLocation, radius, getSearchPlace(), new IDAREResponseHandler.ResponseListener<NearBySafeHouseListEntity>() {
+    private void getNearBySafeHouses(String radius, String nextPageToken) {
+        SessionFacadeImpl.getInstance().getNearBySafeHouses(getApplicationContext(), getString(R.string.google_map_api_key), myLocation, radius, getSearchPlace(), nextPageToken, new IDAREResponseHandler.ResponseListener<NearBySafeHouseListEntity>() {
             @Override
             public void onSuccess(NearBySafeHouseListEntity nearBySafeHouses) {
                 System.out.println("RESULT " + nearBySafeHouses);
                 if (nearBySafeHouses.getNearBySafeHouseResultEntities() != null && !nearBySafeHouses.getNearBySafeHouseResultEntities().isEmpty()) {
-                    googleMap.clear();
-                    addMarkers(nearBySafeHouses);
-                } else {
-                    getNearBySafeHouses("10000");
+                    if (TextUtils.isEmpty(nearBySafeHouses.getNextPageToken())) {
+                        googleMap.clear();
+                        NearBySafeHouseActivity.this.nearBySafeHouses.addAll(nearBySafeHouses.getNearBySafeHouseResultEntities());
+                        if (!NearBySafeHouseActivity.this.nearBySafeHouses.isEmpty()) {
+                            addMarkers(NearBySafeHouseActivity.this.nearBySafeHouses);
+                        }
+                    } else {
+                        NearBySafeHouseActivity.this.nearBySafeHouses.addAll(nearBySafeHouses.getNearBySafeHouseResultEntities());
+                        getNearBySafeHouses("5000", nearBySafeHouses.getNextPageToken());
+                    }
                 }
             }
         }, new IDAREResponseHandler.ErrorListener() {
@@ -143,9 +152,9 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
         googleMap.setOnMyLocationButtonClickListener(this);
     }
 
-    public void addMarkers(NearBySafeHouseListEntity nearBySafeHouses) {
+    public void addMarkers(List<NearBySafeHouseResultEntity> nearBySafeHouses) {
         mMarkers = new ArrayList<>();
-        for (NearBySafeHouseResultEntity entity : nearBySafeHouses.getNearBySafeHouseResultEntities()) {
+        for (NearBySafeHouseResultEntity entity : nearBySafeHouses) {
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(new LatLng(entity.getGeometry().getLocation().getLatitude(), entity.getGeometry().getLocation().getLongitude()))
                     .icon(BitmapDescriptorFactory.fromResource(getIconForType(entity.getTypes())))

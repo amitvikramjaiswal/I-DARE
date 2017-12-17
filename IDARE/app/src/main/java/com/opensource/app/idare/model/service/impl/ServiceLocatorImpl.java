@@ -22,6 +22,7 @@ import com.opensource.app.idare.utils.AuthType;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      */
     @Override
     public void login(Context context, String username, String userPass, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        if (!IDareApp.isConnectedToInternet(errorListener)) {
+        if (!Utils.isConnectedToInternet(context, errorListener)) {
             return;
         }
         Map<String, String> headers = getCommonHeaders(authType, context, username, userPass);
@@ -105,7 +106,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      */
     @Override
     public void executeGetRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        if (!IDareApp.isConnectedToInternet(errorListener)) {
+        if (!Utils.isConnectedToInternet(context, errorListener)) {
             return;
         }
         Map<String, String> headers = null;
@@ -115,10 +116,12 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 headers.putAll(additionalHeaders);
             }
         }
-        VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, buildUrl(url, params, null), url.getType(), headers, new Response.Listener() {
+        final String strUrl = buildUrl(url, params, null);
+        final VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, strUrl, url.getType(), headers, new Response.Listener() {
             @Override
             public void onResponse(Object response) {
                 try {
+                    Log.d(TAG, "*** URL ***" + strUrl);
                     processResponse(response, responseListener, errorListener);
                 } catch (Exception e) {
                     Log.e(TAG, Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e);
@@ -153,7 +156,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      */
     @Override
     public void executePostRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, String body, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        if (!IDareApp.isConnectedToInternet(errorListener)) {
+        if (!Utils.isConnectedToInternet(context, errorListener)) {
             return;
         }
         Log.d(TAG, "@@@ URL : " + url + " @@@");
@@ -206,7 +209,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      */
     @Override
     public void executePutRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, String body, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        if (!IDareApp.isConnectedToInternet(errorListener)) {
+        if (!Utils.isConnectedToInternet(context, errorListener)) {
             return;
         }
         Log.d(TAG, "@@@ URL : " + url + " @@@");

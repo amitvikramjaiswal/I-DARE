@@ -74,8 +74,8 @@ public class SessionFacadeImpl implements SessionFacade {
     }
 
     @Override
-    public void getNearBySafeHouses(Context context, String key, String location, String radius, String type, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener) {
-        nearBySafeHouseService.getNearBySafeHouses(context, key, location, radius, type, responseListener, errorListener);
+    public void getNearBySafeHouses(Context context, String key, String location, String radius, String type, String nextPageToken, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener) {
+        nearBySafeHouseService.getNearBySafeHouses(context, key, location, radius, type, nextPageToken, responseListener, errorListener);
     }
 
 }

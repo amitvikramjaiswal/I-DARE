@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.opensource.app.idare.component.receiver.FakeCallReceiver;
+import com.opensource.app.idare.model.data.entity.IDAREError;
+import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.view.activity.MainActivity;
 
 import java.io.FileNotFoundException;
@@ -122,5 +124,25 @@ public class Utils {
         alarmManager.set(AlarmManager.RTC_WAKEUP, 15000, fakePendingIntent);
 //        Toast.makeText(context, "Your fake call time has been set", Toast.LENGTH_SHORT).show();
 
+    }
+
+    public static boolean isConnectedToInternet(Context context, IDAREResponseHandler.ErrorListener errorListener) {
+        if (context == null) {
+            return false;
+        }
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
+            return true;
+
+        } else if (errorListener != null) {
+            IDAREError idareError = new IDAREError();
+            idareError.setErrorCode(Utility.NO_NETWORK_ERROR_CODE);
+            errorListener.onError(new IDAREErrorWrapper(idareError, null));
+
+        }
+        return false;
     }
 }
