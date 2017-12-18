@@ -6,6 +6,9 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -67,6 +70,9 @@ public class IDareApp extends Application {
         private static int paused;
         private static int started;
         private static int stopped;
+        private LocationRequest locationRequest;
+        private FusedLocationProviderClient fusedLocationProviderClient;
+        private LocationCallback locationCallback;
 
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

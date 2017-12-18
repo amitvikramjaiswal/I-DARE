@@ -105,21 +105,12 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
     }
 
     private void getNearBySafeHouses(String radius, String nextPageToken) {
-        SessionFacadeImpl.getInstance().getNearBySafeHouses(getApplicationContext(), getString(R.string.google_map_api_key), myLocation, radius, getSearchPlace(), nextPageToken, new IDAREResponseHandler.ResponseListener<NearBySafeHouseListEntity>() {
+        SessionFacadeImpl.getInstance().getNearBySafeHouses(getApplicationContext(), getString(R.string.google_map_api_key), myLocation, radius, getSearchPlace(), nextPageToken, new IDAREResponseHandler.ResponseListener<List<NearBySafeHouseResultEntity>>() {
             @Override
-            public void onSuccess(NearBySafeHouseListEntity nearBySafeHouses) {
-                System.out.println("RESULT " + nearBySafeHouses);
-                if (nearBySafeHouses.getNearBySafeHouseResultEntities() != null && !nearBySafeHouses.getNearBySafeHouseResultEntities().isEmpty()) {
-                    if (TextUtils.isEmpty(nearBySafeHouses.getNextPageToken())) {
-                        googleMap.clear();
-                        NearBySafeHouseActivity.this.nearBySafeHouses.addAll(nearBySafeHouses.getNearBySafeHouseResultEntities());
-                        if (!NearBySafeHouseActivity.this.nearBySafeHouses.isEmpty()) {
-                            addMarkers(NearBySafeHouseActivity.this.nearBySafeHouses);
-                        }
-                    } else {
-                        NearBySafeHouseActivity.this.nearBySafeHouses.addAll(nearBySafeHouses.getNearBySafeHouseResultEntities());
-                        getNearBySafeHouses("5000", nearBySafeHouses.getNextPageToken());
-                    }
+            public void onSuccess(List<NearBySafeHouseResultEntity> nearBySafeHouses) {
+                if (nearBySafeHouses != null && !nearBySafeHouses.isEmpty()) {
+                    googleMap.clear();
+                    addMarkers(nearBySafeHouses);
                 }
             }
         }, new IDAREResponseHandler.ErrorListener() {

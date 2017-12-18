@@ -6,12 +6,15 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.opensource.app.idare.model.data.entity.NearBySafeHouseListEntity;
+import com.opensource.app.idare.model.data.entity.NearBySafeHouseResultEntity;
 import com.opensource.app.idare.model.service.NearBySafeHouseService;
 import com.opensource.app.idare.model.service.URLs;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,8 +26,10 @@ public class NearBySafeHouseServiceImpl implements NearBySafeHouseService {
     private static final String TAG = NotificationServiceImpl.class.getSimpleName();
     private static NearBySafeHouseService nearBySafeHouseService;
     private static Gson gson;
+    private List<NearBySafeHouseResultEntity> resultEntities;
 
     private NearBySafeHouseServiceImpl() {
+        resultEntities = new ArrayList<>();
     }
 
     public static NearBySafeHouseService getInstance() {
@@ -36,7 +41,7 @@ public class NearBySafeHouseServiceImpl implements NearBySafeHouseService {
     }
 
     @Override
-    public void getNearBySafeHouses(Context context, String key, String location, String radius, String type, String nextPageToken, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+    public void getNearBySafeHouses(final Context context, final String key, final String location, final String radius, final String type, final String nextPageToken, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         Map<String, String> params= new HashMap<>();
         params.put("key", key);
         params.put("location", location);
@@ -50,7 +55,12 @@ public class NearBySafeHouseServiceImpl implements NearBySafeHouseService {
             public void onSuccess(NearBySafeHouseListEntity safeHouses) {
                 Log.d(TAG, safeHouses.getNearBySafeHouseResultEntities().size() + "");
                 Log.d(TAG, safeHouses.getStatus());
-                responseListener.onSuccess(safeHouses);
+                resultEntities.addAll(safeHouses.getNearBySafeHouseResultEntities());
+                if (!TextUtils.isEmpty(safeHouses.getNextPageToken())) {
+                    getNearBySafeHouses(context, key, location, radius, type, safeHouses.getNextPageToken(), responseListener, errorListener);
+                } else {
+                    responseListener.onSuccess(resultEntities);
+                }
             }
         }, new IDAREResponseHandler.ErrorListener() {
             @Override
