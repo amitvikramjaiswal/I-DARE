@@ -6,15 +6,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -104,13 +99,19 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
         }
     }
 
-    private void getNearBySafeHouses(String radius, String nextPageToken) {
-        SessionFacadeImpl.getInstance().getNearBySafeHouses(getApplicationContext(), getString(R.string.google_map_api_key), myLocation, radius, getSearchPlace(), nextPageToken, new IDAREResponseHandler.ResponseListener<List<NearBySafeHouseResultEntity>>() {
+    private void getNearBySafeHouses(String radius, final String nextPageToken) {
+        SessionFacadeImpl.getInstance().getNearBySafeHouses(getApplicationContext(), getString(R.string.google_map_api_key), myLocation, radius, getSearchPlace(), nextPageToken, new IDAREResponseHandler.ResponseListener<NearBySafeHouseListEntity>() {
             @Override
-            public void onSuccess(List<NearBySafeHouseResultEntity> nearBySafeHouses) {
-                if (nearBySafeHouses != null && !nearBySafeHouses.isEmpty()) {
-                    googleMap.clear();
-                    addMarkers(nearBySafeHouses);
+            public void onSuccess(NearBySafeHouseListEntity nearBySafeHouses) {
+                if (nearBySafeHouses != null && !nearBySafeHouses.getNearBySafeHouseResultEntities().isEmpty()) {
+                    if (nextPageToken == null) {
+                        googleMap.clear();
+                        mMarkers = new ArrayList<>();
+                    }
+                    addMarkers(nearBySafeHouses.getNearBySafeHouseResultEntities());
+                    if (nearBySafeHouses.getNextPageToken() != null && !nearBySafeHouses.getNextPageToken().isEmpty()) {
+                        getNearBySafeHouses("5000", nearBySafeHouses.getNextPageToken());
+                    }
                 }
             }
         }, new IDAREResponseHandler.ErrorListener() {
@@ -123,7 +124,7 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
 
     private String getSearchPlace() {
         String searchPlace = String.format("%s|%s|%s|%s|%s|%s|%s",
-                SHOPPING_MALL.getValue(),POLICE_STATION.getValue(), CAFE.getValue(),
+                SHOPPING_MALL.getValue(), POLICE_STATION.getValue(), CAFE.getValue(),
                 BUS_STATION.getValue(), HOSPITAL.getValue(), RESTAURANT.getValue(), CONVENIENCE_STORE.getValue());
         return searchPlace;
     }
@@ -144,7 +145,6 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
     }
 
     public void addMarkers(List<NearBySafeHouseResultEntity> nearBySafeHouses) {
-        mMarkers = new ArrayList<>();
         for (NearBySafeHouseResultEntity entity : nearBySafeHouses) {
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(new LatLng(entity.getGeometry().getLocation().getLatitude(), entity.getGeometry().getLocation().getLongitude()))
@@ -159,7 +159,7 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
     private int getIconForType(List<String> types) {
         if (types.contains("shopping_mall") || types.contains("convenience_store")) {
             return R.mipmap.shopping;
-        } else if (types.contains("police")){
+        } else if (types.contains("police")) {
             return R.mipmap.police;
         } else if (types.contains("cafe")) {
             return R.mipmap.cafe;
@@ -192,34 +192,7 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
     }
 
     @Override
-    public void onConnected(Bundle bundle) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mLastLocation = mCurrentLocation = session.getLastLocation();
-        if (mLastLocation != null) {
-            myLocation = String.format("%s,%s", mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            Toast.makeText(this, myLocation, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
-        }
-        startLocationUpdates();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Connection suspended");
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
-    }
-
-    @Override
     public boolean onMyLocationButtonClick() {
-        mGoogleApiClient.connect();
         return true;
     }
 }

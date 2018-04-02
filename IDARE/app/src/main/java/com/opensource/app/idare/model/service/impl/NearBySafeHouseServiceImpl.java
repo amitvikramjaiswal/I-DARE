@@ -26,10 +26,9 @@ public class NearBySafeHouseServiceImpl implements NearBySafeHouseService {
     private static final String TAG = NotificationServiceImpl.class.getSimpleName();
     private static NearBySafeHouseService nearBySafeHouseService;
     private static Gson gson;
-    private List<NearBySafeHouseResultEntity> resultEntities;
 
     private NearBySafeHouseServiceImpl() {
-        resultEntities = new ArrayList<>();
+
     }
 
     public static NearBySafeHouseService getInstance() {
@@ -55,12 +54,8 @@ public class NearBySafeHouseServiceImpl implements NearBySafeHouseService {
             public void onSuccess(NearBySafeHouseListEntity safeHouses) {
                 Log.d(TAG, safeHouses.getNearBySafeHouseResultEntities().size() + "");
                 Log.d(TAG, safeHouses.getStatus());
-                resultEntities.addAll(safeHouses.getNearBySafeHouseResultEntities());
-                if (!TextUtils.isEmpty(safeHouses.getNextPageToken())) {
-                    getNearBySafeHouses(context, key, location, radius, type, safeHouses.getNextPageToken(), responseListener, errorListener);
-                } else {
-                    responseListener.onSuccess(resultEntities);
-                }
+                responseListener.onSuccess(safeHouses);
+
             }
         }, new IDAREResponseHandler.ErrorListener() {
             @Override

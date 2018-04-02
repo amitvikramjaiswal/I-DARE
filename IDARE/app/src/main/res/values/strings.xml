@@ -46,10 +46,13 @@
 
     <!--Navigation Items-->
     <string name="active_profile">HOME</string>
-    <string name="core_list">CORE LIST</string>
+    <string name="core_group">CORE GROUP</string>
     <string name="invite">INVITE TO I-DARE</string>
     <string name="app_tour">APP TOUR</string>
     <string name="donate">CONTRIBUTE/DONATE</string>
+    <string name="about_i_dare">ABOUT I-DARE</string>
+    <string name="safe_practices">SAFE PRACTICES</string>
+    <string name="scope">SCOPE</string>
     <string name="settings">SETTINGS</string>
     <string name="log_out">LOG OUT</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

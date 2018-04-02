@@ -1,5 +1,6 @@
 package com.opensource.app.idare.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -49,6 +50,8 @@ public abstract class BaseViewModel {
         void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
 
         void finish();
+
+        Activity getActivity();
     }
 
 }

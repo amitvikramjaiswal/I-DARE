@@ -22,7 +22,7 @@ import com.opensource.app.idare.databinding.NavHeaderMainBinding;
 import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
-import com.opensource.app.idare.view.fragment.CoreListFragment;
+import com.opensource.app.idare.view.fragment.CoreGroupFragment;
 import com.opensource.app.idare.view.fragment.DonateFragment;
 import com.opensource.app.idare.view.fragment.InviteToIDareFragment;
 import com.opensource.app.idare.view.fragment.PassiveFragment;
@@ -35,7 +35,7 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
  */
 
 public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
-        ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreListFragment.OnFragmentInteractionListener,
+        ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreGroupFragment.OnFragmentInteractionListener,
         InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {
     private Fragment currentFragment;
@@ -73,6 +73,12 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content, new PassiveFragment()).commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewModel.onResume();
     }
 
     @Override

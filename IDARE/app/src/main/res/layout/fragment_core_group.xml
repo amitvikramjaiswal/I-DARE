@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.opensource.app.idare.viewmodel.CoreListViewModel" />
+            type="com.opensource.app.idare.viewmodel.CoreGroupViewModel" />
     </data>
 
     <android.support.v4.widget.SwipeRefreshLayout

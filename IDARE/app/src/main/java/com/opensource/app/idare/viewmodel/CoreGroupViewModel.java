@@ -13,10 +13,10 @@ import com.opensource.app.idare.utils.handler.AlertDialogHandler;
  * Created by akokala on 11/2/2017.
  */
 
-public class CoreListViewModel extends BaseViewModel implements SearchCoreUserViewModel.DataListener {
+public class CoreGroupViewModel extends BaseViewModel implements SearchCoreUserViewModel.DataListener {
     private DataListener dataListener;
 
-    public CoreListViewModel(Context context, DataListener dataListener) {
+    public CoreGroupViewModel(Context context, DataListener dataListener) {
         super(context);
         this.dataListener = dataListener;
     }
@@ -26,7 +26,7 @@ public class CoreListViewModel extends BaseViewModel implements SearchCoreUserVi
             @Override
             public void onClick(View v) {
                 LayoutSearchCoreUserBinding searchCoreUserBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.layout_search_core_user, null, false);
-                SearchCoreUserViewModel viewModel = new SearchCoreUserViewModel(getContext(), CoreListViewModel.this);
+                SearchCoreUserViewModel viewModel = new SearchCoreUserViewModel(getContext(), CoreGroupViewModel.this);
                 searchCoreUserBinding.setViewModel(viewModel);
                 dataListener.showAlertDialog(searchCoreUserBinding.getRoot(), getContext().getString(R.string.btn_ok), null, new AlertDialogHandler() {
                     @Override

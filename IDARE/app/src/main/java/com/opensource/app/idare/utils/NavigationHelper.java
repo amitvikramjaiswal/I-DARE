@@ -9,7 +9,7 @@ import com.opensource.app.idare.R;
  */
 public class NavigationHelper {
 
-    public static void setItemVisibility(Menu menu) {
-        menu.findItem(R.id.invite).setVisible(false);
-    }
+//    public static void setItemVisibility(Menu menu) {
+//        menu.findItem(R.id.invite).setVisible(false);
+//    }
 }

@@ -9,23 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.databinding.FragmentCoreListBinding;
-import com.opensource.app.idare.viewmodel.CoreListViewModel;
+import com.opensource.app.idare.databinding.FragmentCoreGroupBinding;
+import com.opensource.app.idare.viewmodel.CoreGroupViewModel;
 
 /**
  * Created by ajaiswal on 4/4/2016.
  */
-public class CoreListFragment extends BaseFragment implements CoreListViewModel.DataListener {
-    private FragmentCoreListBinding binding;
-    private CoreListViewModel viewModel;
+public class CoreGroupFragment extends BaseFragment implements CoreGroupViewModel.DataListener {
+    private FragmentCoreGroupBinding binding;
+    private CoreGroupViewModel viewModel;
     private OnFragmentInteractionListener mListener;
 
-    public CoreListFragment() {
+    public CoreGroupFragment() {
         // Required empty public constructor
     }
 
-    public static CoreListFragment newInstance() {
-        CoreListFragment fragment = new CoreListFragment();
+    public static CoreGroupFragment newInstance() {
+        CoreGroupFragment fragment = new CoreGroupFragment();
         return fragment;
     }
 
@@ -33,8 +33,8 @@ public class CoreListFragment extends BaseFragment implements CoreListViewModel.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_core_list, container, false);
-        viewModel = new CoreListViewModel(getActivity(), this);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_core_group, container, false);
+        viewModel = new CoreGroupViewModel(getActivity(), this);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
@@ -43,8 +43,8 @@ public class CoreListFragment extends BaseFragment implements CoreListViewModel.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof CoreListFragment.OnFragmentInteractionListener) {
-            mListener = (CoreListFragment.OnFragmentInteractionListener) context;
+        if (context instanceof CoreGroupFragment.OnFragmentInteractionListener) {
+            mListener = (CoreGroupFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -54,7 +54,7 @@ public class CoreListFragment extends BaseFragment implements CoreListViewModel.
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        parentActivity.setTitle(getContext().getResources().getString(R.string.core_list));
+        parentActivity.setTitle(getContext().getResources().getString(R.string.core_group));
     }
 
 

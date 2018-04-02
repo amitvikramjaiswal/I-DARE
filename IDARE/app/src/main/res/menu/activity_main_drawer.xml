@@ -6,17 +6,26 @@
             android:id="@+id/active_profile"
             android:title="@string/active_profile" />
         <item
-            android:id="@+id/core_list"
-            android:title="@string/core_list" />
+            android:id="@+id/core_group"
+            android:title="@string/core_group" />
+        <!--<item-->
+        <!--android:id="@+id/invite"-->
+        <!--android:title="@string/invite" />-->
         <item
-            android:id="@+id/invite"
-            android:title="@string/invite" />
+            android:id="@+id/safe_practices"
+            android:title="@string/safe_practices" />
         <item
             android:id="@+id/app_tour"
             android:title="@string/app_tour" />
+        <!--<item-->
+        <!--android:id="@+id/donate"-->
+        <!--android:title="@string/donate" />-->
         <item
-            android:id="@+id/donate"
-            android:title="@string/donate" />
+            android:id="@+id/scope"
+            android:title="@string/scope" />
+        <item
+            android:id="@+id/about_i_dare"
+            android:title="@string/about_i_dare" />
         <item
             android:id="@+id/settings"
             android:title="@string/settings" />
