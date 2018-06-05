@@ -56,7 +56,7 @@ public class ActiveProfileFragment extends BaseFragment implements ActiveProfile
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_account_active, container, false);
-        viewModel = new ActiveProfileFragmentViewModel(getActivity(), this);
+        viewModel = new ActiveProfileFragmentViewModel(getContext(), this);
         IDareApp.setIsActive(true);
         binding.setViewModel(viewModel);
         setHasOptionsMenu(true);

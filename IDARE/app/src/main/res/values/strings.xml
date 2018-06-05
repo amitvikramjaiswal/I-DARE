@@ -66,4 +66,25 @@
     <string name="incomingcall">Incoming Call</string>
     <string name="fakecallname">Home</string>
     <string name="fakecallnumber">8778655676</string>
+
+    <string name="about_val">I-Dare acknowledges the climate of danger and risk, with associated physical violence, that women regularly face in public spaces, in Bangalore. The app facilitates and encourages individual safe practices and organises fearless participation by its women members, to personally, and pro-actively respond to safety alert from any member in distress. The tool is neither comprehensive nor fool-proof, but is a small affirmative step forward to having women reclaim their right to personal public safety, and take collective action in making this so.I-Dare is a voluntary initiative and therefore, no one person or collective of persons shall be held responsible for the functioning, effectiveness or consequences of using this app.</string>
+    <string name="scope_val">I-dare is not a law enforcement or a rescue agency (put also in terms and conditions) that can guarantee successful rescue of women in distress. We comprise of a pool of empowered women members, the I-dare users, who volunteer to respond, when possible, to an SOS alert from  any member in their vicinity. The goal is to change the mindset of women from mere victims of the current social circumstances and violence to that of a collective strength which says enough is enough! As memberships increases, so will the efficacy of this app, with sufficient members to alert in vicinity of a potential crime. This app is only a technical facilitator of this process.</string>
+    <string name="membership_val">Membership is open only to women by Direct Invitation from an existing I-Dare member. Invitation goes out as a Unique, single-use SMS which is not forwardable and may be used by that number only. The SMS contains a link which takes the person directly to the I-Dare App HOME page where a new member may register.</string>
+    <string name="safe_practices_header_val">A martial arts saying:  Best form of self defense is not putting yourself in a situation where you need to defend yourself.</string>
+    <string name="safe_prac_passive_title_1">IN PASSIVE MODE : DAILY REMINDERS</string>
+    <string name="safe_prac_title_2">BE WARNED: ABUSE VIA SOCIAL MEDIA</string>
+    <string name="str_arati">Arati</string>
+    <string name="about_arati">Arati Chokshi is a retd Astrophysicist, human rights’ activist, with interests &amp; experiences in the fields of natural farming, education, environment protection.</string>
+    <string name="str_conceptualisation">CONCEPTUALISATION</string>
+    <string name="conceptualisation_val_1">I-dare  emerged out of a deep sense of alarm, fear and impotence at the increasing levels of crimes reported against women,  in public spaces.  It compelled us to respond to this violence, carefully, critically, and strategically, not merely as individual prisoners, future victims, but as courageous, caring, and committed women who are collectively empowered to help themselves and each other in time of need.</string>
+    <string name="conceptualisation_val_2">I-dare dreams of a society that is not only safe, and just, but also deliberately caring , to step in  and - Dare.</string>
+    <string name="str_funding">Funding</string>
+    <string name="funding_val_1">We are not funded. The app uses OSS and our aim is to make the app also freely available in future as OSS.</string>
+    <string name="funding_val_2">We rely on funding, however small, from people who agree with our vision.</string>
+    <string name="str_contact_us_for">Contact us for:</string>
+    <string name="str_arati_chokshi">\@Arati Chokshi</string>
+    <string name="contact_1">9945201029</string>
+    <string name="contact_2">8028482409</string>
+    <string name="contact_email">aratichokshi@gmail.com</string>
+
 </resources>

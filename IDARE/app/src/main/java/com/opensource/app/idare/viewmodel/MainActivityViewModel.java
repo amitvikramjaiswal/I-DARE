@@ -27,6 +27,7 @@ import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreGroupFragment;
 import com.opensource.app.idare.view.fragment.PassiveFragment;
+import com.opensource.app.idare.view.fragment.SafePracticesFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
 
 /**
@@ -112,10 +113,10 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
                 CoreGroupFragment coreGroupFragment = CoreGroupFragment.newInstance();
                 fragment = coreGroupFragment;
                 break;
-//            case R.id.invite:
-//                InviteToIDareFragment inviteToIDareFragment = InviteToIDareFragment.newInstance();
-//                fragment = inviteToIDareFragment;
-//                break;
+            case R.id.safe_practices:
+                SafePracticesFragment safePracticesFragment = SafePracticesFragment.newInstance();
+                fragment = safePracticesFragment;
+                break;
             case R.id.app_tour:
                 AppTourFragment appTourFragment = AppTourFragment.newInstance();
                 fragment = appTourFragment;

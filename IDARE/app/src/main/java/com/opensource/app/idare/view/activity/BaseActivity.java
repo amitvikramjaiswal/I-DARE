@@ -39,6 +39,11 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
@@ -211,4 +216,5 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
     protected void onPause() {
         super.onPause();
     }
+
 }

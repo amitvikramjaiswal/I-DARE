@@ -45,4 +45,5 @@
     <dimen name="activity_margin">16dp</dimen>
     <dimen name="margin_full">16dp</dimen>
     <dimen name="margin_half">8dp</dimen>
+    <dimen name="zero_dp">0dp</dimen>
 </resources>

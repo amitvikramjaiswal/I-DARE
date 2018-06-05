@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.component.service.IDareLocationService;
 import com.opensource.app.idare.databinding.ActivityMainBinding;
 import com.opensource.app.idare.databinding.NavHeaderMainBinding;
 import com.opensource.app.idare.utils.Utility;
@@ -26,6 +27,7 @@ import com.opensource.app.idare.view.fragment.CoreGroupFragment;
 import com.opensource.app.idare.view.fragment.DonateFragment;
 import com.opensource.app.idare.view.fragment.InviteToIDareFragment;
 import com.opensource.app.idare.view.fragment.PassiveFragment;
+import com.opensource.app.idare.view.fragment.SafePracticesFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
 import com.opensource.app.idare.viewmodel.MainActivityViewModel;
 import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
@@ -36,7 +38,7 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
 
 public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
         ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreGroupFragment.OnFragmentInteractionListener,
-        InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener,
+        SafePracticesFragment.OnFragmentInteractionListener, InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {
     private Fragment currentFragment;
     private ActivityMainBinding binding;
@@ -67,6 +69,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         navigationMenuHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_main, binding.navigationView, false);
         binding.navigationView.addHeaderView(navigationMenuHeaderBinding.getRoot());
 
+        startService(new Intent(this, IDareLocationService.class));
 
         navigationMenuHeaderBinding.setHeaderViewModel(new NavigationMenuHeaderViewModel(context, this, nameFromBundle));
         setUpNavigationDrawer();

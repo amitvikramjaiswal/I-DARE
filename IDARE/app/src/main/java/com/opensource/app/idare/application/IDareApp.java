@@ -1,25 +1,11 @@
 package com.opensource.app.idare.application;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.Looper;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.opensource.app.idare.utils.PreferencesManager;
-import com.opensource.app.idare.utils.Session;
-import com.opensource.app.idare.view.activity.SplashActivity;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -87,19 +73,13 @@ public class IDareApp extends Application {
         private static int started;
         private static int stopped;
 
-        private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1234;
-        private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 1 * 60 * 60 * 1000; // 1 hour
-        private static final float SMALLEST_DISPLACEMENT_METERS = 1.0f * 1000.0f; // 1 kilometer
+        private static boolean isApplicationVisible() {
+            return started > stopped;
+        }
 
-        private FusedLocationProviderClient fusedLocationProviderClient;
-        private LocationRequest locationRequest;
-        private LocationCallback locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                updateUserLocation(locationResult.getLastLocation());
-            }
-        };
+        private static boolean isApplicationInForeground() {
+            return resumed > paused;
+        }
 
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -114,10 +94,6 @@ public class IDareApp extends Application {
         @Override
         public void onActivityResumed(Activity activity) {
             ++resumed;
-            IDareApp.activity = activity;
-            if (activity instanceof SplashActivity) {
-                startLocationUpdates();
-            }
         }
 
         @Override
@@ -138,50 +114,6 @@ public class IDareApp extends Application {
         @Override
         public void onActivityStopped(Activity activity) {
             ++stopped;
-        }
-
-        private void startLocationUpdates() {
-            if (fusedLocationProviderClient == null) {
-                fusedLocationProviderClient = new FusedLocationProviderClient(getContext());
-            }
-            if (locationRequest == null) {
-                createLocationRequest();
-            }
-            if (ContextCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                        Manifest.permission.ACCESS_FINE_LOCATION)) {
-                } else {
-                    ActivityCompat.requestPermissions(activity,
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-                }
-            } else {
-                fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-            }
-        }
-
-        private void createLocationRequest() {
-            locationRequest = new LocationRequest();
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-            locationRequest.setSmallestDisplacement(SMALLEST_DISPLACEMENT_METERS);
-        }
-
-        private void updateUserLocation(Location lastLocation) {
-            Log.d(TAG, "**** LAT : " + lastLocation.getLatitude() + " **** LNG : " + lastLocation.getLongitude());
-            Session.getInstance().setLocation(lastLocation);
-            PreferencesManager.getInstance(getContext()).updateUserLocation(lastLocation);
-        }
-
-        private static boolean isApplicationVisible() {
-            return started > stopped;
-        }
-
-        private static boolean isApplicationInForeground() {
-            return resumed > paused;
         }
     }
 }
