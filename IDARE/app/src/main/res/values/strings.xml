@@ -71,7 +71,7 @@
     <string name="scope_val">I-dare is not a law enforcement or a rescue agency (put also in terms and conditions) that can guarantee successful rescue of women in distress. We comprise of a pool of empowered women members, the I-dare users, who volunteer to respond, when possible, to an SOS alert from  any member in their vicinity. The goal is to change the mindset of women from mere victims of the current social circumstances and violence to that of a collective strength which says enough is enough! As memberships increases, so will the efficacy of this app, with sufficient members to alert in vicinity of a potential crime. This app is only a technical facilitator of this process.</string>
     <string name="membership_val">Membership is open only to women by Direct Invitation from an existing I-Dare member. Invitation goes out as a Unique, single-use SMS which is not forwardable and may be used by that number only. The SMS contains a link which takes the person directly to the I-Dare App HOME page where a new member may register.</string>
     <string name="safe_practices_header_val">A martial arts saying:  Best form of self defense is not putting yourself in a situation where you need to defend yourself.</string>
-    <string name="safe_prac_passive_title_1">IN PASSIVE MODE : DAILY REMINDERS</string>
+    <string name="safe_prac_passive_title_1"><u>IN PASSIVE MODE : DAILY REMINDERS</u></string>
     <string name="safe_prac_title_2">BE WARNED: ABUSE VIA SOCIAL MEDIA</string>
     <string name="str_arati">Arati</string>
     <string name="about_arati">Arati Chokshi is a retd Astrophysicist, human rights’ activist, with interests &amp; experiences in the fields of natural farming, education, environment protection.</string>

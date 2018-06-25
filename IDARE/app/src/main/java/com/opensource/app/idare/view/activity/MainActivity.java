@@ -24,11 +24,13 @@ import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreGroupFragment;
+import com.opensource.app.idare.view.fragment.DailyReminderFragment;
 import com.opensource.app.idare.view.fragment.DonateFragment;
 import com.opensource.app.idare.view.fragment.InviteToIDareFragment;
 import com.opensource.app.idare.view.fragment.PassiveFragment;
 import com.opensource.app.idare.view.fragment.SafePracticesFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
+import com.opensource.app.idare.view.fragment.WhileWalkingFragment;
 import com.opensource.app.idare.viewmodel.MainActivityViewModel;
 import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
 
@@ -38,8 +40,9 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
 
 public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
         ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreGroupFragment.OnFragmentInteractionListener,
-        SafePracticesFragment.OnFragmentInteractionListener, InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {
+        SafePracticesFragment.OnFragmentInteractionListener, DailyReminderFragment.OnFragmentInteractionListener, WhileWalkingFragment.OnFragmentInteractionListener,
+        InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener,
+        PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {
     private Fragment currentFragment;
     private ActivityMainBinding binding;
     private Context context;

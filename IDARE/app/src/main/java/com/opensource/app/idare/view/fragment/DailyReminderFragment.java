@@ -4,36 +4,35 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.databinding.FragmentSafePracticesBinding;
-import com.opensource.app.idare.viewmodel.SafePracticesViewModel;
+import com.opensource.app.idare.databinding.FragmentDailyReminderBinding;
+import com.opensource.app.idare.viewmodel.DailyReminderViewModel;
 
-public class SafePracticesFragment extends BaseFragment implements SafePracticesViewModel.DataListener {
+public class DailyReminderFragment extends BaseFragment implements DailyReminderViewModel.DataListener {
 
-    private static final String TAG = SafePracticesFragment.class.getSimpleName();
-    private FragmentSafePracticesBinding binding;
-    private SafePracticesViewModel viewModel;
+    private static final String TAG = DailyReminderFragment.class.getSimpleName();
+    private FragmentDailyReminderBinding binding;
+    private DailyReminderViewModel viewModel;
     private OnFragmentInteractionListener mListener;
 
-    public SafePracticesFragment() {
+    public DailyReminderFragment() {
 
     }
 
-    public static SafePracticesFragment newInstance() {
-        SafePracticesFragment fragment = new SafePracticesFragment();
+    public static DailyReminderFragment newInstance() {
+        DailyReminderFragment fragment = new DailyReminderFragment();
         return fragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_safe_practices, container, false);
-        viewModel = new SafePracticesViewModel(getActivity(), this);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_daily_reminder, container, false);
+        viewModel = new DailyReminderViewModel(getActivity(), this);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
@@ -42,7 +41,7 @@ public class SafePracticesFragment extends BaseFragment implements SafePractices
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof SafePracticesFragment.OnFragmentInteractionListener) {
-            mListener = (SafePracticesFragment.OnFragmentInteractionListener) context;
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -55,13 +54,8 @@ public class SafePracticesFragment extends BaseFragment implements SafePractices
         parentActivity.setTitle(getContext().getResources().getString(R.string.safe_practices));
     }
 
-    @Override
-    public FragmentManager getSupportFragmentManager() {
-        return mListener.getSupportFragmentManager();
-    }
-
     public interface OnFragmentInteractionListener {
 
-        FragmentManager getSupportFragmentManager();
     }
+
 }

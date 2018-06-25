@@ -2,26 +2,42 @@
 <layout>
 
     <data>
+
         <variable
             name="viewModel"
             type="com.opensource.app.idare.viewmodel.SafePracticesViewModel" />
     </data>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/idare_white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:text="@string/safe_practices_header_val"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/idare_nav_drawer_background"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_safe_practices"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/idare_white">
-
-            <android.support.v4.view.ViewPager
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zero_dp"
-                android:layout_weight="1"/>
+            android:adapter="@{viewModel.observableAdapter}">
 
             <android.support.v4.view.PagerTabStrip
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"/>
 
-        </LinearLayout>
+        </android.support.v4.view.ViewPager>
+
+    </LinearLayout>
 
 </layout>

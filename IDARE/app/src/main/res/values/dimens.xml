@@ -46,4 +46,7 @@
     <dimen name="margin_full">16dp</dimen>
     <dimen name="margin_half">8dp</dimen>
     <dimen name="zero_dp">0dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="padding_half">8dp</dimen>
+    <dimen name="line_height">1dp</dimen>
 </resources>

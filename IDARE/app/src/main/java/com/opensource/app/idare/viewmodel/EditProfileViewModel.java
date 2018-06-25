@@ -176,7 +176,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
                     dataListener.hideKeyBoard();
                     dataListener.finish();
                     if (!Session.getInstance().isRegisteredToFCM())
-                        registerDeviceToFcm();
+//                        registerDeviceToFcm();
                     dataListener.startActivity(MainActivity.getStartIntent(getContext(), response.getName()));
                 }
             }
@@ -214,10 +214,10 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
         });
     }
 
-    private void registerDeviceToFcm() {
-        String token = FirebaseInstanceId.getInstance().getToken();
-        SessionFacadeImpl.getInstance().registerDeviceToFCM(getContext(), NotificationServiceImpl.getRequestBody(token), null, null);
-    }
+//    private void registerDeviceToFcm() {
+//        String token = FirebaseInstanceId.getInstance().getToken();
+//        SessionFacadeImpl.getInstance().registerDeviceToFCM(getContext(), NotificationServiceImpl.getRequestBody(token), null, null);
+//    }
 
     // Onclick Save Button
     public View.OnClickListener saveClick() {

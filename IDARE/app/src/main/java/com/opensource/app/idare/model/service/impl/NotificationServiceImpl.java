@@ -67,12 +67,12 @@ public class NotificationServiceImpl implements NotificationService {
         ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_UNREGISTER_FOR_PUSH, null, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener<RegisterDeviceResponse>() {
             @Override
             public void onSuccess(RegisterDeviceResponse response) {
-                Log.d(TAG, "****** SUCCESSFULLY REGISTERED " + response.getDeviceId() + " ******");
+                Log.d(TAG, "****** SUCCESSFULLY UNREGISTERED " + response.getDeviceId() + " ******");
             }
         }, new IDAREResponseHandler.ErrorListener() {
             @Override
             public void onError(IDAREErrorWrapper error) {
-                Log.e(TAG, "@@@@@@ ERROR REGISTERING " + error.getException().getMessage() + " @@@@@@");
+                Log.e(TAG, "@@@@@@ ERROR UNREGISTERING " + error.getException().getMessage() + " @@@@@@");
             }
         });
     }

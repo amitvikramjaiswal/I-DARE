@@ -12,12 +12,10 @@ import com.android.volley.AuthFailureError;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
-import com.opensource.app.idare.model.service.NotificationService;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
-import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utility;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
@@ -169,7 +167,7 @@ public class RegisterViewModel extends BaseViewModel {
                     // If data is present - Go to next Screen - Store details in Session
                     dataListener.finish();
                     dataListener.startActivity(MainActivity.getStartIntent(getContext(), response[0].getName()));
-                    registerDeviceToFcm();
+//                    registerDeviceToFcm();
                 }
             }
         }, new IDAREResponseHandler.ErrorListener() {
@@ -219,10 +217,10 @@ public class RegisterViewModel extends BaseViewModel {
         });
     }
 
-    private void registerDeviceToFcm() {
-        String token = FirebaseInstanceId.getInstance().getToken();
-        SessionFacadeImpl.getInstance().registerDeviceToFCM(context, NotificationServiceImpl.getRequestBody(token), null, null);
-    }
+//    private void registerDeviceToFcm() {
+//        String token = FirebaseInstanceId.getInstance().getToken();
+//        SessionFacadeImpl.getInstance().registerDeviceToFCM(context, NotificationServiceImpl.getRequestBody(token), null, null);
+//    }
 
     // Set the value for phoneNumber in TextWatcher
     public TextWatcher onPhoneNumberChanged() {
