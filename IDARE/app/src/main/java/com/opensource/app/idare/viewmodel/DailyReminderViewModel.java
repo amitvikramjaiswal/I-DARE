@@ -20,7 +20,7 @@ public class DailyReminderViewModel extends BaseViewModel {
     public DailyReminderViewModel(Context context, DataListener dataListener) {
         super(context);
         this.dataListener = dataListener;
-        ArrayList<String> arlBulletPoint = (ArrayList<String>) Arrays.asList(getContext().getResources().getStringArray(R.array.arr_safe_prac_passive_val));
+        ArrayList<String> arlBulletPoint = new ArrayList<>(Arrays.asList(getContext().getResources().getStringArray(R.array.arr_safe_prac_passive_val)));
         layoutManager.set(new LinearLayoutManager(getContext()));
         observableBulletPoint.set(new BulletPointsAdapter(getContext(), arlBulletPoint));
     }

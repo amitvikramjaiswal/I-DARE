@@ -12,7 +12,7 @@ public class BulletPointViewModel extends BaseViewModel {
     public BulletPointViewModel(Context context, DataListener dataListener, String bulletPointText) {
         super(context);
         this.dataListener = dataListener;
-        observableBulletPoint.set(bulletPointText);
+        observableBulletPoint.set("\u2022 " + bulletPointText);
     }
 
     public ObservableField<String> getObservableBulletPoint() {
