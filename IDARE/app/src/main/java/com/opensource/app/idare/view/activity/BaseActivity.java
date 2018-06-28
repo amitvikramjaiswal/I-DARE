@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
@@ -187,8 +188,13 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in,
-                android.R.anim.fade_out);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

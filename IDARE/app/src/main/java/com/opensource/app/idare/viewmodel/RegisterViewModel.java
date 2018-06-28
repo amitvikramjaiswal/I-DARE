@@ -9,14 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
-import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.EditProfileActivity;
@@ -289,7 +287,7 @@ public class RegisterViewModel extends BaseViewModel {
     }
 
     private void onVerifyClick(String otp) {
-        if (Utils.hasContent(otp) && otp.equalsIgnoreCase(Utility.OTP_VALIDATION)) {
+        if (Utils.hasContent(otp) && otp.equalsIgnoreCase(Constants.OTP_VALIDATION)) {
             dataListener.hideKeyBoard();
             onVerifyButtonClick();
         } else {

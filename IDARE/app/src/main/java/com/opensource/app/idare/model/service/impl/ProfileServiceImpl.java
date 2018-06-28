@@ -1,20 +1,21 @@
 package com.opensource.app.idare.model.service.impl;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.opensource.app.idare.model.data.entity.IDareLocation;
+import com.opensource.app.idare.model.data.entity.ProfilePic;
 import com.opensource.app.idare.model.data.entity.UserProfileRequestModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.ProfileService;
-import com.opensource.app.idare.model.service.ServiceLocator;
 import com.opensource.app.idare.model.service.URLs;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.utils.AuthType;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Session;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ import java.util.Map;
 import static com.opensource.app.idare.utils.AuthType.APP_CREDENTIALS;
 import static com.opensource.app.idare.utils.AuthType.MASTER_SECRET;
 import static com.opensource.app.idare.utils.AuthType.USER_CREDENTIALS;
-import static com.opensource.app.idare.utils.Utility.ID;
+import static com.opensource.app.idare.utils.Constants.ID;
 
 /**
  * Created by akokala on 11/6/2017.
@@ -30,6 +31,7 @@ import static com.opensource.app.idare.utils.Utility.ID;
 
 public class ProfileServiceImpl implements ProfileService {
 
+    private static final String TAG = ProfileServiceImpl.class.getSimpleName();
     private static ProfileService profileService;
     private String userProfileRequestBody;
 
@@ -63,7 +65,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void fetchUserDetails(Context context, String userName, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         Map<String, String> params = new HashMap<>();
-        params.put(Utility.USERNAME, userName);
+        params.put(Constants.USERNAME, userName);
         ServiceLocatorImpl.getInstance().executeGetRequest(context, URLs.URL_FETCH_USERS, params, AuthType.USER_CREDENTIALS, null,
                 new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
                     @Override
@@ -109,7 +111,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void login(final Context context, final String userName, final String password, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         Map<String, String> params = new HashMap<>();
-        params.put(Utility.USERNAME, userName);
+        params.put(Constants.USERNAME, userName);
 
         ServiceLocatorImpl.getInstance().login(context, userName, password, URLs.URL_IS_PASSWORD_EXISTS, params, USER_CREDENTIALS, null, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
             @Override
@@ -134,7 +136,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void checkIfUserExists(final Context context, String username, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         Map<String, String> params = new HashMap<>();
-        params.put(Utility.USERNAME, username);
+        params.put(Constants.USERNAME, username);
         ServiceLocatorImpl.getInstance().executeGetRequest(context, URLs.URL_IS_USER_EXISTS, params, MASTER_SECRET, null, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
             @Override
             public void onSuccess(UserProfileResponseModel[] response) {
@@ -171,6 +173,22 @@ public class ProfileServiceImpl implements ProfileService {
             @Override
             public void onError(IDAREErrorWrapper error) {
                 errorListener.onError(error);
+            }
+        });
+    }
+
+    @Override
+    public void uploadProfilePic(Context context, ProfilePic profilePic, IDAREResponseHandler.ResponseListener<ProfilePic> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
+        String body = new Gson().toJson(profilePic);
+        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_UPLOAD_PROFILE_PIC, null, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener() {
+            @Override
+            public void onSuccess(Object response) {
+
+            }
+        }, new IDAREResponseHandler.ErrorListener() {
+            @Override
+            public void onError(IDAREErrorWrapper error) {
+                Log.e(TAG, error.getMessage());
             }
         });
     }

@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.ActivitySplashBinding;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.viewmodel.SplashViewModel;
 
 import static com.opensource.app.idare.application.IDareApp.getContext;
@@ -52,6 +52,6 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
                 startActivity(intent);
                 finish();
             }
-        }, Utility.SPLASH_TIME_OUT);
+        }, Constants.SPLASH_TIME_OUT);
     }
 }

@@ -21,7 +21,7 @@ import com.opensource.app.idare.model.service.volley.VolleyService;
 import com.opensource.app.idare.utils.AuthType;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.utils.Utils;
 
 import java.util.HashMap;
@@ -74,22 +74,22 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 try {
                     processResponse(response, responseListener, errorListener);
                 } catch (Exception e) {
-                    Log.e(TAG, Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e);
-                    errorListener.onError(new IDAREErrorWrapper(Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e));
+                    Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
+                    errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                errorListener.onError(new IDAREErrorWrapper(Utility.ERROR_OCCURRED_IN_SERVICE_CALL, error));
+                errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, error));
             }
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(
-                Utility.MY_SOCKET_TIMEOUT_MS,
+                Constants.MY_SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Log.d(TAG, Utility.SERVICE_CALL_STARTED);
+        Log.d(TAG, Constants.SERVICE_CALL_STARTED);
         VolleyService.getVolleyService(IDareApp.getContext()).addToRequestQueue(request);
     }
 
@@ -124,22 +124,22 @@ public class ServiceLocatorImpl implements ServiceLocator {
                     Log.d(TAG, "*** URL ***" + strUrl);
                     processResponse(response, responseListener, errorListener);
                 } catch (Exception e) {
-                    Log.e(TAG, Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e);
-                    errorListener.onError(new IDAREErrorWrapper(Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e));
+                    Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
+                    errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                errorListener.onError(new IDAREErrorWrapper(Utility.ERROR_OCCURRED_IN_SERVICE_CALL, error));
+                errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, error));
             }
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(
-                Utility.MY_SOCKET_TIMEOUT_MS,
+                Constants.MY_SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Log.d(TAG, Utility.SERVICE_CALL_STARTED);
+        Log.d(TAG, Constants.SERVICE_CALL_STARTED);
         VolleyService.getVolleyService(IDareApp.getContext()).addToRequestQueue(request);
     }
 
@@ -171,12 +171,12 @@ public class ServiceLocatorImpl implements ServiceLocator {
             @Override
             public void onResponse(Object response) {
                 try {
-                    Log.d(TAG, Utility.SUCCESS);
-                    Log.d(TAG, Utility.SERVICE_CALL_ENDED);
+                    Log.d(TAG, Constants.SUCCESS);
+                    Log.d(TAG, Constants.SERVICE_CALL_ENDED);
                     processResponse(response, responseListener, errorListener);
                 } catch (Exception e) {
-                    Log.e(TAG, Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e);
-                    errorListener.onError(new IDAREErrorWrapper(Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e));
+                    Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
+                    errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
                 }
             }
         }, new Response.ErrorListener() {
@@ -189,10 +189,10 @@ public class ServiceLocatorImpl implements ServiceLocator {
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(
-                Utility.MY_SOCKET_TIMEOUT_MS,
+                Constants.MY_SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Log.d(TAG, Utility.SERVICE_CALL_STARTED);
+        Log.d(TAG, Constants.SERVICE_CALL_STARTED);
         VolleyService.getVolleyService(IDareApp.getContext()).addToRequestQueue(request);
     }
 
@@ -224,12 +224,12 @@ public class ServiceLocatorImpl implements ServiceLocator {
             @Override
             public void onResponse(Object response) {
                 try {
-                    Log.d(TAG, Utility.SUCCESS);
-                    Log.d(TAG, Utility.SERVICE_CALL_ENDED);
+                    Log.d(TAG, Constants.SUCCESS);
+                    Log.d(TAG, Constants.SERVICE_CALL_ENDED);
                     processResponse(response, responseListener, errorListener);
                 } catch (Exception e) {
-                    Log.e(TAG, Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e);
-                    errorListener.onError(new IDAREErrorWrapper(Utility.ERROR_OCCURRED_IN_SERVICE_CALL, e));
+                    Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
+                    errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
                 }
             }
         }, new Response.ErrorListener() {
@@ -242,10 +242,10 @@ public class ServiceLocatorImpl implements ServiceLocator {
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(
-                Utility.MY_SOCKET_TIMEOUT_MS,
+                Constants.MY_SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Log.d(TAG, Utility.SERVICE_CALL_STARTED);
+        Log.d(TAG, Constants.SERVICE_CALL_STARTED);
         VolleyService.getVolleyService(IDareApp.getContext()).addToRequestQueue(request);
     }
 
@@ -258,23 +258,23 @@ public class ServiceLocatorImpl implements ServiceLocator {
             case URL_CREATE_ACCOUNT:
                 break;
             case URL_UPDATE_PROFILE:
-                String id = queryParam.get(Utility.ID);
-                url += Utility.SEPARATOR + id;
+                String id = queryParam.get(Constants.ID);
+                url += Constants.SEPARATOR + id;
                 break;
             case URL_IS_USER_EXISTS:
                 String keyUsername = queryParam.keySet().iterator().next();
                 String valueUserName = queryParam.get(keyUsername);
-                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}", keyUsername, valueUserName);
+                url += String.format(Constants.QUERY + "{\"%s\":\"%s\"}", keyUsername, valueUserName);
                 break;
             case URL_IS_PASSWORD_EXISTS:
                 String key = queryParam.keySet().iterator().next();
                 String value = queryParam.get(key);
-                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}", key, value);
+                url += String.format(Constants.QUERY + "{\"%s\":\"%s\"}", key, value);
                 break;
             case URL_FETCH_USERS:
                 String keyVal = queryParam.keySet().iterator().next();
                 String valuee = queryParam.get(keyVal);
-                url += String.format(Utility.QUERY + "{\"%s\":\"%s\"}", keyVal, valuee);
+                url += String.format(Constants.QUERY + "{\"%s\":\"%s\"}", keyVal, valuee);
                 break;
             case URL_NEAR_BY_SEARCH_BASE_URL:
                 Set<String> keys = queryParam.keySet();
@@ -299,7 +299,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private Map<String, String> getCommonHeaders(AuthType authType, Context context, String username, String userPass) {
         // Add Required Headers
         Map<String, String> headers = new HashMap<>();
-        headers.put(Utility.CONTENT_TYPE, Utility.APPLICATION_JSON);
+        headers.put(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
         // add headers <key,value>
         String credentials;
         switch (authType) {
@@ -312,16 +312,16 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 }
                 break;
             case MASTER_SECRET:
-                credentials = Utility.APP_KEY + ":" + Utility.MASTER_SECRET;
+                credentials = Constants.APP_KEY + ":" + Constants.MASTER_SECRET;
                 break;
             case APP_CREDENTIALS:
             default:
-                credentials = Utility.APP_KEY + ":" + Utility.APP_SECRET;
+                credentials = Constants.APP_KEY + ":" + Constants.APP_SECRET;
         }
-        String auth = Utility.BASIC
+        String auth = Constants.BASIC
                 + Base64.encodeToString(credentials.getBytes(),
                 Base64.NO_WRAP);
-        headers.put(Utility.AUTHORISATION, auth);
+        headers.put(Constants.AUTHORISATION, auth);
         return headers;
     }
 

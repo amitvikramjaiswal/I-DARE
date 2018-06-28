@@ -20,7 +20,7 @@ import com.opensource.app.idare.R;
 import com.opensource.app.idare.component.service.IDareLocationService;
 import com.opensource.app.idare.databinding.ActivityMainBinding;
 import com.opensource.app.idare.databinding.NavHeaderMainBinding;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreGroupFragment;
@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
 
     public static Intent getStartIntent(Context context, String name) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Utility.USER_NAME, name);
+        intent.putExtra(Constants.USER_NAME, name);
         return intent;
     }
 
@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         this.context = this.getApplicationContext();
-        String nameFromBundle = getIntent().getStringExtra(Utility.USER_NAME);
+        String nameFromBundle = getIntent().getStringExtra(Constants.USER_NAME);
         viewModel = new MainActivityViewModel(this, this, nameFromBundle);
         binding.setViewModel(viewModel);
         toolbar = (Toolbar) binding.toolbar.findViewById(R.id.toolbar);

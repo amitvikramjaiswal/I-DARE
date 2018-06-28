@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -47,7 +47,7 @@ public class VolleyGSONPostRequest<T> extends JsonRequest<T> {
     public Map<String, String> getHeaders() throws AuthFailureError {
         mHeaders = mHeaders != null ? mHeaders : super.getHeaders();
         //mHeaders.put(Constants.COOKIE, Session.getInstance().getCookie());
-        mHeaders.put(Utility.CONTENT_TYPE, Utility.APPLICATION_JSON);
+        mHeaders.put(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
         return mHeaders;
     }
 

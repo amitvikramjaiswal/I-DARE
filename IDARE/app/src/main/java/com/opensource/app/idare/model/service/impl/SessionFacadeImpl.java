@@ -4,6 +4,7 @@ package com.opensource.app.idare.model.service.impl;
 import android.content.Context;
 
 import com.opensource.app.idare.model.data.entity.IDareLocation;
+import com.opensource.app.idare.model.data.entity.ProfilePic;
 import com.opensource.app.idare.model.data.entity.RegisterDevice;
 import com.opensource.app.idare.model.data.entity.UserProfileRequestModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
@@ -76,6 +77,11 @@ public class SessionFacadeImpl implements SessionFacade {
     @Override
     public void getNearBySafeHouses(Context context, String key, String location, String radius, String type, String nextPageToken, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener) {
         nearBySafeHouseService.getNearBySafeHouses(context, key, location, radius, type, nextPageToken, responseListener, errorListener);
+    }
+
+    @Override
+    public void uploadProfilePic(Context context, ProfilePic profilePic, IDAREResponseHandler.ResponseListener<ProfilePic> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
+        profileService.uploadProfilePic(context, profilePic, responseListener, errorListener);
     }
 
 }

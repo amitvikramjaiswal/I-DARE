@@ -87,5 +87,7 @@
     <string name="contact_2">8028482409</string>
     <string name="contact_email">aratichokshi@gmail.com</string>
     <string name="safe_prac_while_walking_title">While Walking</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="camera_no_permissions">Need Permission to use camera</string>
 
 </resources>

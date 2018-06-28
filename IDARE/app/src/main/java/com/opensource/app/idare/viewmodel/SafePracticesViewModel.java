@@ -20,7 +20,7 @@ public class SafePracticesViewModel extends BaseViewModel {
         observableAdapter.set(new SafePracticesPagerAdapter(dataListener.getSupportFragmentManager(), context));
         observableColor.set(R.color.idare_pink);
     }
-    
+
     public ObservableField<SafePracticesPagerAdapter> getObservableAdapter() {
         return observableAdapter;
     }

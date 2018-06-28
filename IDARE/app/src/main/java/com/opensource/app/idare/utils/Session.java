@@ -15,6 +15,7 @@ public class Session {
     private boolean isRegisteredToFCM;
     private boolean isShoppingMallChecked, isPoliceStationChecked, isCafeChecked;
     private int radius;
+    private String profilePicUri;
     private Location lastLocation;
 
     public static Session getInstance() {

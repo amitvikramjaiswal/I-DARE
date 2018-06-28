@@ -1,31 +1,61 @@
 package com.opensource.app.idare.viewmodel;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Parcelable;
+import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.model.data.entity.ProfilePic;
 import com.opensource.app.idare.model.data.entity.UserProfileRequestModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
-import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
+import com.opensource.app.idare.utils.ImageEditor;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Session;
 import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.MainActivity;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by akokala on 11/6/2017.
  */
 
 public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
+
+    private static final String TAG = EditProfileViewModel.class.getSimpleName();
+    private static final int IMAGE_PICKER_REQUEST_CODE = 2;
+    private static final int IMAGE_EDITOR_REQUEST_CODE = CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;;
     private DataListener dataListener;
     private Session session;
 
@@ -34,8 +64,12 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
     private ObservableField<String> alternativeNumFromEditText = new ObservableField<>("");
     private ObservableField<String> passwordFromEditText = new ObservableField<>("");
     private ObservableField<Boolean> enableSaveButton = new ObservableField<>(false);
+    private ObservableField<Bitmap> observableProfilePic = new ObservableField<>();
 
     private String phoneNumberFromBundle;
+    private String userChoosenTask;
+    private Uri dpUri;
+    private ProfilePic profilePic;
 
     public EditProfileViewModel(Context context, DataListener dataListener, String phoneNumberFromBundle) {
         super(context);
@@ -66,6 +100,11 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
         dataListener.getPassword().addTextChangedListener(this);
     }
 
+    @BindingAdapter("android:image_bitmap")
+    public static void setProfilePic(ImageView profilePic, Bitmap bitmap) {
+        profilePic.setImageBitmap(bitmap);
+    }
+
     public ObservableField<String> getNameFromEditTExt() {
         return nameFromEditTExt;
     }
@@ -84,6 +123,172 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
 
     public ObservableField<Boolean> getEnableSaveButton() {
         return enableSaveButton;
+    }
+
+    public ObservableField<Bitmap> getObservableProfilePic() {
+        return observableProfilePic;
+    }
+
+    public View.OnClickListener onPicClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectImage();
+            }
+        };
+    }
+
+    private void selectImage() {
+        Intent in = getPickImageChooserIntent();
+
+        if (in != null) {
+            dataListener.startActivityForResult(in, IMAGE_PICKER_REQUEST_CODE);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage(getContext().getResources().getString(R.string.camera_no_permissions))
+                    .setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
+                            intent.setData(uri);
+                            dataListener.startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //do nothing
+                            dialog.dismiss();
+                        }
+                    });
+
+            builder.create().show();
+        }
+    }
+
+    public Intent getPickImageChooserIntent() {
+
+        // Determine Uri of camera image to save.
+        Uri outputFileUri = getCaptureImageOutputUri();
+
+        Log.d(TAG, "FileUri = " + outputFileUri);
+
+        List<Intent> allIntents = new ArrayList();
+        PackageManager packageManager = getContext().getPackageManager();
+
+        // collect all camera intents
+//        if (cameraGranted) {
+        Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            if (outputFileUri != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            }
+            allIntents.add(intent);
+//            }
+        }
+
+//        if (writeGranted) {
+        // collect all gallery intents
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+        for (ResolveInfo res : listGallery) {
+            Intent intent = new Intent(galleryIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            allIntents.add(intent);
+        }
+//        }
+
+        if (allIntents == null || allIntents.size() == 0) {
+            return null;
+        }
+
+        // the main intent is the last in the list (fucking android) so pickup the useless one
+        Intent mainIntent = allIntents.get(allIntents.size() - 1);
+        for (Intent intent : allIntents) {
+            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
+                mainIntent = intent;
+                break;
+            }
+        }
+        allIntents.remove(mainIntent);
+
+        // Create a chooser from the main intent
+        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
+
+        // Add all other intents
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
+
+        return chooserIntent;
+    }
+
+    private Uri getCaptureImageOutputUri() {
+        Uri outputFileUri = null;
+        File getImage = getContext().getExternalCacheDir();
+        if (getImage != null) {
+            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "profile.png"));
+        }
+        return outputFileUri;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case IMAGE_PICKER_REQUEST_CODE:
+                    Uri selectedImage;
+                    Uri outputFile = getCaptureImageOutputUri();
+                    boolean isCamera = (data == null ||
+                            data.getData() == null ||
+                            data.getData().toString().contains(outputFile.getPath()));
+
+                    if (isCamera) {     /** CAMERA **/
+                        selectedImage = outputFile;
+                    } else {            /** ALBUM **/
+                        selectedImage = data.getData();
+                    }
+
+                    if (selectedImage != null) {
+                        ImageEditor.cropImage(selectedImage, dataListener.getActivity());
+                    }
+                    break;
+                case IMAGE_EDITOR_REQUEST_CODE:
+                    try {
+                        Uri uri = ImageEditor.getUpdatedImage(resultCode, data);
+                        encodeImage(uri);
+                        observableProfilePic.set(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri));
+                        dpUri = uri;
+                    } catch (Exception e) {
+                        Log.e(TAG, "ImageEditor Error: ", e);
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void encodeImage(Uri uri) {
+        final InputStream imageStream;
+        try {
+            imageStream = getContext().getContentResolver().openInputStream(uri);
+            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String base64Image = Base64.encodeToString(b, Base64.DEFAULT);
+            profilePic = new ProfilePic();
+            profilePic.setBase64Image(base64Image);
+            profilePic.setProfilePicUri(uri.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     // Set the value for name
@@ -175,9 +380,9 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
 
                     dataListener.hideKeyBoard();
                     dataListener.finish();
-                    if (!Session.getInstance().isRegisteredToFCM())
+//                    if (!Session.getInstance().isRegisteredToFCM())
 //                        registerDeviceToFcm();
-                    dataListener.startActivity(MainActivity.getStartIntent(getContext(), response.getName()));
+                        dataListener.startActivity(MainActivity.getStartIntent(getContext(), response.getName()));
                 }
             }
         }, new IDAREResponseHandler.ErrorListener() {
@@ -245,6 +450,21 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
             @Override
             public void onError(IDAREErrorWrapper error) {
                 enableSaveButton.set(true);
+            }
+        });
+        uploadProfilePic();
+    }
+
+    private void uploadProfilePic() {
+        SessionFacadeImpl.getInstance().uploadProfilePic(getContext(), profilePic, new IDAREResponseHandler.ResponseListener<ProfilePic>() {
+            @Override
+            public void onSuccess(ProfilePic response) {
+                Log.d(TAG, "base64 image - " + response.getBase64Image());
+            }
+        }, new IDAREResponseHandler.ErrorListener() {
+            @Override
+            public void onError(IDAREErrorWrapper error) {
+                Log.d(TAG, error.getMessage());
             }
         });
     }

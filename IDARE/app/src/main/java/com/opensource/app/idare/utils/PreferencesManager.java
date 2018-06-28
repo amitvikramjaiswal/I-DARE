@@ -9,10 +9,10 @@ import com.google.gson.Gson;
 import com.opensource.app.idare.model.data.entity.IDareLocation;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 
-import static com.opensource.app.idare.utils.Utility.LATITUDE;
-import static com.opensource.app.idare.utils.Utility.LONGITUDE;
-import static com.opensource.app.idare.utils.Utility.PASSWORD;
-import static com.opensource.app.idare.utils.Utility.USERNAME;
+import static com.opensource.app.idare.utils.Constants.LATITUDE;
+import static com.opensource.app.idare.utils.Constants.LONGITUDE;
+import static com.opensource.app.idare.utils.Constants.PASSWORD;
+import static com.opensource.app.idare.utils.Constants.USERNAME;
 
 /**
  * Created by akokala on 11/6/2017.
@@ -39,18 +39,18 @@ public class PreferencesManager {
     }
 
     public UserProfileResponseModel getUserDetails() {
-        UserProfileResponseModel userProfileResponseModel = new Gson().fromJson(preferences.getString(Utility.KEY_USER_CONTEXT, null), UserProfileResponseModel.class);
+        UserProfileResponseModel userProfileResponseModel = new Gson().fromJson(preferences.getString(Constants.KEY_USER_CONTEXT, null), UserProfileResponseModel.class);
         return userProfileResponseModel;
     }
 
     public void setUserProfileResponse(UserProfileResponseModel userContext) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(Utility.KEY_USER_CONTEXT, new Gson().toJson(userContext));
+        editor.putString(Constants.KEY_USER_CONTEXT, new Gson().toJson(userContext));
         editor.apply();
     }
 
     public void rememberForSingleSignOn(String userName, String password) {
-        preferences.edit().putString(USERNAME, userName).putString(Utility.PASSWORD, password).apply();
+        preferences.edit().putString(USERNAME, userName).putString(Constants.PASSWORD, password).apply();
     }
 
     public boolean wasUserLoggedIn() {

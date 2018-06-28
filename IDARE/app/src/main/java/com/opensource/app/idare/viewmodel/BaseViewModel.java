@@ -52,6 +52,8 @@ public abstract class BaseViewModel {
 
         void finish();
 
+        void startActivityForResult(Intent intent, int requestCode);
+
         Activity getActivity();
     }
 
