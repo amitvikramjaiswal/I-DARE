@@ -3,6 +3,9 @@ package com.opensource.app.idare.model.service.impl;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.opensource.app.idare.model.data.entity.IDareLocation;
 import com.opensource.app.idare.model.data.entity.ProfilePic;
@@ -11,12 +14,18 @@ import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.ProfileService;
 import com.opensource.app.idare.model.service.URLs;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.volley.MultipartRequest;
+import com.opensource.app.idare.model.service.volley.VolleySingleton;
 import com.opensource.app.idare.utils.AuthType;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Session;
 import com.opensource.app.idare.utils.Constants;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +43,9 @@ public class ProfileServiceImpl implements ProfileService {
     private static final String TAG = ProfileServiceImpl.class.getSimpleName();
     private static ProfileService profileService;
     private String userProfileRequestBody;
+    private String lineEnd = "\r\n";
+    private String twoHyphens = "--";
+    private String boundary = "*****";
 
     private ProfileServiceImpl() {
     }
@@ -179,17 +191,68 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void uploadProfilePic(Context context, ProfilePic profilePic, IDAREResponseHandler.ResponseListener<ProfilePic> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
-        String body = new Gson().toJson(profilePic);
-        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_UPLOAD_PROFILE_PIC, null, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener() {
-            @Override
-            public void onSuccess(Object response) {
+        ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
+        DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream2);
+        byte[] multipartBody;
+        try {
+            // the first file
+            buildPart(dataOutputStream, profilePic.getArrByteImage(), profilePic.getId() + ".jpg");
+            // send multipart form data necesssary after file data
+            dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            // pass to multipart body
+            multipartBody = byteArrayOutputStream2.toByteArray();
 
-            }
-        }, new IDAREResponseHandler.ErrorListener() {
-            @Override
-            public void onError(IDAREErrorWrapper error) {
-                Log.e(TAG, error.getMessage());
-            }
-        });
+            MultipartRequest multipartRequest = new MultipartRequest(URLs.URL_UPLOAD_PROFILE_PIC.fullURL(), ServiceLocatorImpl.getInstance().getCommonHeaders(USER_CREDENTIALS, context, null, null), "", multipartBody, new Response.Listener<NetworkResponse>() {
+                @Override
+                public void onResponse(NetworkResponse response) {
+                    Log.d(TAG, response.data.toString());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Log.e(TAG, error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            VolleySingleton.getInstance(context).addToRequestQueue(multipartRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    public void getUserProfilePic() {
+
+    }
+
+    private void buildPart(DataOutputStream dataOutputStream, byte[] fileData, String fileName) throws IOException {
+        dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
+        dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\""
+                + fileName + "\"" + lineEnd);
+
+        dataOutputStream.writeBytes(lineEnd);
+
+        ByteArrayInputStream fileInputStream = new ByteArrayInputStream(fileData);
+        int bytesAvailable = fileInputStream.available();
+
+        int maxBufferSize = 1024 * 1024;
+        int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+        byte[] buffer = new byte[bufferSize];
+
+        // read file and write it into form...
+        int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+        while (bytesRead > 0) {
+            dataOutputStream.write(buffer, 0, bufferSize);
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+        }
+
+        dataOutputStream.writeBytes(lineEnd);
+    }
+
 }

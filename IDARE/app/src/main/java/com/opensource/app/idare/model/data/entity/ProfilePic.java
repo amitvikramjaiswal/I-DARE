@@ -22,9 +22,9 @@ public class ProfilePic implements Parcelable {
     @SerializedName("profilePicUri")
     @Expose
     private String profilePicUri;
-    @SerializedName("base64Image")
+    @SerializedName("arrByteImage")
     @Expose
-    private String base64Image;
+    private byte[] arrByteImage;
     @SerializedName("userId")
     @Expose
     private String userId;
@@ -38,14 +38,13 @@ public class ProfilePic implements Parcelable {
     @Expose
     private String id;
 
-
     public ProfilePic() {
 
     }
 
     protected ProfilePic(Parcel in) {
         profilePicUri = in.readString();
-        base64Image = in.readString();
+        arrByteImage = in.createByteArray();
         userId = in.readString();
         acl = in.readParcelable(Acl.class.getClassLoader());
         kmd = in.readParcelable(Kmd.class.getClassLoader());
@@ -55,7 +54,7 @@ public class ProfilePic implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(profilePicUri);
-        dest.writeString(base64Image);
+        dest.writeByteArray(arrByteImage);
         dest.writeString(userId);
         dest.writeParcelable(acl, flags);
         dest.writeParcelable(kmd, flags);
@@ -75,14 +74,6 @@ public class ProfilePic implements Parcelable {
         this.profilePicUri = profilePicUri;
     }
 
-    public String getBase64Image() {
-        return base64Image;
-    }
-
-    public void setBase64Image(String base64Image) {
-        this.base64Image = base64Image;
-    }
-
     public String getUserId() {
 
         return userId;
@@ -90,5 +81,37 @@ public class ProfilePic implements Parcelable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public byte[] getArrByteImage() {
+        return arrByteImage;
+    }
+
+    public void setArrByteImage(byte[] arrByteImage) {
+        this.arrByteImage = arrByteImage;
+    }
+
+    public Acl getAcl() {
+        return acl;
+    }
+
+    public void setAcl(Acl acl) {
+        this.acl = acl;
+    }
+
+    public Kmd getKmd() {
+        return kmd;
+    }
+
+    public void setKmd(Kmd kmd) {
+        this.kmd = kmd;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

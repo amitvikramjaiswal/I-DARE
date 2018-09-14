@@ -296,7 +296,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return url;
     }
 
-    private Map<String, String> getCommonHeaders(AuthType authType, Context context, String username, String userPass) {
+    public Map<String, String> getCommonHeaders(AuthType authType, Context context, String username, String userPass) {
         // Add Required Headers
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);

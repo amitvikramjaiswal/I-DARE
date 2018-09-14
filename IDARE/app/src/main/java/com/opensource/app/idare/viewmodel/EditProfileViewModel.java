@@ -11,7 +11,6 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -30,6 +29,7 @@ import com.opensource.app.idare.model.data.entity.ProfilePic;
 import com.opensource.app.idare.model.data.entity.UserProfileRequestModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.impl.ProfileServiceImpl;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.ImageEditor;
@@ -43,6 +43,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,12 +85,20 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
     // Show the prepopulated value in the Ui for Edit User
     private void prepopulateUserDetails() {
         UserProfileResponseModel userProfileResponseModel = Session.getInstance().getUserProfileResponseModel();
+        profilePic = Session.getInstance().getProfilePic();
         if (userProfileResponseModel != null) {
 
             nameFromEditTExt.set(PreferencesManager.getInstance(getContext()).getUserDetails().getName());
             emailFromEditText.set(userProfileResponseModel.getEmail());
             alternativeNumFromEditText.set(userProfileResponseModel.getAlternate());
             passwordFromEditText.set(PreferencesManager.getInstance(getContext()).getUserPass());
+        }
+        if (profilePic != null && !profilePic.getProfilePicUri().isEmpty()) {
+            try {
+                observableProfilePic.set(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(profilePic.getProfilePicUri())));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -264,6 +273,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
                     try {
                         Uri uri = ImageEditor.getUpdatedImage(resultCode, data);
                         encodeImage(uri);
+
                         observableProfilePic.set(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri));
                         dpUri = uri;
                     } catch (Exception e) {
@@ -280,12 +290,13 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
             imageStream = getContext().getContentResolver().openInputStream(uri);
             final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            selectedImage.compress(Bitmap.CompressFormat.JPEG, 90, baos);
             byte[] b = baos.toByteArray();
-            String base64Image = Base64.encodeToString(b, Base64.DEFAULT);
+//            String base64Image = Base64.encodeToString(b, Base64.NO_WRAP);
             profilePic = new ProfilePic();
-            profilePic.setBase64Image(base64Image);
+            profilePic.setArrByteImage(b);
             profilePic.setProfilePicUri(uri.toString());
+            Session.getInstance().setProfilePic(profilePic);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -456,10 +467,22 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
     }
 
     private void uploadProfilePic() {
+        ProfileServiceImpl.getInstance().uploadProfilePic(getContext(), profilePic, new IDAREResponseHandler.ResponseListener<ProfilePic>() {
+            @Override
+            public void onSuccess(ProfilePic response) {
+
+            }
+        }, new IDAREResponseHandler.ErrorListener() {
+            @Override
+            public void onError(IDAREErrorWrapper error) {
+
+            }
+        });
+
         SessionFacadeImpl.getInstance().uploadProfilePic(getContext(), profilePic, new IDAREResponseHandler.ResponseListener<ProfilePic>() {
             @Override
             public void onSuccess(ProfilePic response) {
-                Log.d(TAG, "base64 image - " + response.getBase64Image());
+                Log.d(TAG, "base64 image - " + response.getArrByteImage());
             }
         }, new IDAREResponseHandler.ErrorListener() {
             @Override
