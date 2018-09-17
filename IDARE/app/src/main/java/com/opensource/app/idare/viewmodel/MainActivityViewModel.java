@@ -25,10 +25,9 @@ import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.RegisterActivity;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
-import com.opensource.app.idare.view.fragment.CoreListFragment;
-import com.opensource.app.idare.view.fragment.DonateFragment;
-import com.opensource.app.idare.view.fragment.InviteToIDareFragment;
+import com.opensource.app.idare.view.fragment.CoreGroupFragment;
 import com.opensource.app.idare.view.fragment.PassiveFragment;
+import com.opensource.app.idare.view.fragment.SafePracticesFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
 
 /**
@@ -36,6 +35,9 @@ import com.opensource.app.idare.view.fragment.SettingsFragment;
  */
 
 public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpViewModel.DataListener {
+
+    private static final String TAG = MainActivityViewModel.class.getSimpleName();
+
     private DataListener dataListener;
     private MenuItem mPreviousMenuItem;
     private LayoutPopUpViewModel layoutPopUpViewModel;
@@ -74,7 +76,8 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
             public void onClick(View v) {
                 // Open dialog
                 dataListener.getDrawer().closeDrawer(Gravity.START);
-                layoutPopUpViewModel.showAlertDialog();
+                dataListener.replaceFragment(PassiveFragment.newInstance());
+//                layoutPopUpViewModel.showAlertDialog();
             }
         };
     }
@@ -106,22 +109,22 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
                     fragment = PassiveFragment.newInstance();
                 }
                 break;
-            case R.id.core_list:
-                CoreListFragment coreListFragment = CoreListFragment.newInstance();
-                fragment = coreListFragment;
+            case R.id.core_group:
+                CoreGroupFragment coreGroupFragment = CoreGroupFragment.newInstance();
+                fragment = coreGroupFragment;
                 break;
-            case R.id.invite:
-                InviteToIDareFragment inviteToIDareFragment = InviteToIDareFragment.newInstance();
-                fragment = inviteToIDareFragment;
+            case R.id.safe_practices:
+                SafePracticesFragment safePracticesFragment = SafePracticesFragment.newInstance();
+                fragment = safePracticesFragment;
                 break;
             case R.id.app_tour:
                 AppTourFragment appTourFragment = AppTourFragment.newInstance();
                 fragment = appTourFragment;
                 break;
-            case R.id.donate:
-                DonateFragment donateFragment = DonateFragment.newInstance();
-                fragment = donateFragment;
-                break;
+//            case R.id.donate:
+//                DonateFragment donateFragment = DonateFragment.newInstance();
+//                fragment = donateFragment;
+//                break;
             case R.id.settings:
                 SettingsFragment settingsFragment = SettingsFragment.newInstance();
                 fragment = settingsFragment;
@@ -224,26 +227,17 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
                 });
     }
 
-    public interface DataListener {
+    public void onResume() {
+
+    }
+
+    public interface DataListener extends BaseViewModel.DataListener {
 
         void replaceFragment(Fragment fragment);
 
-        void startActivity(Intent intent);
-
-        void finish();
-
-        void showProgress();
-
-        void hideProgress();
-
-        void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
-
         DrawerLayout getDrawer();
-
-        void hideKeyBoard();
 
         void getUserName(String userName);
 
-        void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }
 }

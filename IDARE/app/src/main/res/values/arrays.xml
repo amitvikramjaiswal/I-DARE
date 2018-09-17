@@ -11,4 +11,87 @@
         <item>LOG OUT</item>
     </array>
 
+    <array name="arr_safe_prac_passive_val">
+        <item>Safety is your right &amp; responsibility</item>
+        <item>BE PHYSICALLY FIT. CAN YOU RUN WHEN IN DANGER?</item>
+        <item>Keep Battery is fully charged</item>
+        <item>KNOW your I-Dare App</item>
+        <item>IS YOUR Core group updated?</item>
+        <item>Go into Active mode to plan your day &amp; movements; locate primary safe public spots</item>
+        <item>TRUST YOURSELF</item>
+        <item>Alcohol or Drugs cloud judgement</item>
+        <item>Avoid GIVing YOUR PHONE TO A CHILD WHO MAY accidentally ACTIVATE AN ‘ALERT’ MODE</item>
+    </array>
+
+    <array name="arr_safe_prac_walking_val">
+        <item>Stay Alert at all times. Look back from time to time.</item>
+        <item>Avoid walking alone - safety IS in numbers.</item>
+        <item>Walk on footpaths, away from the roadside.</item>
+        <item>Stay on well lit pathways.</item>
+        <item>Avoid short cuts.</item>
+        <item>PLAN your route Before your walk.</item>
+        <item>Be aware of your surroundings at all times and BE attuned to any suspicious behavior.</item>
+        <item>TRUST YOUR INSTINCTS.</item>
+        <item>Avoid waiting in isolated areas.</item>
+        <item>Be purposeful.</item>
+        <item>Walk with your head upright.Make eye contact.</item>
+        <item>Don’t day dream, "zone-out", or text while walking.</item>
+        <item>Act Confident with a strong body language.</item>
+        <item>Say "Leave me Alone" loudly if hassled.</item>
+    </array>
+
+    <array name="arr_safe_prac_cab_val">
+        <item>Share the tracking info.</item>
+        <item>Make sure Passenger door is not child-locked.</item>
+        <item>Avoid tinted windows.</item>
+    </array>
+
+    <array name="arr_safe_prac_elevator_val">
+        <item>If alone with another person and your instinct warns you, press all the numbers of the elevator so the elevator will stop at every floor.</item>
+    </array>
+    
+    <array name="arr_safe_prac_social_media_val">
+        <item>Location tracking</item>
+        <item>Use of deception or anonymity</item>
+        <item>Tool for Control</item>
+        <item>Online Harrassment</item>
+        <item>Stalk</item>
+        <item>Unauthorised dissemination of sexual images &amp; texts</item>
+        <item>Posting or sharing sexually harrassing or violent images or text</item>
+        <item>Sexual exploitation of minors</item>
+    </array>
+
+    <array name="arr_safe_prac_active_val">
+        <item>PRESS I-DARE ACTIVE MODE</item>
+        <item>Remember to breathe;do not panic</item>
+        <item>Plan your quick exit</item>
+        <item>Safety first depends on you - be empowered.</item>
+        <item>If followed, cross the street. If still stalked, enter closest public space.</item>
+        <item>Yell "HELP"</item>
+        <item>Sound SIREN</item>
+        <item>Use the call back facility and appear engaged in conversation, while keeping alert and aware of your surroundings.</item>
+        <item>FLEE if you can; Engage as a last resort.</item>
+        <item>In a confrontation, verbal negotiation buys time to plan exit.</item>
+    </array>
+    
+    <array name="arr_safe_prac_sos_alert_val">
+        <item>PRESS I-DARE SOS ALERT</item>
+        <item>Remember to breathe;do not panic; plan escape</item>
+        <item>Safety first depends on you - be empowered</item>
+        <item>YELL "HELP!!"</item>
+        <item>SOUND SIREN</item>
+        <item>Verbal assault buys time TO PLAN ESCAPE.</item>
+        <item>REACT QUICKLY &amp; CATCH THE AGRRESSOR OFF-GUARD</item>
+        <item>STRUGGLE, RUN, VERBAL &amp; PHYSICAL ATTACK</item>
+        <item>FOCUS ON VITAL POINTS: EYES, EARS, TEMPLES, WINDPIPE, KNEES, BASE OF  SPINE, GROIN.</item>
+    </array>
+    
+    <array name="arr_contact_us_for_val">
+        <item>More I-DARE information</item>
+        <item>Tax exemption on your donation.</item>
+        <item>App errors/malfunction</item>
+        <item>Volunteer</item>
+        <item>Anything Else</item>
+    </array>
+
 </resources>

@@ -4,6 +4,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".application.IDareApp"
@@ -56,6 +59,14 @@
             android:name=".view.activity.NearBySafeHouseActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".view.activity.FakeRingingActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Theme.AppCompat" />
+
         <service android:name=".component.service.IDareMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -67,6 +78,10 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <service android:name=".component.service.IDareLocationService" android:exported="false" />
+
+        <receiver android:name=".component.receiver.FakeCallReceiver" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

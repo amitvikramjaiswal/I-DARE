@@ -2,6 +2,7 @@ package com.opensource.app.idare.utils;
 
 import android.location.Location;
 
+import com.opensource.app.idare.model.data.entity.ProfilePic;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 
 /**
@@ -15,6 +16,7 @@ public class Session {
     private boolean isRegisteredToFCM;
     private boolean isShoppingMallChecked, isPoliceStationChecked, isCafeChecked;
     private int radius;
+    private ProfilePic profilePic;
     private Location lastLocation;
 
     public static Session getInstance() {
@@ -50,6 +52,14 @@ public class Session {
         this.isPoliceStationChecked = isPoliceStationChecked;
         this.isCafeChecked = isCafeChecked;
         this.radius = radius;
+    }
+
+    public ProfilePic getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(ProfilePic profilePic) {
+        this.profilePic = profilePic;
     }
 
     public boolean isShoppingMallChecked() {

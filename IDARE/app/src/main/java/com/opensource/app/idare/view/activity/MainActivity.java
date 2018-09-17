@@ -17,15 +17,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.component.service.IDareLocationService;
 import com.opensource.app.idare.databinding.ActivityMainBinding;
 import com.opensource.app.idare.databinding.NavHeaderMainBinding;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
-import com.opensource.app.idare.view.fragment.CoreListFragment;
+import com.opensource.app.idare.view.fragment.CoreGroupFragment;
 import com.opensource.app.idare.view.fragment.DonateFragment;
 import com.opensource.app.idare.view.fragment.InviteToIDareFragment;
 import com.opensource.app.idare.view.fragment.PassiveFragment;
+import com.opensource.app.idare.view.fragment.SafePracticesFragment;
+import com.opensource.app.idare.view.fragment.SafePracticesPagerFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
 import com.opensource.app.idare.viewmodel.MainActivityViewModel;
 import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
@@ -35,9 +38,9 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
  */
 
 public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
-        ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreListFragment.OnFragmentInteractionListener,
-        InviteToIDareFragment.OnFragmentInteractionListener, DonateFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {
+        ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreGroupFragment.OnFragmentInteractionListener,
+        SafePracticesFragment.OnFragmentInteractionListener, SafePracticesPagerFragment.OnFragmentInteractionListener, InviteToIDareFragment.OnFragmentInteractionListener,
+        DonateFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {
     private Fragment currentFragment;
     private ActivityMainBinding binding;
     private Context context;
@@ -50,7 +53,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
 
     public static Intent getStartIntent(Context context, String name) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Utility.USER_NAME, name);
+        intent.putExtra(Constants.USER_NAME, name);
         return intent;
     }
 
@@ -59,7 +62,7 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         this.context = this.getApplicationContext();
-        String nameFromBundle = getIntent().getStringExtra(Utility.USER_NAME);
+        String nameFromBundle = getIntent().getStringExtra(Constants.USER_NAME);
         viewModel = new MainActivityViewModel(this, this, nameFromBundle);
         binding.setViewModel(viewModel);
         toolbar = (Toolbar) binding.toolbar.findViewById(R.id.toolbar);
@@ -67,12 +70,19 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         navigationMenuHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_main, binding.navigationView, false);
         binding.navigationView.addHeaderView(navigationMenuHeaderBinding.getRoot());
 
+        startService(new Intent(this, IDareLocationService.class));
 
         navigationMenuHeaderBinding.setHeaderViewModel(new NavigationMenuHeaderViewModel(context, this, nameFromBundle));
         setUpNavigationDrawer();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content, new PassiveFragment()).commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewModel.onResume();
     }
 
     @Override

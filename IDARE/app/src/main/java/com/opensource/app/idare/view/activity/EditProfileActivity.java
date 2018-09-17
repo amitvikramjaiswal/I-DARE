@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.ActivityEditProfileBinding;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.viewmodel.EditProfileViewModel;
 
 /**
@@ -22,7 +22,7 @@ public class EditProfileActivity extends BaseActivity implements EditProfileView
 
     public static Intent getStartIntent(Context context, String phoneNumber) {
         Intent intent = new Intent(context, EditProfileActivity.class);
-        intent.putExtra(Utility.PHONE_NUMBER, phoneNumber);
+        intent.putExtra(Constants.PHONE_NUMBER, phoneNumber);
         return intent;
     }
 
@@ -30,10 +30,15 @@ public class EditProfileActivity extends BaseActivity implements EditProfileView
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile);
-        String phoneNumber = getIntent().getStringExtra(Utility.PHONE_NUMBER);
+        String phoneNumber = getIntent().getStringExtra(Constants.PHONE_NUMBER);
         viewModel = new EditProfileViewModel(this, this, phoneNumber);
         binding.setViewModel(viewModel);
-        startLocationUpdates();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        viewModel.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

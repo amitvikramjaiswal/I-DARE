@@ -11,7 +11,7 @@ import com.opensource.app.idare.model.service.URLs;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.Session;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 
 import static com.opensource.app.idare.utils.AuthType.USER_CREDENTIALS;
 
@@ -39,7 +39,7 @@ public class NotificationServiceImpl implements NotificationService {
     public static RegisterDevice getRequestBody(String regToken) {
         RegisterDevice registerDevice = new RegisterDevice();
         registerDevice.setDeviceId(regToken);
-        registerDevice.setPlatform(Utility.ANDROID);
+        registerDevice.setPlatform(Constants.ANDROID);
         registerDevice.setUserId(Session.getInstance().getUserProfileResponseModel().getId());
         return registerDevice;
     }
@@ -67,12 +67,12 @@ public class NotificationServiceImpl implements NotificationService {
         ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_UNREGISTER_FOR_PUSH, null, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener<RegisterDeviceResponse>() {
             @Override
             public void onSuccess(RegisterDeviceResponse response) {
-                Log.d(TAG, "****** SUCCESSFULLY REGISTERED " + response.getDeviceId() + " ******");
+                Log.d(TAG, "****** SUCCESSFULLY UNREGISTERED " + response.getDeviceId() + " ******");
             }
         }, new IDAREResponseHandler.ErrorListener() {
             @Override
             public void onError(IDAREErrorWrapper error) {
-                Log.e(TAG, "@@@@@@ ERROR REGISTERING " + error.getException().getMessage() + " @@@@@@");
+                Log.e(TAG, "@@@@@@ ERROR UNREGISTERING " + error.getException().getMessage() + " @@@@@@");
             }
         });
     }

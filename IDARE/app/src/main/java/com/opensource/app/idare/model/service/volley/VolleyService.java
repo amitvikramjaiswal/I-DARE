@@ -11,7 +11,7 @@ import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.opensource.app.idare.utils.Utility;
+import com.opensource.app.idare.utils.Constants;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -67,7 +67,7 @@ public class VolleyService {
             }
 
             try {
-                sslContext = SSLContext.getInstance(Utility.TLS);
+                sslContext = SSLContext.getInstance(Constants.TLS);
                 sslContext.init(null, trustManagers, new SecureRandom());
 
                 HttpsURLConnection.setDefaultSSLSocketFactory(sslContext

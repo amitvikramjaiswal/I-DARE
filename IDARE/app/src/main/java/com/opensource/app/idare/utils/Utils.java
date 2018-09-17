@@ -1,6 +1,14 @@
 package com.opensource.app.idare.utils;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,11 +16,19 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.opensource.app.idare.component.receiver.FakeCallReceiver;
+import com.opensource.app.idare.model.data.entity.IDAREError;
+import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 
 import java.io.FileNotFoundException;
 
@@ -20,6 +36,10 @@ import java.io.FileNotFoundException;
  * Created by amitvikramjaiswal on 17/03/16.
  */
 public class Utils {
+
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+    private static String fakeName = "Home";
+    private static String fakeNumber = "9987658954";
 
     /**
      * Returns true if the string has a value
@@ -98,6 +118,70 @@ public class Utils {
             return false;
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    public static void fakeCall(Context context) {
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, FakeCallReceiver.class);
+
+        intent.putExtra("FAKENAME", fakeName);
+        intent.putExtra("FAKENUMBER", fakeNumber);
+
+        PendingIntent fakePendingIntent = PendingIntent.getBroadcast(context, 0,  intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, 15000, fakePendingIntent);
+//        Toast.makeText(context, "Your fake call time has been set", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public static boolean isConnectedToInternet(Context context, IDAREResponseHandler.ErrorListener errorListener) {
+        if (context == null) {
+            return false;
+        }
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
+            return true;
+
+        } else if (errorListener != null) {
+            IDAREError idareError = new IDAREError();
+            idareError.setErrorCode(Constants.NO_NETWORK_ERROR_CODE);
+            errorListener.onError(new IDAREErrorWrapper(idareError, null));
+
+        }
+        return false;
+    }
+
+    public static boolean checkPermission(final Context context)
+    {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if(currentAPIVersion>=android.os.Build.VERSION_CODES.M)
+        {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                    alertBuilder.setCancelable(true);
+                    alertBuilder.setTitle("Permission necessary");
+                    alertBuilder.setMessage("External storage permission is necessary");
+                    alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                        }
+                    });
+                    AlertDialog alert = alertBuilder.create();
+                    alert.show();
+                } else {
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                }
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
         }
     }
 }

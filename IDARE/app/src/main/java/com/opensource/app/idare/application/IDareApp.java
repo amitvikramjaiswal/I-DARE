@@ -1,14 +1,13 @@
 package com.opensource.app.idare.application;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Bundle;
 
-import com.opensource.app.idare.model.data.entity.IDAREError;
-import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
-import com.opensource.app.idare.utils.IDAREErrorWrapper;
-import com.opensource.app.idare.utils.Utility;
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by amitvikramjaiswal on 24/05/16.
@@ -17,6 +16,7 @@ public class IDareApp extends Application {
     public static IDareApp application;
     private static boolean isActive;
 
+    private static Activity activity;
     private static Context context;
     private static Context applicationContext;
 
@@ -43,40 +43,77 @@ public class IDareApp extends Application {
         return applicationContext;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
+    public static Activity getCurrentActivity() {
+        return activity;
     }
 
-    public static boolean isConnectedToInternet(IDAREResponseHandler.ErrorListener errorListener) {
-        if (context == null) {
-            return false;
-        }
-
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
-            return true;
-
-        } else if (errorListener != null) {
-            IDAREError idareError = new IDAREError();
-            idareError.setErrorCode(Utility.NO_NETWORK_ERROR_CODE);
-            errorListener.onError(new IDAREErrorWrapper(idareError, null));
-
-        }
-        return false;
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     @Override
     public void onCreate() {
 
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         context = this.getApplicationContext();
+        registerActivityLifecycleCallbacks(new IDareLifeCycle());
     }
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         application = this;
+    }
+
+    private static class IDareLifeCycle implements ActivityLifecycleCallbacks {
+        private static final String TAG = IDareLifeCycle.class.getSimpleName();
+        private static int resumed;
+        private static int paused;
+        private static int started;
+        private static int stopped;
+
+        private static boolean isApplicationVisible() {
+            return started > stopped;
+        }
+
+        private static boolean isApplicationInForeground() {
+            return resumed > paused;
+        }
+
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            // No-op
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            // No-op
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+            ++resumed;
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            ++paused;
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            // No-op
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            ++started;
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            ++stopped;
+        }
     }
 }

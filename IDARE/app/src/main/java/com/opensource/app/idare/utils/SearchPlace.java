@@ -8,7 +8,11 @@ public enum SearchPlace {
 
     SHOPPING_MALL("shopping_mall"),
     POLICE_STATION("police"),
-    CAFE("cafe");
+    CAFE("cafe"),
+    BUS_STATION("bus_station"),
+    HOSPITAL("hospital"),
+    RESTAURANT("restaurant"),
+    CONVENIENCE_STORE("convenience_store");
 
     private String value;
 
