@@ -20,11 +20,12 @@ import static com.opensource.app.idare.utils.Constants.USERNAME;
 
 public class PreferencesManager {
 
+    private static final String IDARE_APP = "IDARE_APP";
     private static PreferencesManager preferencesManager;
     private SharedPreferences preferences;
 
     private PreferencesManager(Context context) {
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences = context.getSharedPreferences(IDARE_APP, Context.MODE_PRIVATE);
     }
 
     public static PreferencesManager getInstance(Context context) {
