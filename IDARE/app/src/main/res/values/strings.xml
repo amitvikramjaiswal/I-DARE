@@ -89,5 +89,10 @@
     <string name="safe_prac_while_walking_title">While Walking</string>
     <string name="dismiss">Dismiss</string>
     <string name="camera_no_permissions">Need Permission to use camera</string>
+    <string name="safe_prac_in_a_cab_title">In A Cab</string>
+    <string name="safe_prac_in_an_elevator">In An Elevator</string>
+    <string name="safe_prac_active_title">In Active Mode</string>
+    <string name="safe_prac_sos_title">In SOS Alert Mode</string>
+    <string name="daily_reminders">Daily Reminders</string>
 
 </resources>

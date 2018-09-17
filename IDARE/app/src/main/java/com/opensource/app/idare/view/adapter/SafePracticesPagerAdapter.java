@@ -6,8 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.view.fragment.DailyReminderFragment;
-import com.opensource.app.idare.view.fragment.WhileWalkingFragment;
+import com.opensource.app.idare.view.fragment.SafePracticesPagerFragment;
 
 public class SafePracticesPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -21,24 +20,39 @@ public class SafePracticesPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment;
+        int arrResId;
         switch (position) {
             case 0:
-                fragment = DailyReminderFragment.newInstance();
+                arrResId = R.array.arr_safe_prac_passive_val;
                 break;
             case 1:
-                fragment = WhileWalkingFragment.newInstance();
+                arrResId = R.array.arr_safe_prac_walking_val;
+                break;
+            case 2:
+                arrResId = R.array.arr_safe_prac_cab_val;
+                break;
+            case 3:
+                arrResId = R.array.arr_safe_prac_elevator_val;
+                break;
+            case 4:
+                arrResId = R.array.arr_safe_prac_social_media_val;
+                break;
+            case 5:
+                arrResId = R.array.arr_safe_prac_active_val;
+                break;
+            case 6:
+                arrResId = R.array.arr_safe_prac_sos_alert_val;
                 break;
             default:
-                fragment = DailyReminderFragment.newInstance();
+                arrResId = R.array.arr_safe_prac_passive_val;
                 break;
         }
-        return fragment;
+        return SafePracticesPagerFragment.newInstance(arrResId);
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 7;
     }
 
     @Override
@@ -48,8 +62,18 @@ public class SafePracticesPagerAdapter extends FragmentStatePagerAdapter {
                 return context.getString(R.string.safe_prac_passive_title_1);
             case 1:
                 return context.getString(R.string.safe_prac_while_walking_title);
+            case 2:
+                return context.getString(R.string.safe_prac_in_a_cab_title);
+            case 3:
+                return context.getString(R.string.safe_prac_in_an_elevator);
+            case 4:
+                return  context.getString(R.string.safe_prac_title_2);
+            case 5:
+                return context.getString(R.string.safe_prac_active_title);
+            case 6:
+                return context.getString(R.string.safe_prac_sos_title);
             default:
-                return "Daily Reminders";
+                return context.getString(R.string.daily_reminders);
         }
     }
 }

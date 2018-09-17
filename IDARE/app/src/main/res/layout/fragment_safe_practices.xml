@@ -23,7 +23,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_height"
-            android:background="@color/idare_nav_drawer_background"/>
+            android:background="@color/idare_pink"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_safe_practices"
@@ -34,6 +34,7 @@
             <android.support.v4.view.PagerTabStrip
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:selectedTabColor="@{viewModel.observableColor}"
                 android:layout_gravity="top"/>
 
         </android.support.v4.view.ViewPager>

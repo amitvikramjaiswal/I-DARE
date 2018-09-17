@@ -9,31 +9,36 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.databinding.FragmentWhileWalkingBinding;
-import com.opensource.app.idare.viewmodel.WhileWalkingViewModel;
+import com.opensource.app.idare.databinding.FragmentSafePracticesPagerBinding;
+import com.opensource.app.idare.utils.Constants;
+import com.opensource.app.idare.viewmodel.SafePracticesPagerViewModel;
 
-public class WhileWalkingFragment extends BaseFragment implements WhileWalkingViewModel.DataListener {
+import static com.opensource.app.idare.utils.Constants.ARRAY_RES_ID;
 
-    private static final String TAG = WhileWalkingFragment.class.getSimpleName();
-    private FragmentWhileWalkingBinding binding;
-    private WhileWalkingViewModel viewModel;
+public class SafePracticesPagerFragment extends BaseFragment implements SafePracticesPagerViewModel.DataListener {
+
+    private static final String TAG = SafePracticesPagerFragment.class.getSimpleName();
+    private SafePracticesPagerViewModel viewModel;
     private OnFragmentInteractionListener mListener;
-    private FragmentWhileWalkingBinding b;
 
-    public WhileWalkingFragment() {
+    public SafePracticesPagerFragment() {
 
     }
 
-    public static WhileWalkingFragment newInstance() {
-        WhileWalkingFragment fragment = new WhileWalkingFragment();
+    public static SafePracticesPagerFragment newInstance(int arrResId) {
+        SafePracticesPagerFragment fragment = new SafePracticesPagerFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.ARRAY_RES_ID, arrResId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_while_walking, container, false);
-        viewModel = new WhileWalkingViewModel(getActivity(), this);
+        int arrResId = getArguments().getInt(ARRAY_RES_ID);
+        FragmentSafePracticesPagerBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_safe_practices_pager, container, false);
+        viewModel = new SafePracticesPagerViewModel(getActivity(), arrResId, this);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
@@ -58,4 +63,5 @@ public class WhileWalkingFragment extends BaseFragment implements WhileWalkingVi
     public interface OnFragmentInteractionListener {
 
     }
+
 }

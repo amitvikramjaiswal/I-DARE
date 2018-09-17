@@ -41,5 +41,6 @@ public class Constants {
     public static final String LONGITUDE = "LONGITUDE";
     public static final String ID = "_id";
     public static final String SEPARATOR = "/";
+    public static final String ARRAY_RES_ID = "ARRAY_RES_ID";
     public static String BASIC = "Basic ";
 }

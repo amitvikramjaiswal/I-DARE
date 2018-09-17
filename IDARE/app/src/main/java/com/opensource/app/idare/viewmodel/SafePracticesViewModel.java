@@ -21,6 +21,11 @@ public class SafePracticesViewModel extends BaseViewModel {
         observableColor.set(R.color.idare_pink);
     }
 
+    @BindingAdapter("android:selectedTabColor")
+    public static void setSelectedTabColor(PagerTabStrip tabStrip, Integer color) {
+        tabStrip.setTabIndicatorColorResource(color);
+    }
+
     public ObservableField<SafePracticesPagerAdapter> getObservableAdapter() {
         return observableAdapter;
     }
