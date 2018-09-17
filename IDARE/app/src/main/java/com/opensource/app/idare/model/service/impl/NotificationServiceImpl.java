@@ -47,7 +47,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void registerDeviceToFCM(Context context, RegisterDevice registerDevice, final IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener) {
         String body = gson.toJson(registerDevice);
-        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_REGISTER_FOR_PUSH, null, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener<RegisterDeviceResponse>() {
+        ServiceLocatorImpl.getInstance().executePutRequest(context, URLs.URL_REGISTER_FOR_PUSH, null, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener<RegisterDeviceResponse>() {
             @Override
             public void onSuccess(RegisterDeviceResponse response) {
                 Log.d(TAG, "****** SUCCESSFULLY REGISTERED " + response.getDeviceId() + " ******");

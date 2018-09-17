@@ -43,7 +43,7 @@ public class SplashViewModel extends BaseViewModel {
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         dataListener.startActivity(intent);
                         dataListener.finish();
-//                        registerDeviceToFcm();
+                        registerDeviceToFcm();
                     }
                 }, new IDAREResponseHandler.ErrorListener() {
                     @Override
@@ -53,10 +53,11 @@ public class SplashViewModel extends BaseViewModel {
                 });
     }
 
-//    private void registerDeviceToFcm() {
-//        String token = FirebaseInstanceId.getInstance().getToken();
-//        SessionFacadeImpl.getInstance().registerDeviceToFCM(getContext(), NotificationServiceImpl.getRequestBody(token), null, null);
-//    }
+    private void registerDeviceToFcm() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if (token != null)
+            SessionFacadeImpl.getInstance().registerDeviceToFCM(getContext(), NotificationServiceImpl.getRequestBody(token), null, null);
+    }
 
     public interface DataListener extends BaseViewModel.DataListener {
         void finishOnUiThread();
