@@ -38,6 +38,8 @@ public abstract class BaseViewModel {
 
         void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, final AlertDialogHandler alertDialogHandler);
 
+        void showSnackbar(int mainTextStringId, int actionStringId, View.OnClickListener listener);
+
         void showProgress();
 
         void hideProgress();
