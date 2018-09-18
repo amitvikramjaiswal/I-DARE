@@ -1,5 +1,7 @@
 package com.opensource.app.idare.utils;
 
+import com.opensource.app.idare.component.service.IDareLocationService;
+
 /**
  * Created by ajaiswal on 5/27/2016.
  */
@@ -43,4 +45,14 @@ public class Constants {
     public static final String SEPARATOR = "/";
     public static final String ARRAY_RES_ID = "ARRAY_RES_ID";
     public static String BASIC = "Basic ";
+
+
+
+
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 30000;
+    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = 15000;
+    public static final float SMALLEST_DISPLACEMENT = 50.0f;
+    public static final String ACTION_LOCATION_BROADCAST = IDareLocationService.class.getName() + "LocationBroadcast";
+    public static final String EXTRA_LATITUDE = "extra_latitude";
+    public static final String EXTRA_LONGITUDE = "extra_longitude";
 }

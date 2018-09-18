@@ -45,6 +45,11 @@ public class BaseFragment extends Fragment implements BaseViewModel.DataListener
     }
 
     @Override
+    public void showSnackbar(int mainTextStringId, int actionStringId, View.OnClickListener listener) {
+        parentActivity.showSnackbar(mainTextStringId, actionStringId, listener);
+    }
+
+    @Override
     public void showProgress() {
         parentActivity.showProgress();
     }

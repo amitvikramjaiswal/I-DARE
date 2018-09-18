@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.ActivitySplashBinding;
@@ -19,6 +21,7 @@ import static com.opensource.app.idare.application.IDareApp.getContext;
  */
 
 public class SplashActivity extends BaseActivity implements SplashViewModel.DataListener {
+    private static final String TAG = SplashActivity.class.getSimpleName();
     private ActivitySplashBinding binding;
     private SplashViewModel viewModel;
     private Context context;
@@ -35,6 +38,16 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         viewModel = new SplashViewModel(this, this);
         binding.setViewModel(viewModel);
+    }
+
+    /**
+     * Callback received when a permissions request has been completed.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.i(TAG, "onRequestPermissionResult");
+        viewModel.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     /*

@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">I-DARE</string>
 
+    <string name="permission_rationale">Please grant location permission to use the app.</string>
+    <string name="permission_denied_explanation">You have not granted location permission. To use the app please allow location permission.</string>
+    <string name="title_alert_no_intenet">No internet</string>
+    <string name="msg_alert_no_internet">Please make sure that you have active internet connection.</string>
+    <string name="no_google_playservice_available">Google Play Service not found. Please install it.</string>
+    <string name="msg_location_service_not_started">Location Tracking Not Started</string>
+    <string name="msg_location_service_started">Location Tracking Started</string>
+    <string name="btn_label_refresh">Refresh</string>
+
     <string name="make_passive">MAKE PASSIVE</string>
     <string name="passive_mode_description">Passive mode disables location services in this app to conserve battery.</string>
     <string name="passive_mode_message">Your security app is in Passive mode and will need to be active to send real time location details</string>
@@ -94,5 +103,6 @@
     <string name="safe_prac_active_title">In Active Mode</string>
     <string name="safe_prac_sos_title">In SOS Alert Mode</string>
     <string name="daily_reminders">Daily Reminders</string>
+    <string name="no_internet">No Internet</string>
 
 </resources>

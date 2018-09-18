@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -73,6 +74,13 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Safe House");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         session = Session.getInstance();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -82,8 +90,10 @@ public class NearBySafeHouseActivity extends BaseActivity implements OnMapReadyC
         // Update values using data stored in the Bundle.
         updateValuesFromBundle(savedInstanceState);
         nearBySafeHouses = new ArrayList<>();
-        myLocation = String.format("%s,%s", session.getLastLocation().getLatitude(), session.getLastLocation().getLongitude());
-        getNearBySafeHouses("5000", null);
+        if (session.getLastLocation() != null) {
+            myLocation = String.format("%s,%s", session.getLastLocation().getLatitude(), session.getLastLocation().getLongitude());
+            getNearBySafeHouses("5000", null);
+        }
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
