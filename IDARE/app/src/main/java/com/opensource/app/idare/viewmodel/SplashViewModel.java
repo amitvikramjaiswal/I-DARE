@@ -121,6 +121,8 @@ public class SplashViewModel extends BaseViewModel {
                         requestPermissions();
                     }
 
+                } else {
+                    dataListener.finish();
                 }
             }
 

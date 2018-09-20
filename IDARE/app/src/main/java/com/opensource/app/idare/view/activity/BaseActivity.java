@@ -21,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.opensource.app.idare.R;
+import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.viewmodel.BaseViewModel;
 
@@ -38,6 +39,19 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!Utils.isLocationServicesEnabled(this)) {
+            showAlertDialog(getString(R.string.error_title), getString(R.string.no_location_detected), false, getString(R.string.btn_ok), null, new AlertDialogHandler() {
+                @Override
+                public void onPositiveButtonClicked() {
+
+                }
+
+                @Override
+                public void onNegativeButtonClicked() {
+
+                }
+            });
+        }
     }
 
     @Override
