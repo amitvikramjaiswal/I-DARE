@@ -14,6 +14,7 @@ import android.view.View;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.application.IDareApp;
+import com.opensource.app.idare.component.service.FakeCallService;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
@@ -77,6 +78,7 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
                 // Open dialog
                 dataListener.getDrawer().closeDrawer(Gravity.START);
                 dataListener.replaceFragment(PassiveFragment.newInstance());
+                dataListener.stopService(new Intent(getContext(), FakeCallService.class));
 //                layoutPopUpViewModel.showAlertDialog();
             }
         };

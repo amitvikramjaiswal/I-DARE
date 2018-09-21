@@ -1,6 +1,7 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -56,7 +57,11 @@ public abstract class BaseViewModel {
 
         void startActivityForResult(Intent intent, int requestCode);
 
+        ComponentName startService(Intent intent);
+
         Activity getActivity();
+
+        boolean stopService(Intent intent);
     }
 
 }

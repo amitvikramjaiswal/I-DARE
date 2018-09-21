@@ -61,6 +61,7 @@ public class FakeRingingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mp.stop();
+                finish();
             }
         });
         rejectCall.setOnClickListener(new View.OnClickListener(){
@@ -68,10 +69,11 @@ public class FakeRingingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mp.stop();
-                Intent homeIntent= new Intent(Intent.ACTION_MAIN);
-                homeIntent.addCategory(Intent.CATEGORY_HOME);
-                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(homeIntent);
+                finish();
+//                Intent homeIntent= new Intent(Intent.ACTION_MAIN);
+//                homeIntent.addCategory(Intent.CATEGORY_HOME);
+//                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(homeIntent);
             }
         });
     }

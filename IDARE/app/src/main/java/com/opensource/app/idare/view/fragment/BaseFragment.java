@@ -1,6 +1,8 @@
 package com.opensource.app.idare.view.fragment;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -67,6 +69,16 @@ public class BaseFragment extends Fragment implements BaseViewModel.DataListener
     @Override
     public void shakeView(View view) {
         parentActivity.shakeView(view);
+    }
+
+    @Override
+    public ComponentName startService(Intent intent) {
+        return context.startService(intent);
+    }
+
+    @Override
+    public boolean stopService(Intent intent) {
+        return context.stopService(intent);
     }
 
     @Override

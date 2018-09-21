@@ -82,6 +82,8 @@
 
         <service android:name=".component.service.IDareLocationService" />
 
+        <service android:name=".component.service.FakeCallService" />
+
         <receiver android:name=".component.receiver.FakeCallReceiver" />
 
         <meta-data

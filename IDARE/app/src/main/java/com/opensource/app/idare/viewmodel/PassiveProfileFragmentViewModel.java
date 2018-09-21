@@ -82,14 +82,11 @@ public class PassiveProfileFragmentViewModel extends BaseViewModel {
         dataListener.getTextView().setText(spannableString);
     }
 
-    public interface DataListener {
+    public interface DataListener extends BaseViewModel.DataListener {
 
         void replaceFragment(Fragment fragment);
 
-        void startActivity(Intent intent);
-
         TextView getTextView();
 
-        void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }
 }
