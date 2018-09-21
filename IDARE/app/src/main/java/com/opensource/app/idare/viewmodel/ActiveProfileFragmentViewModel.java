@@ -1,8 +1,11 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.opensource.app.idare.component.service.FakeCallService;
 import com.opensource.app.idare.utils.ShakeEventManager;
 import com.opensource.app.idare.utils.Utils;
 
@@ -10,31 +13,27 @@ import com.opensource.app.idare.utils.Utils;
  * Created by akokala on 10/31/2017.
  */
 
-public class ActiveProfileFragmentViewModel extends BaseViewModel implements ShakeEventManager.ShakeListener {
+public class ActiveProfileFragmentViewModel extends BaseViewModel {
 
-    private ShakeEventManager shakeEventManager;
+    private static final String TAG = ActiveProfileFragmentViewModel.class.getSimpleName();
+    private Intent intent;
     private DataListener dataListener;
 
     public ActiveProfileFragmentViewModel(Context context, DataListener dataListener) {
         super(context);
         this.dataListener = dataListener;
-        shakeEventManager = new ShakeEventManager();
-        shakeEventManager.setListener(this);
-        shakeEventManager.init(context);
-        shakeEventManager.register();
-    }
-
-    @Override
-    public void onShake() {
-//        Toast.makeText(getContext(), "SHAKING", Toast.LENGTH_SHORT).show();
-        Utils.fakeCall(getContext());
+        if (!FakeCallService.isIsRunning()) {
+            intent = new Intent(context, FakeCallService.class);
+            dataListener.startService(intent);
+        }
     }
 
     public void onDestroy() {
-        shakeEventManager.deregister();
+        Log.d(TAG, TAG + " Destroyed");
+        dataListener.startService(intent);
     }
 
-    public interface DataListener {
+    public interface DataListener extends BaseViewModel.DataListener {
 
     }
 }

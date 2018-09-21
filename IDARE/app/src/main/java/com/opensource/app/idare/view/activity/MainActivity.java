@@ -70,7 +70,8 @@ public class MainActivity extends BaseActivity implements MainActivityViewModel.
         navigationMenuHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_main, binding.navigationView, false);
         binding.navigationView.addHeaderView(navigationMenuHeaderBinding.getRoot());
 
-        startService(new Intent(this, IDareLocationService.class));
+        if (!IDareLocationService.isIsRunning())
+            startService(new Intent(this, IDareLocationService.class));
 
         navigationMenuHeaderBinding.setHeaderViewModel(new NavigationMenuHeaderViewModel(context, this, nameFromBundle));
         setUpNavigationDrawer();

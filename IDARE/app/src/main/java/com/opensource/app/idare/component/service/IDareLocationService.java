@@ -37,6 +37,7 @@ public class IDareLocationService extends Service implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = IDareLocationService.class.getSimpleName();
+    private static boolean isRunning;
     private GoogleApiClient mLocationClient;
     private LocationRequest mLocationRequest = new LocationRequest();
     private LocationCallback locationCallback = new LocationCallback() {
@@ -54,8 +55,13 @@ public class IDareLocationService extends Service implements
         }
     };
 
+    public static boolean isIsRunning() {
+        return isRunning;
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        isRunning = true;
         mLocationClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -148,5 +154,11 @@ public class IDareLocationService extends Service implements
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.d(TAG, "Failed to connect to Google API");
 
+    }
+
+    @Override
+    public void onDestroy() {
+        isRunning = false;
+        super.onDestroy();
     }
 }
