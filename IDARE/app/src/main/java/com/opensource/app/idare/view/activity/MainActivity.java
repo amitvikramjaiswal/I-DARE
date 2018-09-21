@@ -16,10 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.component.service.IDareLocationService;
 import com.opensource.app.idare.databinding.ActivityMainBinding;
 import com.opensource.app.idare.databinding.NavHeaderMainBinding;
+import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
+import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;

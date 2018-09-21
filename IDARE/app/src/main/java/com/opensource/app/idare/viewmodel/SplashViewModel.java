@@ -15,16 +15,15 @@ import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.BuildConfig;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.component.service.IDareLocationService;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
-import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
+import com.opensource.app.idare.utils.Utils;
 import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.MainActivity;
 
@@ -38,6 +37,7 @@ public class SplashViewModel extends BaseViewModel {
      */
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     private static final String TAG = SplashViewModel.class.getSimpleName();
+    private static final int LOCATION_SETTINGS_REQUEST_CODE = 41;
     private boolean mAlreadyStartedService = false;
     private DataListener dataListener;
 
@@ -48,16 +48,15 @@ public class SplashViewModel extends BaseViewModel {
     }
 
     private void checkLocationSettings() {
-        startStep1();
+        startStep0();
     }
 
-    private void startStep1() {
+    private void startStep0() {
 
         //Check whether this user has installed Google play service which is being used by Location updates.
         if (isGooglePlayServicesAvailable()) {
 
-            //Passing null to indicate that it is executing for the first time.
-            startStep2();
+            startStep1();
 
         } else {
 //            Toast.makeText(getApplicationContext(), R.string.no_google_playservice_available, Toast.LENGTH_LONG).show();
@@ -77,6 +76,24 @@ public class SplashViewModel extends BaseViewModel {
             return false;
         }
         return true;
+    }
+
+    private void startStep1() {
+        if (!Utils.isLocationServicesEnabled(getContext())) {
+            dataListener.showAlertDialog(getContext().getString(R.string.error_title), getContext().getString(R.string.no_location_detected), false, getContext().getString(R.string.btn_ok), getContext().getString(R.string.btn_cancel), new AlertDialogHandler() {
+                @Override
+                public void onPositiveButtonClicked() {
+                    dataListener.startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), LOCATION_SETTINGS_REQUEST_CODE);
+                }
+
+                @Override
+                public void onNegativeButtonClicked() {
+                    dataListener.finish();
+                }
+            });
+        } else {
+            startStep2();
+        }
     }
 
     /**
@@ -275,7 +292,6 @@ public class SplashViewModel extends BaseViewModel {
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         dataListener.startActivity(intent);
                         dataListener.finish();
-                        registerDeviceToFcm();
                     }
                 }, new IDAREResponseHandler.ErrorListener() {
                     @Override
@@ -285,10 +301,10 @@ public class SplashViewModel extends BaseViewModel {
                 });
     }
 
-    private void registerDeviceToFcm() {
-        String token = FirebaseInstanceId.getInstance().getToken();
-        if (token != null)
-            SessionFacadeImpl.getInstance().registerDeviceToFCM(getContext(), NotificationServiceImpl.getRequestBody(token), null, null);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LOCATION_SETTINGS_REQUEST_CODE) {
+            startStep1();
+        }
     }
 
     public interface DataListener extends BaseViewModel.DataListener {
