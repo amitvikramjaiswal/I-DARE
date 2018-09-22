@@ -12,7 +12,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserProfileRequestModel implements Parcelable {
 
-
     public static final Creator<UserProfileRequestModel> CREATOR = new Creator<UserProfileRequestModel>() {
         @Override
         public UserProfileRequestModel createFromParcel(Parcel in) {
@@ -45,7 +44,9 @@ public class UserProfileRequestModel implements Parcelable {
     @SerializedName("location")
     @Expose
     private IDareLocation iDareLocation;
-
+    @SerializedName("_geoloc")
+    @Expose
+    private double[] lonLat;
 
     public UserProfileRequestModel() {
     }
@@ -57,6 +58,8 @@ public class UserProfileRequestModel implements Parcelable {
         email = in.readString();
         mobile = in.readString();
         alternate = in.readString();
+        iDareLocation = in.readParcelable(IDareLocation.class.getClassLoader());
+        lonLat = in.createDoubleArray();
     }
 
     @Override
@@ -67,6 +70,8 @@ public class UserProfileRequestModel implements Parcelable {
         dest.writeString(email);
         dest.writeString(mobile);
         dest.writeString(alternate);
+        dest.writeParcelable(iDareLocation, flags);
+        dest.writeDoubleArray(lonLat);
     }
 
     @Override
@@ -130,44 +135,13 @@ public class UserProfileRequestModel implements Parcelable {
         this.iDareLocation = iDareLocation;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserProfileRequestModel that = (UserProfileRequestModel) o;
-
-        if (username != null ? !username.equals(that.username) : that.username != null)
-            return false;
-        if (password != null ? !password.equals(that.password) : that.password != null)
-            return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (mobile != null ? !mobile.equals(that.mobile) : that.mobile != null) return false;
-        return alternate != null ? alternate.equals(that.alternate) : that.alternate == null;
-
+    public double[] getLonLat() {
+        return lonLat;
     }
 
-    @Override
-    public int hashCode() {
-        int result = username != null ? username.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
-        result = 31 * result + (alternate != null ? alternate.hashCode() : 0);
-        return result;
+    public void setLonLat(double[] lonLat) {
+        this.lonLat = lonLat;
     }
 
-    @Override
-    public String toString() {
-        return "UserProfileResponseModel{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", alternate='" + alternate + '\'' +
-                '}';
-    }
+
 }

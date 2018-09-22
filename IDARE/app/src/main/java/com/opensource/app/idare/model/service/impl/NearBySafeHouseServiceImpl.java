@@ -41,7 +41,7 @@ public class NearBySafeHouseServiceImpl implements NearBySafeHouseService {
 
     @Override
     public void getNearBySafeHouses(final Context context, final String key, final String location, final String radius, final String type, final String nextPageToken, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        Map<String, String> params= new HashMap<>();
+        Map<String, Object> params= new HashMap<>();
         params.put("key", key);
         params.put("location", location);
         params.put("radius", radius);

@@ -19,9 +19,9 @@ import com.opensource.app.idare.model.service.volley.VolleyGSONPostRequest;
 import com.opensource.app.idare.model.service.volley.VolleyGSONPutRequest;
 import com.opensource.app.idare.model.service.volley.VolleyService;
 import com.opensource.app.idare.utils.AuthType;
+import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
-import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.utils.Utils;
 
 import java.util.HashMap;
@@ -60,7 +60,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * @param errorListener     The reference to the error handler
      */
     @Override
-    public void login(Context context, String username, String userPass, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+    public void login(Context context, String username, String userPass, URLs url, Map<String, Object> params, AuthType authType, Map<String, String> additionalHeaders, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         if (!Utils.isConnectedToInternet(context, errorListener)) {
             return;
         }
@@ -105,7 +105,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * @param errorListener     The reference to the error handler
      */
     @Override
-    public void executeGetRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+    public void executeGetRequest(Context context, URLs url, Map<String, Object> params, AuthType authType, Map<String, String> additionalHeaders, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         if (!Utils.isConnectedToInternet(context, errorListener)) {
             return;
         }
@@ -155,7 +155,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * @param errorListener     The refernece to the error handler
      */
     @Override
-    public void executePostRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, String body, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+    public void executePostRequest(Context context, URLs url, Map<String, Object> params, AuthType authType, Map<String, String> additionalHeaders, String body, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         if (!Utils.isConnectedToInternet(context, errorListener)) {
             return;
         }
@@ -208,7 +208,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * @param errorListener     The refernece to the error handler
      */
     @Override
-    public void executePutRequest(Context context, URLs url, Map<String, String> params, AuthType authType, Map<String, String> additionalHeaders, String body, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+    public void executePutRequest(Context context, URLs url, Map<String, Object> params, AuthType authType, Map<String, String> additionalHeaders, String body, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
         if (!Utils.isConnectedToInternet(context, errorListener)) {
             return;
         }
@@ -250,7 +250,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     }
 
 
-    protected String buildUrl(URLs urLs, Map<String, String> queryParam, Map<String, String> modifier) {
+    protected String buildUrl(URLs urLs, Map<String, Object> queryParam, Map<String, String> modifier) {
         String url = urLs.fullURL();
         Uri uri = Uri.parse(url);
         switch (urLs) {
@@ -258,23 +258,30 @@ public class ServiceLocatorImpl implements ServiceLocator {
             case URL_CREATE_ACCOUNT:
                 break;
             case URL_UPDATE_PROFILE:
-                String id = queryParam.get(Constants.ID);
+                String id = (String) queryParam.get(Constants.ID);
                 url += Constants.SEPARATOR + id;
                 break;
             case URL_IS_USER_EXISTS:
                 String keyUsername = queryParam.keySet().iterator().next();
-                String valueUserName = queryParam.get(keyUsername);
+                String valueUserName = (String) queryParam.get(keyUsername);
                 url += String.format(Constants.QUERY + "{\"%s\":\"%s\"}", keyUsername, valueUserName);
                 break;
             case URL_IS_PASSWORD_EXISTS:
+            case URL_FETCH_USERS:
                 String key = queryParam.keySet().iterator().next();
-                String value = queryParam.get(key);
+                String value = (String) queryParam.get(key);
                 url += String.format(Constants.QUERY + "{\"%s\":\"%s\"}", key, value);
                 break;
-            case URL_FETCH_USERS:
-                String keyVal = queryParam.keySet().iterator().next();
-                String valuee = queryParam.get(keyVal);
-                url += String.format(Constants.QUERY + "{\"%s\":\"%s\"}", keyVal, valuee);
+            case URL_FETCH_NEARBY_USERS:
+                String[] qKey = new String[3];
+                Object[] qValue = new String[3];
+                int i = 0;
+                while (queryParam.keySet().iterator().hasNext()) {
+                    qKey[i] = queryParam.keySet().iterator().next();
+                    qValue[i] = queryParam.get(qKey[i]);
+                    i++;
+                }
+                url += String.format(Constants.QUERY + "{\"%s\": {\"%s\": [%f,%f], \"%s\":\"%s\" }}", qKey[0], qKey[1], qValue[0], qValue[1], qKey[2], qValue[2]);
                 break;
             case URL_NEAR_BY_SEARCH_BASE_URL:
                 Set<String> keys = queryParam.keySet();

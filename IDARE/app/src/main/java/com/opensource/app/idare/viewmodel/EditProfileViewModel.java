@@ -463,7 +463,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
                 enableSaveButton.set(true);
             }
         });
-        uploadProfilePic();
+//        uploadProfilePic();
     }
 
     private void uploadProfilePic() {
