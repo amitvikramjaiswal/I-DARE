@@ -3,6 +3,7 @@ package com.opensource.app.idare.utils;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -140,9 +141,19 @@ public class Utils {
         intent.putExtra("FAKENUMBER", fakeNumber);
 
         PendingIntent fakePendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, 15000, fakePendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, 5000, fakePendingIntent);
 //        Toast.makeText(context, "Your fake call time has been set", Toast.LENGTH_SHORT).show();
 
+    }
+
+    public static boolean isMyServiceRunning(Context context, Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isConnectedToInternet(Context context, IDAREResponseHandler.ErrorListener errorListener) {

@@ -33,6 +33,8 @@ import static com.opensource.app.idare.utils.AuthType.APP_CREDENTIALS;
 import static com.opensource.app.idare.utils.AuthType.MASTER_SECRET;
 import static com.opensource.app.idare.utils.AuthType.USER_CREDENTIALS;
 import static com.opensource.app.idare.utils.Constants.ID;
+import static com.opensource.app.idare.utils.Constants.LATITUDE;
+import static com.opensource.app.idare.utils.Constants.LONGITUDE;
 
 /**
  * Created by akokala on 11/6/2017.
@@ -97,6 +99,27 @@ public class ProfileServiceImpl implements ProfileService {
                         errorListener.onError(error);
                     }
                 });
+    }
+
+    @Override
+    public void fetchNearByUsers(Context context, final IDAREResponseHandler.ResponseListener responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+        IDareLocation location = PreferencesManager.getInstance(context).getLastLocation();
+        Map<String, Object> params = new HashMap<>();
+        params.put(LONGITUDE, location.getLongitude());
+        params.put(LATITUDE, location.getLatitude());
+        ServiceLocatorImpl.getInstance().executeGetRequest(context, URLs.URL_FETCH_NEARBY_USERS, params, USER_CREDENTIALS, null, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
+            @Override
+            public void onSuccess(UserProfileResponseModel[] response) {
+                Log.d(TAG, "onSuccess()");
+                responseListener.onSuccess(response);
+            }
+        }, new IDAREResponseHandler.ErrorListener() {
+            @Override
+            public void onError(IDAREErrorWrapper error) {
+                Log.e(TAG, "onError()");
+                errorListener.onError(error);
+            }
+        });
     }
 
     @Override

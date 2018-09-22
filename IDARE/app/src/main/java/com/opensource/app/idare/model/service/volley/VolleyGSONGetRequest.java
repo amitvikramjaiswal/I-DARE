@@ -12,6 +12,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 
 import java.io.UnsupportedEncodingException;
@@ -53,7 +54,8 @@ public class VolleyGSONGetRequest<T> extends Request<T> {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         mHeaders = mHeaders != null ? mHeaders : super.getHeaders();
-//        mHeaders.put("Cookie", Session.getInstance().getCookie());
+        //mHeaders.put(Constants.COOKIE, Session.getInstance().getCookie());
+        mHeaders.put(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
         return mHeaders;
     }
 

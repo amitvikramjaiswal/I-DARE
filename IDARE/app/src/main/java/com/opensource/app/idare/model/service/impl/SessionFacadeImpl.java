@@ -6,6 +6,7 @@ import android.content.Context;
 import com.opensource.app.idare.model.data.entity.IDareLocation;
 import com.opensource.app.idare.model.data.entity.ProfilePic;
 import com.opensource.app.idare.model.data.entity.RegisterDevice;
+import com.opensource.app.idare.model.data.entity.TriggerNotificationResponseModel;
 import com.opensource.app.idare.model.data.entity.UserProfileRequestModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.NearBySafeHouseService;
@@ -37,6 +38,11 @@ public class SessionFacadeImpl implements SessionFacade {
     @Override
     public UserProfileRequestModel getRequestBody(String userName, String password, String name, String email, String mobile, String alternativeNum, IDareLocation iDareLocation) {
         return profileService.getRequestBody(userName, password, name, email, mobile, alternativeNum, iDareLocation);
+    }
+
+    @Override
+    public void fetchNearByUsers(Context context, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener) {
+        profileService.fetchNearByUsers(context, responseListener, errorListener);
     }
 
     @Override
@@ -77,6 +83,11 @@ public class SessionFacadeImpl implements SessionFacade {
     @Override
     public void getNearBySafeHouses(Context context, String key, String location, String radius, String type, String nextPageToken, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener) {
         nearBySafeHouseService.getNearBySafeHouses(context, key, location, radius, type, nextPageToken, responseListener, errorListener);
+    }
+
+    @Override
+    public void initiateNotification(final Context context, final IDAREResponseHandler.ResponseListener<TriggerNotificationResponseModel> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+        notificationService.initiateNotification(context, responseListener, errorListener);
     }
 
     @Override

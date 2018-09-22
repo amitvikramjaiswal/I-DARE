@@ -28,6 +28,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static com.opensource.app.idare.utils.Constants.GEOLOC;
+import static com.opensource.app.idare.utils.Constants.LATITUDE;
+import static com.opensource.app.idare.utils.Constants.LONGITUDE;
+import static com.opensource.app.idare.utils.Constants.MAX_DISTANCE;
+import static com.opensource.app.idare.utils.Constants.NEAR_SPHERE;
+import static com.opensource.app.idare.utils.Constants.SEARCH_RADIUS_IN_MILES;
+
 public class ServiceLocatorImpl implements ServiceLocator {
 
     private static final String TAG = ServiceLocatorImpl.class.getSimpleName();
@@ -261,6 +268,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 String id = (String) queryParam.get(Constants.ID);
                 url += Constants.SEPARATOR + id;
                 break;
+            case URL_TRIGGER_NOTIFICATION:
+                break;
             case URL_IS_USER_EXISTS:
                 String keyUsername = queryParam.keySet().iterator().next();
                 String valueUserName = (String) queryParam.get(keyUsername);
@@ -273,15 +282,9 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 url += String.format(Constants.QUERY + "{\"%s\":\"%s\"}", key, value);
                 break;
             case URL_FETCH_NEARBY_USERS:
-                String[] qKey = new String[3];
-                Object[] qValue = new String[3];
-                int i = 0;
-                while (queryParam.keySet().iterator().hasNext()) {
-                    qKey[i] = queryParam.keySet().iterator().next();
-                    qValue[i] = queryParam.get(qKey[i]);
-                    i++;
-                }
-                url += String.format(Constants.QUERY + "{\"%s\": {\"%s\": [%f,%f], \"%s\":\"%s\" }}", qKey[0], qKey[1], qValue[0], qValue[1], qKey[2], qValue[2]);
+                double lat = (double) queryParam.get(LATITUDE);
+                double lng = (double) queryParam.get(LONGITUDE);
+                url += String.format(Constants.QUERY + "{\"%s\":{\"%s\":[%f,%f],\"%s\":\"%s\"}}", GEOLOC, NEAR_SPHERE, lng, lat, MAX_DISTANCE, SEARCH_RADIUS_IN_MILES);
                 break;
             case URL_NEAR_BY_SEARCH_BASE_URL:
                 Set<String> keys = queryParam.keySet();

@@ -78,7 +78,8 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
                 // Open dialog
                 dataListener.getDrawer().closeDrawer(Gravity.START);
                 dataListener.replaceFragment(PassiveFragment.newInstance());
-                dataListener.stopService(new Intent(getContext(), FakeCallService.class));
+                if (Utils.isMyServiceRunning(getContext(), FakeCallService.class))
+                    dataListener.stopService(new Intent(getContext(), FakeCallService.class));
 //                layoutPopUpViewModel.showAlertDialog();
             }
         };

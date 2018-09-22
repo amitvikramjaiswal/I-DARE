@@ -1,5 +1,6 @@
 package com.opensource.app.idare.view.activity;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -38,6 +39,11 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         viewModel = new SplashViewModel(this, this);
         binding.setViewModel(viewModel);
+//        if (Constants.ACTION_NOTIFICATION.equals(getIntent().getAction())) {
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancelAll();
+//            String type = getIntent().getStringExtra(Constants.NOTIFICATION_TYPE);
+//        }
     }
 
     /**
@@ -56,8 +62,8 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
     }
 
     /*
-    * If User has done with registration, Then directly go to main Screen
-    * */
+     * If User has done with registration, Then directly go to main Screen
+     * */
     public void finishOnUiThread() {
         new Handler().postDelayed(new Runnable() {
             /*

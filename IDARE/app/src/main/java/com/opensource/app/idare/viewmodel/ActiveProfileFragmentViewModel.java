@@ -3,10 +3,13 @@ package com.opensource.app.idare.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import com.opensource.app.idare.component.service.FakeCallService;
-import com.opensource.app.idare.utils.ShakeEventManager;
+import com.opensource.app.idare.model.data.entity.TriggerNotificationResponseModel;
+import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
+import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.Utils;
 
 /**
@@ -22,15 +25,34 @@ public class ActiveProfileFragmentViewModel extends BaseViewModel {
     public ActiveProfileFragmentViewModel(Context context, DataListener dataListener) {
         super(context);
         this.dataListener = dataListener;
-        if (!FakeCallService.isIsRunning()) {
+        if (!Utils.isMyServiceRunning(getContext(), FakeCallService.class)) {
             intent = new Intent(context, FakeCallService.class);
             dataListener.startService(intent);
         }
     }
 
+    public View.OnClickListener onAlertClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SessionFacadeImpl.getInstance().initiateNotification(getContext(), new IDAREResponseHandler.ResponseListener<TriggerNotificationResponseModel>() {
+                    @Override
+                    public void onSuccess(TriggerNotificationResponseModel response) {
+                        Log.d(TAG, "onSuccess(). " + response);
+                    }
+                }, new IDAREResponseHandler.ErrorListener() {
+                    @Override
+                    public void onError(IDAREErrorWrapper error) {
+
+                    }
+                });
+            }
+        };
+    }
+
     public void onDestroy() {
         Log.d(TAG, TAG + " Destroyed");
-        dataListener.startService(intent);
+        dataListener.stopService(intent);
     }
 
     public interface DataListener extends BaseViewModel.DataListener {

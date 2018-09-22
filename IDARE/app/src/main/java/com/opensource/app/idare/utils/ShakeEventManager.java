@@ -17,7 +17,7 @@ public class ShakeEventManager implements SensorEventListener {
     private Sensor s;
 
     private static final int MOV_COUNTS = 2;
-    private static final int MOV_THRESHOLD = 5;
+    private static final int MOV_THRESHOLD = 15;
     private static final float ALPHA = 0.8F;
     private static final int SHAKE_WINDOW_TIME_INTERVAL = 500; // milliseconds
 

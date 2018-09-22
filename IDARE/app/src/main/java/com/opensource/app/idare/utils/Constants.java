@@ -46,6 +46,12 @@ public class Constants {
     public static final String ARRAY_RES_ID = "ARRAY_RES_ID";
     public static final String ACTION_NOTIFICATION = "com.opensource.app.idare.NEW_NOTIFICATION";
     public static final String ACTION_NOTIFICATION_DISMISS = "com.opensource.app.idare.NOTIFICATION_DISMISSED";
+    public static final String GEOLOC = "_geoloc";
+    public static final String NEAR_SPHERE = "$nearSphere";
+    public static final String MAX_DISTANCE = "$maxDistance";
+    public static final double SEARCH_RADIUS_IN_KM = 8.23;
+    private static final double KM_IN_MILE = 0.621371;
+    public static final double SEARCH_RADIUS_IN_MILES = SEARCH_RADIUS_IN_KM * KM_IN_MILE;
     public static String BASIC = "Basic ";
 
 
