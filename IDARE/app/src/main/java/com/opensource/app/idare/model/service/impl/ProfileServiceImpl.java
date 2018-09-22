@@ -17,10 +17,10 @@ import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.model.service.volley.MultipartRequest;
 import com.opensource.app.idare.model.service.volley.VolleySingleton;
 import com.opensource.app.idare.utils.AuthType;
+import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Session;
-import com.opensource.app.idare.utils.Constants;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -69,6 +69,7 @@ public class ProfileServiceImpl implements ProfileService {
         userProfile.setMobile(mobile);
         userProfile.setAlternate(alternativeNum);
         userProfile.setiDareLocation(iDareLocation);
+        userProfile.setLonLat(new double[]{iDareLocation.getLongitude(), iDareLocation.getLatitude()});
 
         userProfileRequestBody = new Gson().toJson(userProfile);
         return userProfile;
@@ -76,7 +77,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void fetchUserDetails(Context context, String userName, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(Constants.USERNAME, userName);
         ServiceLocatorImpl.getInstance().executeGetRequest(context, URLs.URL_FETCH_USERS, params, AuthType.USER_CREDENTIALS, null,
                 new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
@@ -122,7 +123,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void login(final Context context, final String userName, final String password, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(Constants.USERNAME, userName);
 
         ServiceLocatorImpl.getInstance().login(context, userName, password, URLs.URL_IS_PASSWORD_EXISTS, params, USER_CREDENTIALS, null, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
@@ -147,7 +148,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void checkIfUserExists(final Context context, String username, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(Constants.USERNAME, username);
         ServiceLocatorImpl.getInstance().executeGetRequest(context, URLs.URL_IS_USER_EXISTS, params, MASTER_SECRET, null, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
             @Override
@@ -173,7 +174,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void updateProfile(Context context, String id, UserProfileRequestModel userProfileRequestModel, final IDAREResponseHandler.ResponseListener<UserProfileResponseModel> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(ID, id);
         String body = new Gson().toJson(userProfileRequestModel);
         ServiceLocatorImpl.getInstance().executePutRequest(context, URLs.URL_UPDATE_PROFILE, params, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel>() {

@@ -4,6 +4,7 @@ package com.opensource.app.idare.model.service;
 import com.opensource.app.idare.model.data.entity.NearBySafeHouseListEntity;
 import com.opensource.app.idare.model.data.entity.ProfilePic;
 import com.opensource.app.idare.model.data.entity.RegisterDeviceResponse;
+import com.opensource.app.idare.model.data.entity.TriggerNotificationResponseModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 
 import java.lang.reflect.Type;
@@ -48,7 +49,18 @@ public enum URLs {
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
         }
-    }, URL_IS_USER_EXISTS("/user/%s", null, UserProfileResponseModel[].class, null) {
+    }, URL_FETCH_NEARBY_USERS("/appdata/%s/iDareUsers", null, UserProfileResponseModel[].class, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
+        }
+    }, URL_TRIGGER_NOTIFICATION("/rpc/%s/custom/trigger-notification", null, TriggerNotificationResponseModel.class, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
+        }
+    }
+    , URL_IS_USER_EXISTS("/user/%s", null, UserProfileResponseModel[].class, null) {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
