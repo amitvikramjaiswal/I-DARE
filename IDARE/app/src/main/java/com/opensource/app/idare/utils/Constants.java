@@ -44,6 +44,8 @@ public class Constants {
     public static final String ID = "_id";
     public static final String SEPARATOR = "/";
     public static final String ARRAY_RES_ID = "ARRAY_RES_ID";
+    public static final String ACTION_NOTIFICATION = "com.opensource.app.idare.NEW_NOTIFICATION";
+    public static final String ACTION_NOTIFICATION_DISMISS = "com.opensource.app.idare.NOTIFICATION_DISMISSED";
     public static String BASIC = "Basic ";
 
 

@@ -50,6 +50,11 @@ public class SplashActivity extends BaseActivity implements SplashViewModel.Data
         viewModel.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        viewModel.onActivityResult(requestCode, resultCode, data);
+    }
+
     /*
     * If User has done with registration, Then directly go to main Screen
     * */

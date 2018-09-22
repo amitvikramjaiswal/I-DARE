@@ -52,7 +52,7 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
         this.dataListener = dataListener;
         this.userNameFromBundle = userNameFromBundle;
 
-         /*Intialise the LayoutPopUpViewModel and set the observable field*/
+        /*Intialise the LayoutPopUpViewModel and set the observable field*/
         layoutPopUpViewModel = new LayoutPopUpViewModel(getContext(), this);
         drawerLayoutInflater.set(layoutPopUpViewModel);
 
@@ -230,7 +230,13 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
     }
 
     public void onResume() {
+        registerDeviceToFcm();
+    }
 
+    private void registerDeviceToFcm() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if (token != null)
+            SessionFacadeImpl.getInstance().registerDeviceToFCM(getContext(), NotificationServiceImpl.getRequestBody(token), null, null);
     }
 
     public interface DataListener extends BaseViewModel.DataListener {
