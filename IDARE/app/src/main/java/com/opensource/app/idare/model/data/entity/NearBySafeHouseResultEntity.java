@@ -3,15 +3,28 @@ package com.opensource.app.idare.model.data.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
+import com.google.maps.android.clustering.ClusterItem;
 
 import java.util.List;
 
 /**
  * Created by ajaiswal on 4/6/2016.
  */
-public class NearBySafeHouseResultEntity implements Parcelable {
+public class NearBySafeHouseResultEntity implements Parcelable, ClusterItem {
 
+    public static final Creator<NearBySafeHouseResultEntity> CREATOR = new Creator<NearBySafeHouseResultEntity>() {
+        @Override
+        public NearBySafeHouseResultEntity createFromParcel(Parcel in) {
+            return new NearBySafeHouseResultEntity(in);
+        }
+
+        @Override
+        public NearBySafeHouseResultEntity[] newArray(int size) {
+            return new NearBySafeHouseResultEntity[size];
+        }
+    };
     @SerializedName("geometry")
     private Geometry geometry;
     @SerializedName("name")
@@ -22,7 +35,6 @@ public class NearBySafeHouseResultEntity implements Parcelable {
     private String vicinity;
     @SerializedName("types")
     private List<String> types;
-
 
     protected NearBySafeHouseResultEntity(Parcel in) {
         geometry = in.readParcelable(Geometry.class.getClassLoader());
@@ -46,18 +58,6 @@ public class NearBySafeHouseResultEntity implements Parcelable {
         return 0;
     }
 
-    public static final Creator<NearBySafeHouseResultEntity> CREATOR = new Creator<NearBySafeHouseResultEntity>() {
-        @Override
-        public NearBySafeHouseResultEntity createFromParcel(Parcel in) {
-            return new NearBySafeHouseResultEntity(in);
-        }
-
-        @Override
-        public NearBySafeHouseResultEntity[] newArray(int size) {
-            return new NearBySafeHouseResultEntity[size];
-        }
-    };
-
     public Geometry getGeometry() {
         return geometry;
     }
@@ -76,5 +76,20 @@ public class NearBySafeHouseResultEntity implements Parcelable {
 
     public List<String> getTypes() {
         return types;
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return new LatLng(geometry.getLocation().getLatitude(), geometry.getLocation().getLongitude());
+    }
+
+    @Override
+    public String getTitle() {
+        return name;
+    }
+
+    @Override
+    public String getSnippet() {
+        return vicinity;
     }
 }

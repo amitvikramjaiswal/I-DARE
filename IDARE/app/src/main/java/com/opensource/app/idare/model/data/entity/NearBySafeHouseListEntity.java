@@ -29,6 +29,9 @@ public class NearBySafeHouseListEntity implements Parcelable {
     @SerializedName("status")
     private String status;
 
+    public NearBySafeHouseListEntity() {
+    }
+
     protected NearBySafeHouseListEntity(Parcel in) {
         nearBySafeHouseResultEntities = in.createTypedArrayList(NearBySafeHouseResultEntity.CREATOR);
         nextPageToken = in.readString();

@@ -52,6 +52,8 @@ public class Constants {
     public static final double SEARCH_RADIUS_IN_KM = 8.23;
     private static final double KM_IN_MILE = 0.621371;
     public static final double SEARCH_RADIUS_IN_MILES = SEARCH_RADIUS_IN_KM * KM_IN_MILE;
+    public static final String SEARCH_RADIUS = "3000";
+    public static final int MINIMUM_CLUSTER_SIZE = 10;
     public static String BASIC = "Basic ";
 
 

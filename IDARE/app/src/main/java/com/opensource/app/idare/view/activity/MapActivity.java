@@ -7,20 +7,26 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterItem;
+import com.google.maps.android.clustering.ClusterManager;
 import com.opensource.app.idare.R;
-import com.opensource.app.idare.utils.Session;
+import com.opensource.app.idare.view.custom.IDareClusterRenderer;
 
 import java.util.List;
 
-public abstract class MapActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
+public abstract class MapActivity<T extends ClusterItem> extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
     protected GoogleMap googleMap;
     protected List<Marker> mMarkers;
+    protected ClusterManager<T> clusterManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,38 +42,30 @@ public abstract class MapActivity extends BaseActivity implements OnMapReadyCall
             }
         });
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.map_container, mapFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.map_container, mapFragment).commit();
         mapFragment.getMapAsync(this);
     }
 
-    protected Marker addMarkers(MarkerOptions markerOptions) {
-        return googleMap.addMarker(markerOptions);
+    protected void setUpClusterer() {
+        googleMap.setOnCameraIdleListener(clusterManager);
+        googleMap.setOnMarkerClickListener(clusterManager);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    protected void addClusterItem(List<T> clusterItems) {
+        clusterManager.addItems(clusterItems);
+        clusterManager.setAnimation(true);
+        clusterManager.setRenderer(new IDareClusterRenderer<T>(this, googleMap, clusterManager));
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void setBounds(List<T> clusterItems) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (T t : clusterItems) {
+            builder.include(t.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
+        int padding = 50;
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        googleMap.animateCamera(cameraUpdate);
     }
 
     @Override

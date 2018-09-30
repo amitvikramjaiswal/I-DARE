@@ -27,11 +27,13 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.opensource.app.idare.R;
 import com.opensource.app.idare.component.receiver.FakeCallReceiver;
 import com.opensource.app.idare.model.data.entity.IDAREError;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 /**
  * Created by amitvikramjaiswal on 17/03/16.
@@ -202,6 +204,24 @@ public class Utils {
             }
         } else {
             return true;
+        }
+    }
+
+    public static int getResource(List<String> types) {
+        if (types.contains("police")) {
+            return R.mipmap.police;
+        } else if (types.contains("shopping_mall") || types.contains("convenience_store")) {
+            return R.mipmap.shopping;
+        } else if (types.contains("cafe")) {
+            return R.mipmap.cafe;
+        } else if (types.contains("bus_station")) {
+            return R.mipmap.bus;
+        } else if (types.contains("hospital")) {
+            return R.mipmap.hospital;
+        } else if (types.contains("restaurant")) {
+            return R.mipmap.restaurant;
+        } else {
+            return R.mipmap.safe_house;
         }
     }
 }

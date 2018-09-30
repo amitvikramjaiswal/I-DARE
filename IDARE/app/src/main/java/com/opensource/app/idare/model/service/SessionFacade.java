@@ -32,7 +32,7 @@ public interface SessionFacade {
 
     void unregisterDeviceToFCM(Context context, RegisterDevice registerDevice, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
 
-    void getNearBySafeHouses(Context context, String key, String location, String radius, String type, String nextPageToken, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
+    void initiateSafeHousesSearch(Context context, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
 
     void initiateNotification(Context context, IDAREResponseHandler.ResponseListener<TriggerNotificationResponseModel> responseListener, IDAREResponseHandler.ErrorListener errorListener);
 

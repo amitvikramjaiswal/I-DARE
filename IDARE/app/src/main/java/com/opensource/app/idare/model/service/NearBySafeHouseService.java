@@ -9,7 +9,5 @@ import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
  */
 
 public interface NearBySafeHouseService {
-
-    void getNearBySafeHouses(Context context, String key, String location, String radius, String type, String nextPageToken, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
-
+    void initiateSafeHousesSearch(Context context, boolean isFreshCall, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
 }
