@@ -30,6 +30,7 @@ import com.opensource.app.idare.view.fragment.CoreGroupFragment;
 import com.opensource.app.idare.view.fragment.PassiveFragment;
 import com.opensource.app.idare.view.fragment.SafePracticesFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
+import com.opensource.app.idare.view.fragment.SimpleTextFragment;
 
 /**
  * Created by akokala on 10/31/2017.
@@ -124,13 +125,16 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
                 AppTourFragment appTourFragment = AppTourFragment.newInstance();
                 fragment = appTourFragment;
                 break;
-//            case R.id.donate:
-//                DonateFragment donateFragment = DonateFragment.newInstance();
+            case R.id.scope:
+//                ScopeFragment donateFragment = DonateFragment.newInstance();
 //                fragment = donateFragment;
-//                break;
+                break;
+            case R.id.about_i_dare:
+                fragment = SimpleTextFragment.newInstance(getContext().getString(R.string.about_i_dare), getContext().getString(R.string.about_val));
+                break;
             case R.id.settings:
-                SettingsFragment settingsFragment = SettingsFragment.newInstance();
-                fragment = settingsFragment;
+                fragment = SettingsFragment.newInstance();
+
                 break;
             case R.id.log_out:
                 logout();

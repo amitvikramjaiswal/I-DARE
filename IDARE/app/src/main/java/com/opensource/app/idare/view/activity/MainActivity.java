@@ -16,23 +16,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.component.service.IDareLocationService;
 import com.opensource.app.idare.databinding.ActivityMainBinding;
 import com.opensource.app.idare.databinding.NavHeaderMainBinding;
-import com.opensource.app.idare.model.service.impl.NotificationServiceImpl;
-import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.Constants;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreGroupFragment;
-import com.opensource.app.idare.view.fragment.DonateFragment;
 import com.opensource.app.idare.view.fragment.InviteToIDareFragment;
 import com.opensource.app.idare.view.fragment.PassiveFragment;
 import com.opensource.app.idare.view.fragment.SafePracticesFragment;
 import com.opensource.app.idare.view.fragment.SafePracticesPagerFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
+import com.opensource.app.idare.view.fragment.SimpleTextFragment;
 import com.opensource.app.idare.viewmodel.MainActivityViewModel;
 import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
 
@@ -43,7 +40,7 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
 public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
         ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreGroupFragment.OnFragmentInteractionListener,
         SafePracticesFragment.OnFragmentInteractionListener, SafePracticesPagerFragment.OnFragmentInteractionListener, InviteToIDareFragment.OnFragmentInteractionListener,
-        DonateFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {
+        SimpleTextFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {
     private Fragment currentFragment;
     private ActivityMainBinding binding;
     private Context context;

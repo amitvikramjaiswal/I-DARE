@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -175,7 +174,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewModel.Dat
      */
     @Override
     public void showSnackbar(final int mainTextStringId, final int actionStringId,
-                              View.OnClickListener listener) {
+                             View.OnClickListener listener) {
         Snackbar.make(
                 findViewById(android.R.id.content),
                 getString(mainTextStringId),

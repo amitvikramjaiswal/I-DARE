@@ -1,0 +1,24 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.opensource.app.idare.viewmodel.SimpleTextViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/idare_white"
+        android:clickable="true"
+        android:padding="@dimen/padding_normal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@{viewModel.ofBody}"
+            android:textSize="@dimen/font_size_medium_minus_1" />
+
+    </FrameLayout>
+</layout>
