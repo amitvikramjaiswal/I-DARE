@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.opensource.app.idare.R;
@@ -55,6 +56,13 @@ public abstract class MapActivity<T extends ClusterItem> extends BaseActivity im
         clusterManager.addItems(clusterItems);
         clusterManager.setAnimation(true);
         clusterManager.setRenderer(new IDareClusterRenderer<T>(this, googleMap, clusterManager));
+        clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<T>() {
+            @Override
+            public boolean onClusterClick(Cluster<T> cluster) {
+                setBounds((List<T>) cluster.getItems());
+                return true;
+            }
+        });
     }
 
     protected void setBounds(List<T> clusterItems) {
