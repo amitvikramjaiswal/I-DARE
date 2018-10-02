@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.LayoutSearchCoreUserBinding;
+import com.opensource.app.idare.view.activity.ActiveModeActivity;
 import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
 
 /**
@@ -25,7 +26,8 @@ public class CoreGroupViewModel extends IDareBaseViewModel {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutSearchCoreUserBinding searchCoreUserBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.layout_search_core_user, null, false);
+                dataListener.startActivity(ActiveModeActivity.getStartIntent(context));
+//                LayoutSearchCoreUserBinding searchCoreUserBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.layout_search_core_user, null, false);
 //                SearchCoreUserViewModel viewModel = new SearchCoreUserViewModel(getContext(), CoreGroupViewModel.this);
 //                searchCoreUserBinding.setViewModel(viewModel);
 //                dataListener.showAlertDialog(searchCoreUserBinding.getRoot(), getContext().getString(R.string.btn_ok), null, new AlertDialogHandler() {

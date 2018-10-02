@@ -22,6 +22,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <Button
+                android:id="@+id/btn_alert"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="20dp"
+                android:background="@drawable/btn_selector_round"
+                android:elevation="15dp"
+
+                android:text="Alert"
+                android:textColor="@color/idare_pink"
+                android:textSize="@dimen/font_size_large"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_call_nearest_police_station"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/margin_top_welcome_screen_btn"
+                android:background="@drawable/btn_selector_transparent"
+                android:padding="@dimen/padding_btn"
+                android:text="@string/call_nearest_police_station"
+                android:textColor="@color/idare_pink"
+                android:textSize="@dimen/font_size_small_minus_1"
+                android:textStyle="bold" />
 
         </FrameLayout>
 
