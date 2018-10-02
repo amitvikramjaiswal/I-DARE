@@ -16,7 +16,7 @@ import com.opensource.app.idare.utils.Utils;
  * Created by akokala on 10/31/2017.
  */
 
-public class ActiveProfileFragmentViewModel extends BaseViewModel {
+public class ActiveProfileFragmentViewModel extends IDareBaseViewModel {
 
     private static final String TAG = ActiveProfileFragmentViewModel.class.getSimpleName();
     private Intent intent;
@@ -55,7 +55,7 @@ public class ActiveProfileFragmentViewModel extends BaseViewModel {
         dataListener.stopService(intent);
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
     }
 }

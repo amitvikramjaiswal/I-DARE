@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.application.IDareApp;
 import com.opensource.app.idare.databinding.FragmentMyAccountPassiveBinding;
-import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.NearBySafeHouseActivity;
 import com.opensource.app.idare.viewmodel.PassiveProfileFragmentViewModel;
 
@@ -24,7 +23,7 @@ import com.opensource.app.idare.viewmodel.PassiveProfileFragmentViewModel;
  * Created by akokala on 11/6/2017.
  */
 
-public class PassiveFragment extends BaseFragment implements PassiveProfileFragmentViewModel.DataListener {
+public class PassiveFragment extends IDareBaseFragment implements PassiveProfileFragmentViewModel.DataListener {
 
     private FragmentMyAccountPassiveBinding binding;
     private PassiveProfileFragmentViewModel viewModel;
@@ -79,11 +78,6 @@ public class PassiveFragment extends BaseFragment implements PassiveProfileFragm
     }
 
     @Override
-    public void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler) {
-        mListener.showAlertDialog(title, message, cancelable, positiveButton, negativeButton, alertDialogHandler);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         parentActivity.setTitle(getContext().getResources().getString(R.string.active_profile));
@@ -125,6 +119,5 @@ public class PassiveFragment extends BaseFragment implements PassiveProfileFragm
 
         void replaceFragment(Fragment fragment);
 
-        void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }
 }

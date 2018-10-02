@@ -3,7 +3,7 @@ package com.opensource.app.idare.viewmodel;
 import android.content.Context;
 import android.databinding.ObservableField;
 
-public class SimpleTextViewModel extends BaseViewModel {
+public class SimpleTextViewModel extends IDareBaseViewModel {
 
     private Context context;
     private DataListener dataListener;
@@ -36,7 +36,7 @@ public class SimpleTextViewModel extends BaseViewModel {
         this.ofBody = ofBody;
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
         void setTitle(String title);
     }
 }

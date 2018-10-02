@@ -37,7 +37,7 @@ import com.opensource.app.idare.viewmodel.NavigationMenuHeaderViewModel;
  * Created by akokala on 10/31/2017.
  */
 
-public class MainActivity extends BaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
+public class MainActivity extends IDareBaseActivity implements MainActivityViewModel.DataListener, NavigationView.OnNavigationItemSelectedListener,
         ActiveProfileFragment.OnFragmentInteractionListener, AppTourFragment.OnFragmentInteractionListener, CoreGroupFragment.OnFragmentInteractionListener,
         SafePracticesFragment.OnFragmentInteractionListener, SafePracticesPagerFragment.OnFragmentInteractionListener, InviteToIDareFragment.OnFragmentInteractionListener,
         SimpleTextFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, PassiveFragment.OnFragmentInteractionListener, NavigationMenuHeaderViewModel.DataListener {

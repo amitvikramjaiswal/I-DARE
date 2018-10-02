@@ -16,7 +16,7 @@ import com.opensource.app.idare.viewmodel.SettingsViewModel;
  * Created by akokala on 11/2/2017.
  */
 
-public class SettingsFragment extends BaseFragment implements SettingsViewModel.DataListener {
+public class SettingsFragment extends IDareBaseFragment implements SettingsViewModel.DataListener {
     private FragmentSettingsBinding binding;
     private SettingsViewModel viewModel;
     private OnFragmentInteractionListener mListener;

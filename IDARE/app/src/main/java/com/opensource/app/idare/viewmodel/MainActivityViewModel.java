@@ -22,7 +22,6 @@ import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utils;
-import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.RegisterActivity;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
@@ -31,21 +30,22 @@ import com.opensource.app.idare.view.fragment.PassiveFragment;
 import com.opensource.app.idare.view.fragment.SafePracticesFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
 import com.opensource.app.idare.view.fragment.SimpleTextFragment;
+import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
 
 /**
  * Created by akokala on 10/31/2017.
  */
 
-public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpViewModel.DataListener {
+public class MainActivityViewModel extends IDareBaseViewModel {
 
     private static final String TAG = MainActivityViewModel.class.getSimpleName();
 
     private DataListener dataListener;
     private MenuItem mPreviousMenuItem;
-    private LayoutPopUpViewModel layoutPopUpViewModel;
+//    private LayoutPopUpViewModel layoutPopUpViewModel;
     private String userNameFromBundle;
 
-    private ObservableField<LayoutPopUpViewModel> drawerLayoutInflater = new ObservableField<>();
+//    private ObservableField<LayoutPopUpViewModel> drawerLayoutInflater = new ObservableField<>();
     private ObservableField<Boolean> enableMakePassive = new ObservableField<>(false);
 
     public MainActivityViewModel(Context context, DataListener dataListener, String userNameFromBundle) {
@@ -54,8 +54,8 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
         this.userNameFromBundle = userNameFromBundle;
 
         /*Intialise the LayoutPopUpViewModel and set the observable field*/
-        layoutPopUpViewModel = new LayoutPopUpViewModel(getContext(), this);
-        drawerLayoutInflater.set(layoutPopUpViewModel);
+//        layoutPopUpViewModel = new LayoutPopUpViewModel(getContext(), this);
+//        drawerLayoutInflater.set(layoutPopUpViewModel);
 
         // User is already logged in
         if (userNameFromBundle == null) {
@@ -63,9 +63,9 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
         }
     }
 
-    public ObservableField<LayoutPopUpViewModel> getDrawerLayoutInflater() {
-        return drawerLayoutInflater;
-    }
+//    public ObservableField<LayoutPopUpViewModel> getDrawerLayoutInflater() {
+//        return drawerLayoutInflater;
+//    }
 
     public ObservableField<Boolean> getEnableMakePassive() {
         return enableMakePassive;
@@ -176,16 +176,6 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
         dataListener.startActivity(intent);
     }
 
-    @Override
-    public void finish() {
-        dataListener.finish();
-    }
-
-    @Override
-    public void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler) {
-        dataListener.showAlertDialog(view, positiveButton, negativeButton, alertDialogHandler);
-    }
-
     // Service call to fetch the user
     public void fetchUserDetails() {
         dataListener.showProgress();
@@ -244,7 +234,7 @@ public class MainActivityViewModel extends BaseViewModel implements LayoutPopUpV
             SessionFacadeImpl.getInstance().registerDeviceToFCM(getContext(), NotificationServiceImpl.getRequestBody(token), null, null);
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
         void replaceFragment(Fragment fragment);
 

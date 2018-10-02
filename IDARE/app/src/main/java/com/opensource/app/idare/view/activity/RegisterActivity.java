@@ -15,7 +15,7 @@ import com.opensource.app.idare.viewmodel.RegisterViewModel;
 /**
  * Created by amitvikramjaiswal on 25/05/16.
  */
-public class RegisterActivity extends BaseActivity implements RegisterViewModel.DataListener {
+public class RegisterActivity extends IDareBaseActivity implements RegisterViewModel.DataListener {
 
     private ActivityRegisterBinding binding;
     private RegisterViewModel viewModel;

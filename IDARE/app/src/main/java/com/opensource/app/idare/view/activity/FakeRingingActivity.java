@@ -7,8 +7,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,7 +17,7 @@ import com.opensource.app.idare.R;
  * Created by amitvikramjaiswal on 11/12/17.
  */
 
-public class FakeRingingActivity extends BaseActivity {
+public class FakeRingingActivity extends IDareBaseActivity {
 
     private String networkCarrier;
     private MediaPlayer mp;

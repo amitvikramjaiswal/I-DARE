@@ -16,7 +16,7 @@ import com.opensource.app.idare.viewmodel.EditProfileViewModel;
  * Created by akokala on 11/6/2017.
  */
 
-public class EditProfileActivity extends BaseActivity implements EditProfileViewModel.DataListener {
+public class EditProfileActivity extends IDareBaseActivity implements EditProfileViewModel.DataListener {
     private ActivityEditProfileBinding binding;
     private EditProfileViewModel viewModel;
 

@@ -1,11 +1,13 @@
 package com.opensource.app.idare.model.data.entity;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.google.maps.android.clustering.ClusterItem;
+import com.opensource.app.idare.utils.Session;
 
 import java.util.List;
 
@@ -85,7 +87,10 @@ public class NearBySafeHouseResultEntity implements Parcelable, ClusterItem {
 
     @Override
     public String getTitle() {
-        return name;
+        Location lastLocation = Session.getInstance().getLastLocation();
+        float[] distance = new float[3];
+        Location.distanceBetween(lastLocation.getLatitude(), lastLocation.getLongitude(), geometry.getLocation().getLatitude(), geometry.getLocation().getLongitude(), distance);
+        return name + String.format(" %.2f", distance[0] / 1000f) + " KM";
     }
 
     @Override

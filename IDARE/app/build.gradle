@@ -69,5 +69,6 @@ dependencies {
     implementation "com.android.volley:volley:${volley_version}"
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.2.5'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
+    implementation project(':base-library-debug')
 }
 apply plugin: 'com.google.gms.google-services'

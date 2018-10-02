@@ -21,7 +21,7 @@ import static com.opensource.app.idare.application.IDareApp.getContext;
  * Created by akokala on 11/2/2017.
  */
 
-public class SplashActivity extends BaseActivity implements SplashViewModel.DataListener {
+public class SplashActivity extends IDareBaseActivity implements SplashViewModel.DataListener {
     private static final String TAG = SplashActivity.class.getSimpleName();
     private ActivitySplashBinding binding;
     private SplashViewModel viewModel;

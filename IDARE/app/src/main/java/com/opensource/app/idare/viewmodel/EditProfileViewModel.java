@@ -18,7 +18,6 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -36,8 +35,8 @@ import com.opensource.app.idare.utils.ImageEditor;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Session;
 import com.opensource.app.idare.utils.Utils;
-import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.MainActivity;
+import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
@@ -52,11 +51,12 @@ import java.util.List;
  * Created by akokala on 11/6/2017.
  */
 
-public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
+public class EditProfileViewModel extends IDareBaseViewModel implements TextWatcher {
 
     private static final String TAG = EditProfileViewModel.class.getSimpleName();
     private static final int IMAGE_PICKER_REQUEST_CODE = 2;
-    private static final int IMAGE_EDITOR_REQUEST_CODE = CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;;
+    private static final int IMAGE_EDITOR_REQUEST_CODE = CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
+    ;
     private DataListener dataListener;
     private Session session;
 
@@ -80,6 +80,11 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
         setListener();
 
         prepopulateUserDetails();
+    }
+
+    @BindingAdapter("android:image_bitmap")
+    public static void setProfilePic(ImageView profilePic, Bitmap bitmap) {
+        profilePic.setImageBitmap(bitmap);
     }
 
     // Show the prepopulated value in the Ui for Edit User
@@ -107,11 +112,6 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
         dataListener.getEmail().addTextChangedListener(this);
         dataListener.getAlternativeNumber().addTextChangedListener(this);
         dataListener.getPassword().addTextChangedListener(this);
-    }
-
-    @BindingAdapter("android:image_bitmap")
-    public static void setProfilePic(ImageView profilePic, Bitmap bitmap) {
-        profilePic.setImageBitmap(bitmap);
     }
 
     public ObservableField<String> getNameFromEditTExt() {
@@ -393,7 +393,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
                     dataListener.finish();
 //                    if (!Session.getInstance().isRegisteredToFCM())
 //                        registerDeviceToFcm();
-                        dataListener.startActivity(MainActivity.getStartIntent(getContext(), response.getName()));
+                    dataListener.startActivity(MainActivity.getStartIntent(getContext(), response.getName()));
                 }
             }
         }, new IDAREResponseHandler.ErrorListener() {
@@ -510,7 +510,7 @@ public class EditProfileViewModel extends BaseViewModel implements TextWatcher {
     public void afterTextChanged(Editable s) {
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
         EditText getName();
 

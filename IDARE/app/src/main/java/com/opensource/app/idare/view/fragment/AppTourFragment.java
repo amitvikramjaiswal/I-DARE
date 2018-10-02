@@ -15,7 +15,7 @@ import com.opensource.app.idare.viewmodel.AppTourFragmentViewModel;
 /**
  * Created by ajaiswal on 4/4/2016.
  */
-public class AppTourFragment extends BaseFragment implements AppTourFragmentViewModel.DataListener {
+public class AppTourFragment extends IDareBaseFragment implements AppTourFragmentViewModel.DataListener {
     private FragmentAppTourBinding binding;
     private AppTourFragmentViewModel viewModel;
     private OnFragmentInteractionListener mListener;

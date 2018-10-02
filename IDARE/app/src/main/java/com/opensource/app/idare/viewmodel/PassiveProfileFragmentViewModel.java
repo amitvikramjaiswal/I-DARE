@@ -17,15 +17,15 @@ import android.widget.TextView;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utils;
-import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.EditProfileActivity;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
+import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
 
 /**
  * Created by akokala on 11/6/2017.
  */
 
-public class PassiveProfileFragmentViewModel extends BaseViewModel {
+public class PassiveProfileFragmentViewModel extends IDareBaseViewModel {
     private DataListener dataListener;
 
     public PassiveProfileFragmentViewModel(Context context, DataListener dataListener) {
@@ -82,7 +82,7 @@ public class PassiveProfileFragmentViewModel extends BaseViewModel {
         dataListener.getTextView().setText(spannableString);
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
         void replaceFragment(Fragment fragment);
 

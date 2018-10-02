@@ -15,7 +15,7 @@ import com.opensource.app.idare.viewmodel.SimpleTextViewModel;
 /**
  * Common Fragment with only a textview.
  */
-public class SimpleTextFragment extends BaseFragment implements SimpleTextViewModel.DataListener {
+public class SimpleTextFragment extends IDareBaseFragment implements SimpleTextViewModel.DataListener {
 
     private static final String TAG = SimpleTextFragment.class.getSimpleName();
     private static final String ARG_TITLE = "TITLE";

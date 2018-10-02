@@ -10,13 +10,13 @@ import android.view.View;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.LayoutPopupViewBinding;
-import com.opensource.app.idare.utils.handler.AlertDialogHandler;
+import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
 
 /**
  * Created by akokala on 11/7/2017.
  */
 
-public class LayoutPopUpViewModel extends BaseViewModel {
+public class LayoutPopUpViewModel extends IDareBaseViewModel {
     private static android.support.v7.app.AlertDialog.Builder myAlertDialog;
     private DataListener dataListener;
     private ObservableField<String> passCodeEditText = new ObservableField<>("");
@@ -75,11 +75,9 @@ public class LayoutPopUpViewModel extends BaseViewModel {
     }
 
 
-    public interface DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
         void finish();
-
-        void showAlertDialog(View view, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }
 }
 

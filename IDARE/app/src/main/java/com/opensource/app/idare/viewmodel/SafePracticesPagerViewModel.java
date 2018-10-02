@@ -9,7 +9,7 @@ import com.opensource.app.idare.view.adapter.BulletPointsAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SafePracticesPagerViewModel extends BaseViewModel {
+public class SafePracticesPagerViewModel extends IDareBaseViewModel {
 
     private static final String TAG = SafePracticesPagerViewModel.class.getSimpleName();
     private DataListener dataListener;
@@ -32,7 +32,7 @@ public class SafePracticesPagerViewModel extends BaseViewModel {
         return observableBulletPoint;
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
     }
 }

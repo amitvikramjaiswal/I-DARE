@@ -15,7 +15,7 @@ import com.opensource.app.idare.viewmodel.SafePracticesPagerViewModel;
 
 import static com.opensource.app.idare.utils.Constants.ARRAY_RES_ID;
 
-public class SafePracticesPagerFragment extends BaseFragment implements SafePracticesPagerViewModel.DataListener {
+public class SafePracticesPagerFragment extends IDareBaseFragment implements SafePracticesPagerViewModel.DataListener {
 
     private static final String TAG = SafePracticesPagerFragment.class.getSimpleName();
     private SafePracticesPagerViewModel viewModel;

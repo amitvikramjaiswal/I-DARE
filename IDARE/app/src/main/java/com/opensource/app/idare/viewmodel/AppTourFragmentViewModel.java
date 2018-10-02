@@ -6,7 +6,7 @@ import android.content.Context;
  * Created by akokala on 10/31/2017.
  */
 
-public class AppTourFragmentViewModel extends BaseViewModel {
+public class AppTourFragmentViewModel extends IDareBaseViewModel {
     private DataListener dataListener;
 
     public AppTourFragmentViewModel(Context context, DataListener dataListener) {
@@ -14,7 +14,7 @@ public class AppTourFragmentViewModel extends BaseViewModel {
         this.dataListener = dataListener;
     }
 
-    public interface DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
     }
 }

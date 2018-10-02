@@ -3,7 +3,7 @@ package com.opensource.app.idare.viewmodel;
 import android.content.Context;
 import android.databinding.ObservableField;
 
-public class BulletPointViewModel extends BaseViewModel {
+public class BulletPointViewModel extends IDareBaseViewModel {
 
     private static final String TAG = BulletPointViewModel.class.getSimpleName();
     private DataListener dataListener;
@@ -19,7 +19,7 @@ public class BulletPointViewModel extends BaseViewModel {
         return observableBulletPoint;
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
     }
 }

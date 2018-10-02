@@ -20,7 +20,7 @@ import com.opensource.app.idare.viewmodel.ActiveProfileFragmentViewModel;
 /**
  * Created by ajaiswal on 3/18/2016.
  */
-public class ActiveProfileFragment extends BaseFragment implements ActiveProfileFragmentViewModel.DataListener {
+public class ActiveProfileFragment extends IDareBaseFragment implements ActiveProfileFragmentViewModel.DataListener {
     private FragmentMyAccountActiveBinding binding;
     private ActiveProfileFragmentViewModel viewModel;
     private OnFragmentInteractionListener mListener;

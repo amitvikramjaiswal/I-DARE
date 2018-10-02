@@ -15,7 +15,7 @@ import com.opensource.app.idare.viewmodel.CoreGroupViewModel;
 /**
  * Created by ajaiswal on 4/4/2016.
  */
-public class CoreGroupFragment extends BaseFragment implements CoreGroupViewModel.DataListener {
+public class CoreGroupFragment extends IDareBaseFragment implements CoreGroupViewModel.DataListener {
     private FragmentCoreGroupBinding binding;
     private CoreGroupViewModel viewModel;
     private OnFragmentInteractionListener mListener;

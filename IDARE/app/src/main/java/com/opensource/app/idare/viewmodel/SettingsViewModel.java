@@ -13,7 +13,7 @@ import com.opensource.app.idare.utils.Session;
  * Created by akokala on 11/2/2017.
  */
 
-public class SettingsViewModel extends BaseViewModel {
+public class SettingsViewModel extends IDareBaseViewModel {
 
     private ObservableField<Boolean> isShoppingMallChecked = new ObservableField<>(true);
     private ObservableField<Boolean> isPoliceStationChecked = new ObservableField<>(true);
@@ -95,7 +95,7 @@ public class SettingsViewModel extends BaseViewModel {
         return progressLabel;
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
     }
 }

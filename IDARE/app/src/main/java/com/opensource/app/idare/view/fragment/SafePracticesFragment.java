@@ -13,7 +13,7 @@ import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.FragmentSafePracticesBinding;
 import com.opensource.app.idare.viewmodel.SafePracticesViewModel;
 
-public class SafePracticesFragment extends BaseFragment implements SafePracticesViewModel.DataListener {
+public class SafePracticesFragment extends IDareBaseFragment implements SafePracticesViewModel.DataListener {
 
     private static final String TAG = SafePracticesFragment.class.getSimpleName();
     private FragmentSafePracticesBinding binding;

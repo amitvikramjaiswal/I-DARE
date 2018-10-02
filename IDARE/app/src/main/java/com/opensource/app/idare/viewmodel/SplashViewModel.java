@@ -24,14 +24,14 @@ import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Utils;
-import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.MainActivity;
+import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
 
 /**
  * Created by akokala on 11/2/2017.
  */
 
-public class SplashViewModel extends BaseViewModel {
+public class SplashViewModel extends IDareBaseViewModel {
     /**
      * Code used in requesting runtime permissions.
      */
@@ -307,7 +307,7 @@ public class SplashViewModel extends BaseViewModel {
         }
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
         void finishOnUiThread();
     }
 }

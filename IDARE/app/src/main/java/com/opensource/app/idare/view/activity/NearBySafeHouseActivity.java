@@ -4,14 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
+import com.opensource.app.idare.R;
 import com.opensource.app.idare.model.data.entity.NearBySafeHouseResultEntity;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
 import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.Session;
+import com.opensource.app.idare.view.custom.IDareClusterRenderer;
+import com.opensource.library.sosmodelib.view.activity.MapActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +27,7 @@ import java.util.List;
 /**
  * Created by ajaiswal on 4/4/2016.
  */
-public class NearBySafeHouseActivity extends MapActivity {
+public class NearBySafeHouseActivity<T extends ClusterItem> extends MapActivity {
 
     protected final static String LOCATION_KEY = "location-key";
     protected final static String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
@@ -38,6 +46,21 @@ public class NearBySafeHouseActivity extends MapActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_near_by_safe_house);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.map_container, mapFragment).commit();
+        mapFragment.getMapAsync(this);
 
         session = Session.getInstance();
 
@@ -71,7 +94,6 @@ public class NearBySafeHouseActivity extends MapActivity {
     }
 
     private void getNearBySafeHouses() {
-        mMarkers = new ArrayList<>();
         SessionFacadeImpl.getInstance().initiateSafeHousesSearch(getApplicationContext(), new IDAREResponseHandler.ResponseListener<List<NearBySafeHouseResultEntity>>() {
             @Override
             public void onSuccess(final List<NearBySafeHouseResultEntity> nearBySafeHouses) {
@@ -92,6 +114,14 @@ public class NearBySafeHouseActivity extends MapActivity {
 
     public void addMarkers(List<NearBySafeHouseResultEntity> nearBySafeHouses) {
         addClusterItem(nearBySafeHouses);
+        clusterManager.setRenderer(new IDareClusterRenderer<T>(this, googleMap, clusterManager));
+        clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<T>() {
+            @Override
+            public boolean onClusterClick(Cluster<T> cluster) {
+                setBounds((List<T>) cluster.getItems());
+                return true;
+            }
+        });
         setBounds(nearBySafeHouses);
     }
 

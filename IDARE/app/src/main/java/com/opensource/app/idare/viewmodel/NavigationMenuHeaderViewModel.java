@@ -8,7 +8,7 @@ import android.view.View;
 import com.opensource.app.idare.utils.Session;
 import com.opensource.app.idare.view.activity.EditProfileActivity;
 
-public class NavigationMenuHeaderViewModel extends BaseViewModel {
+public class NavigationMenuHeaderViewModel extends IDareBaseViewModel {
     private Context context;
     private DataListener dataListener;
 
@@ -36,7 +36,7 @@ public class NavigationMenuHeaderViewModel extends BaseViewModel {
         return userName;
     }
 
-    public interface DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
         void startActivity(Intent intent);
     }

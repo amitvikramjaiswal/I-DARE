@@ -53,8 +53,6 @@ public class IDareClusterRenderer<T extends ClusterItem> extends DefaultClusterR
 
     private void setupIconGen(IconGenerator generator, Drawable drawable) {
         TextView textView = new TextView(context);
-//        textView.setTextAppearance(context, R.style.BubbleText);
-//        textView.setTypeface(App.FONTS[2]);
         textView.setTextColor(ContextCompat.getColor(context, R.color.idare_white));
         textView.setId(com.google.maps.android.R.id.amu_text);
         textView.setGravity(android.view.Gravity.CENTER);

@@ -9,7 +9,7 @@ import android.support.v4.view.PagerTabStrip;
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.view.adapter.SafePracticesPagerAdapter;
 
-public class SafePracticesViewModel extends BaseViewModel {
+public class SafePracticesViewModel extends IDareBaseViewModel {
 
     private static final String TAG = SafePracticesViewModel.class.getSimpleName();
     private ObservableField<SafePracticesPagerAdapter> observableAdapter = new ObservableField<>();
@@ -34,7 +34,7 @@ public class SafePracticesViewModel extends BaseViewModel {
         return observableColor;
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
         FragmentManager getSupportFragmentManager();
     }

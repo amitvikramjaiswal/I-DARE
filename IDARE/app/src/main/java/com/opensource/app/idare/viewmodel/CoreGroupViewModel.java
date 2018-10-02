@@ -7,13 +7,13 @@ import android.view.View;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.databinding.LayoutSearchCoreUserBinding;
-import com.opensource.app.idare.utils.handler.AlertDialogHandler;
+import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
 
 /**
  * Created by akokala on 11/2/2017.
  */
 
-public class CoreGroupViewModel extends BaseViewModel implements SearchCoreUserViewModel.DataListener {
+public class CoreGroupViewModel extends IDareBaseViewModel {
     private DataListener dataListener;
 
     public CoreGroupViewModel(Context context, DataListener dataListener) {
@@ -26,24 +26,24 @@ public class CoreGroupViewModel extends BaseViewModel implements SearchCoreUserV
             @Override
             public void onClick(View v) {
                 LayoutSearchCoreUserBinding searchCoreUserBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.layout_search_core_user, null, false);
-                SearchCoreUserViewModel viewModel = new SearchCoreUserViewModel(getContext(), CoreGroupViewModel.this);
-                searchCoreUserBinding.setViewModel(viewModel);
-                dataListener.showAlertDialog(searchCoreUserBinding.getRoot(), getContext().getString(R.string.btn_ok), null, new AlertDialogHandler() {
-                    @Override
-                    public void onPositiveButtonClicked() {
-                        
-                    }
-
-                    @Override
-                    public void onNegativeButtonClicked() {
-
-                    }
-                });
+//                SearchCoreUserViewModel viewModel = new SearchCoreUserViewModel(getContext(), CoreGroupViewModel.this);
+//                searchCoreUserBinding.setViewModel(viewModel);
+//                dataListener.showAlertDialog(searchCoreUserBinding.getRoot(), getContext().getString(R.string.btn_ok), null, new AlertDialogHandler() {
+//                    @Override
+//                    public void onPositiveButtonClicked() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNegativeButtonClicked() {
+//
+//                    }
+//                });
             }
         };
     }
 
-    public interface DataListener extends BaseViewModel.DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
     }
 }

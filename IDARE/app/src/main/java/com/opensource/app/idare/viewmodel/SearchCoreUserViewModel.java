@@ -6,7 +6,7 @@ import android.content.Context;
  * Created by amitvikramjaiswal on 19/11/17.
  */
 
-public class SearchCoreUserViewModel extends BaseViewModel {
+public class SearchCoreUserViewModel extends IDareBaseViewModel {
     private DataListener dataListener;
 
     public SearchCoreUserViewModel(Context context, DataListener dataListener) {
@@ -14,7 +14,7 @@ public class SearchCoreUserViewModel extends BaseViewModel {
         this.dataListener = dataListener;
     }
 
-    public interface DataListener {
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
     }
 }

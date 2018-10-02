@@ -16,7 +16,7 @@ import com.opensource.app.idare.viewmodel.InviteToIDareViewModel;
  * Created by akokala on 11/2/2017.
  */
 
-public class InviteToIDareFragment extends BaseFragment implements InviteToIDareViewModel.DataListener {
+public class InviteToIDareFragment extends IDareBaseFragment implements InviteToIDareViewModel.DataListener {
     private FragmentInviteToIdareBinding binding;
     private InviteToIDareViewModel viewModel;
     private OnFragmentInteractionListener mListener;

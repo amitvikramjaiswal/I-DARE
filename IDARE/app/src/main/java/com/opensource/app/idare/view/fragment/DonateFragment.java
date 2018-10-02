@@ -16,7 +16,7 @@ import com.opensource.app.idare.viewmodel.DonateViewModel;
  * Created by akokala on 11/2/2017.
  */
 
-public class DonateFragment extends BaseFragment implements DonateViewModel.DataListener {
+public class DonateFragment extends IDareBaseFragment implements DonateViewModel.DataListener {
     private FragmentDonateBinding binding;
     private DonateViewModel viewModel;
     private OnFragmentInteractionListener mListener;

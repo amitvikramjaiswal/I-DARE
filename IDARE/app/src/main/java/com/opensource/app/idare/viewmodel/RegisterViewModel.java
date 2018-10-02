@@ -1,7 +1,6 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.ObservableField;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,17 +12,17 @@ import com.opensource.app.idare.R;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
 import com.opensource.app.idare.model.service.impl.SessionFacadeImpl;
-import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.Constants;
+import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.Utils;
-import com.opensource.app.idare.utils.handler.AlertDialogHandler;
 import com.opensource.app.idare.view.activity.EditProfileActivity;
 import com.opensource.app.idare.view.activity.MainActivity;
+import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
 
 /**
  * Created by amitvikramjaiswal on 25/05/16.
  */
-public class RegisterViewModel extends BaseViewModel {
+public class RegisterViewModel extends IDareBaseViewModel {
     private DataListener dataListener;
     private Context context;
 
@@ -328,24 +327,11 @@ public class RegisterViewModel extends BaseViewModel {
         visibilityOfVerify.set(View.VISIBLE);
     }
 
-    public interface DataListener {
-
-        void hideKeyBoard();
+    public interface DataListener extends IDareBaseViewModel.DataListener {
 
         EditText getPhoneNumber();
 
         EditText getOtp();
 
-        void finish();
-
-        void startActivity(Intent intent);
-
-        void shakeView(View view);
-
-        void hideProgress();
-
-        void showProgress();
-
-        void showAlertDialog(String title, String message, boolean cancelable, String positiveButton, String negativeButton, AlertDialogHandler alertDialogHandler);
     }
 }
