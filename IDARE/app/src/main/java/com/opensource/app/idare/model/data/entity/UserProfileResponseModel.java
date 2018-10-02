@@ -1,17 +1,21 @@
 package com.opensource.app.idare.model.data.entity;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.maps.android.clustering.ClusterItem;
+import com.opensource.app.idare.utils.Session;
 
-public class UserProfileResponseModel implements Parcelable {
+public class UserProfileResponseModel implements Parcelable, ClusterItem {
 
     public static final Creator<UserProfileResponseModel> CREATOR = new Creator<UserProfileResponseModel>() {
         @Override
-        public UserProfileResponseModel createFromParcel(Parcel source) {
-            return new UserProfileResponseModel(source);
+        public UserProfileResponseModel createFromParcel(Parcel in) {
+            return new UserProfileResponseModel(in);
         }
 
         @Override
@@ -46,20 +50,49 @@ public class UserProfileResponseModel implements Parcelable {
     @SerializedName("_acl")
     @Expose
     private Acl acl;
+    @SerializedName("location")
+    @Expose
+    private IDareLocation iDareLocation;
+    @SerializedName("_geoloc")
+    @Expose
+    private double[] lonLat;
+
 
     public UserProfileResponseModel() {
     }
 
     protected UserProfileResponseModel(Parcel in) {
-        this.username = in.readString();
-        this.password = in.readString();
-        this.name = in.readString();
-        this.email = in.readString();
-        this.mobile = in.readString();
-        this.alternate = in.readString();
-        this.kmd = in.readParcelable(Kmd.class.getClassLoader());
-        this.id = in.readString();
-        this.acl = in.readParcelable(Acl.class.getClassLoader());
+        username = in.readString();
+        password = in.readString();
+        name = in.readString();
+        email = in.readString();
+        mobile = in.readString();
+        alternate = in.readString();
+        kmd = in.readParcelable(Kmd.class.getClassLoader());
+        id = in.readString();
+        acl = in.readParcelable(Acl.class.getClassLoader());
+        iDareLocation = in.readParcelable(IDareLocation.class.getClassLoader());
+        lonLat = in.createDoubleArray();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(username);
+        dest.writeString(password);
+        dest.writeString(name);
+        dest.writeString(email);
+        dest.writeString(mobile);
+        dest.writeString(alternate);
+        dest.writeParcelable(kmd, flags);
+        dest.writeString(id);
+        dest.writeParcelable(acl, flags);
+        dest.writeParcelable(iDareLocation, flags);
+        dest.writeDoubleArray(lonLat);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public String getUsername() {
@@ -134,72 +167,37 @@ public class UserProfileResponseModel implements Parcelable {
         this.acl = acl;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public IDareLocation getiDareLocation() {
+        return iDareLocation;
+    }
+
+    public void setiDareLocation(IDareLocation iDareLocation) {
+        this.iDareLocation = iDareLocation;
+    }
+
+    public double[] getLonLat() {
+        return lonLat;
+    }
+
+    public void setLonLat(double[] lonLat) {
+        this.lonLat = lonLat;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.username);
-        dest.writeString(this.password);
-        dest.writeString(this.name);
-        dest.writeString(this.email);
-        dest.writeString(this.mobile);
-        dest.writeString(this.alternate);
-        dest.writeParcelable(this.kmd, flags);
-        dest.writeString(this.id);
-        dest.writeParcelable(this.acl, flags);
+    public LatLng getPosition() {
+        return new LatLng(iDareLocation.getLatitude(), iDareLocation.getLongitude());
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserProfileResponseModel that = (UserProfileResponseModel) o;
-
-        if (username != null ? !username.equals(that.username) : that.username != null)
-            return false;
-        if (password != null ? !password.equals(that.password) : that.password != null)
-            return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (mobile != null ? !mobile.equals(that.mobile) : that.mobile != null) return false;
-        if (alternate != null ? !alternate.equals(that.alternate) : that.alternate != null)
-            return false;
-        if (kmd != null ? !kmd.equals(that.kmd) : that.kmd != null) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return acl != null ? acl.equals(that.acl) : that.acl == null;
-
+    public String getTitle() {
+        return "I-DARE User";
     }
 
     @Override
-    public int hashCode() {
-        int result = username != null ? username.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
-        result = 31 * result + (alternate != null ? alternate.hashCode() : 0);
-        result = 31 * result + (kmd != null ? kmd.hashCode() : 0);
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        result = 31 * result + (acl != null ? acl.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "UserProfileResponseModel{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", alternate='" + alternate + '\'' +
-                ", kmd=" + kmd +
-                ", id='" + id + '\'' +
-                ", acl=" + acl +
-                '}';
+    public String getSnippet() {
+        float[] distance = new float[3];
+        Location lastLocation = Session.getInstance().getLastLocation();
+        Location.distanceBetween(lastLocation.getLatitude(), lastLocation.getLongitude(), iDareLocation.getLatitude(), iDareLocation.getLongitude(), distance);
+        return String.format("%.2f ", distance[0] / 1000f) + "KMs away.";
     }
 }
