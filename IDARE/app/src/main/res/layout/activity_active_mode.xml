@@ -41,7 +41,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/margin_top_welcome_screen_btn"
                 android:background="@drawable/btn_selector_transparent"
                 android:padding="@dimen/padding_btn"
