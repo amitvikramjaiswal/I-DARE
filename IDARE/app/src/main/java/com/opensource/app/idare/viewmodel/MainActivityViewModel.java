@@ -126,8 +126,7 @@ public class MainActivityViewModel extends IDareBaseViewModel {
                 fragment = appTourFragment;
                 break;
             case R.id.scope:
-//                ScopeFragment donateFragment = DonateFragment.newInstance();
-//                fragment = donateFragment;
+                fragment = SimpleTextFragment.newInstance(context.getString(R.string.scope), context.getString(R.string.scope_val));
                 break;
             case R.id.about_i_dare:
                 fragment = SimpleTextFragment.newInstance(getContext().getString(R.string.about_i_dare), getContext().getString(R.string.about_val));
