@@ -1,7 +1,7 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 public class SimpleTextViewModel extends IDareBaseViewModel {
 

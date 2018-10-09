@@ -1,8 +1,8 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
-import android.databinding.ObservableField;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.databinding.ObservableField;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.opensource.app.idare.view.adapter.BulletPointsAdapter;
 

@@ -1,14 +1,11 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.view.LayoutInflater;
+import androidx.databinding.DataBindingUtil;
+
 import android.view.View;
 
-import com.opensource.app.idare.R;
-import com.opensource.app.idare.databinding.LayoutSearchCoreUserBinding;
 import com.opensource.app.idare.view.activity.ActiveModeActivity;
-import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
 
 /**
  * Created by akokala on 11/2/2017.

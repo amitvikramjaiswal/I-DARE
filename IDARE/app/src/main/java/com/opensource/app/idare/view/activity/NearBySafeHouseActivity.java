@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
@@ -21,7 +21,6 @@ import com.opensource.app.idare.utils.Session;
 import com.opensource.app.idare.view.custom.IDareClusterRenderer;
 import com.opensource.library.sosmodelib.view.activity.MapActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -1,10 +1,10 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
-import android.databinding.BindingAdapter;
-import android.databinding.ObservableField;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerTabStrip;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.ObservableField;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.PagerTabStrip;
 
 import com.opensource.app.idare.R;
 import com.opensource.app.idare.view.adapter.SafePracticesPagerAdapter;

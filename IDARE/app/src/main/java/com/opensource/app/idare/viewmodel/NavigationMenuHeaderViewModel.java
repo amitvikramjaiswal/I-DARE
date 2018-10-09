@@ -2,7 +2,7 @@ package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 import android.view.View;
 
 import com.opensource.app.idare.utils.Session;

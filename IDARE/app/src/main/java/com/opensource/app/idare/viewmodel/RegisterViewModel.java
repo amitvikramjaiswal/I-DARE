@@ -1,7 +1,7 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
