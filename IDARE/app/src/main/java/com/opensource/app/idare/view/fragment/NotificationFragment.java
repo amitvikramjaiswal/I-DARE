@@ -56,6 +56,7 @@ public class NotificationFragment extends IDareBaseFragment implements Notificat
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentNotificationBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false);
         NotificationViewModel viewModel = new NotificationViewModel(context, this);
+        binding.setViewModel(viewModel);
         return binding.getRoot();
     }
 

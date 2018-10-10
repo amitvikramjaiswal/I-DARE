@@ -5,6 +5,8 @@ import android.view.View;
 
 import com.opensource.app.idare.pojo.NotificationItem;
 
+import java.util.Date;
+
 import androidx.databinding.ObservableField;
 
 import static android.view.View.GONE;
@@ -15,6 +17,7 @@ public class NotificationItemViewModel extends IDareBaseViewModel {
     private DataListener dataListener;
     private ObservableField<String> ofTitle = new ObservableField<>("Title");
     private ObservableField<String> ofBody = new ObservableField<>("Notification body will replace this.");
+    private ObservableField<String> ofNotificationTime = new ObservableField<>(new Date().toString());
     private ObservableField<Integer> ofVisibility = new ObservableField<>(VISIBLE);
 
     public NotificationItemViewModel(Context context, DataListener dataListener, NotificationItem notificationItem) {
@@ -31,6 +34,7 @@ public class NotificationItemViewModel extends IDareBaseViewModel {
         } else {
             ofVisibility.set(GONE);
         }
+        ofNotificationTime.set(notificationItem.getNotificationTime());
     }
 
     public ObservableField<String> getOfTitle() {
@@ -39,6 +43,10 @@ public class NotificationItemViewModel extends IDareBaseViewModel {
 
     public ObservableField<String> getOfBody() {
         return ofBody;
+    }
+
+    public ObservableField<String> getOfNotificationTime() {
+        return ofNotificationTime;
     }
 
     public ObservableField<Integer> getOfVisibility() {

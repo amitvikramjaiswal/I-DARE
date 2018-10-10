@@ -19,6 +19,7 @@ import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Session;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.opensource.app.idare.utils.AuthType.USER_CREDENTIALS;
@@ -121,12 +122,13 @@ public class NotificationServiceImpl implements NotificationService {
         IDareLocation location = PreferencesManager.getInstance(context).getLastLocation();
         UserProfileResponseModel me = Session.getInstance().getUserProfileResponseModel();
         String name = me.getName();
+        String id = me.getId();
         List<String> userIds = new ArrayList<>();
         for (UserProfileResponseModel user : arrUsers) {
             if (!user.getId().equals(me.getId()))
                 userIds.add(user.getId());
         }
 
-        return new TriggerNotificationRequestModel(userIds.toArray(new String[userIds.size()]), name, location);
+        return new TriggerNotificationRequestModel(userIds.toArray(new String[userIds.size()]), name, location, id, new Date().getTime());
     }
 }

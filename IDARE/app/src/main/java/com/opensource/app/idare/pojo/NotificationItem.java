@@ -3,7 +3,9 @@ package com.opensource.app.idare.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.opensource.library.sosmodelib.model.IDUser;
+import java.text.SimpleDateFormat;
+
+import static com.opensource.app.idare.utils.Constants.DATE_PATTERN;
 
 /**
  *
@@ -24,13 +26,19 @@ public class NotificationItem implements Parcelable {
     private String title;
     private String body;
     private String notificationType;
-    private IDUser idUser;
+    private String initiatorId;
+    private String recipientId;
+    private String initiatorName;
+    private long timestamp;
 
     protected NotificationItem(Parcel in) {
         title = in.readString();
         body = in.readString();
         notificationType = in.readString();
-        idUser = in.readParcelable(IDUser.class.getClassLoader());
+        initiatorId = in.readString();
+        recipientId = in.readString();
+        initiatorName = in.readString();
+        timestamp = in.readLong();
     }
 
     @Override
@@ -38,7 +46,10 @@ public class NotificationItem implements Parcelable {
         dest.writeString(title);
         dest.writeString(body);
         dest.writeString(notificationType);
-        dest.writeParcelable(idUser, flags);
+        dest.writeString(initiatorId);
+        dest.writeString(recipientId);
+        dest.writeString(initiatorName);
+        dest.writeLong(timestamp);
     }
 
     @Override
@@ -70,12 +81,41 @@ public class NotificationItem implements Parcelable {
         this.notificationType = notificationType;
     }
 
-    public IDUser getIdUser() {
-        return idUser;
+    public String getInitiatorId() {
+        return initiatorId;
     }
 
-    public void setIdUser(IDUser idUser) {
-        this.idUser = idUser;
+    public void setInitiatorId(String initiatorId) {
+        this.initiatorId = initiatorId;
+    }
+
+    public String getRecipientId() {
+        return recipientId;
+    }
+
+    public void setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
+    }
+
+    public String getInitiatorName() {
+        return initiatorName;
+    }
+
+    public void setInitiatorName(String initiatorName) {
+        this.initiatorName = initiatorName;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getNotificationTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN);
+        return simpleDateFormat.format(timestamp);
     }
 
     @Override
@@ -84,7 +124,10 @@ public class NotificationItem implements Parcelable {
                 "title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 ", notificationType='" + notificationType + '\'' +
-                ", idUser=" + idUser +
+                ", initiatorId='" + initiatorId + '\'' +
+                ", recipientId='" + recipientId + '\'' +
+                ", initiatorName='" + initiatorName + '\'' +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }
