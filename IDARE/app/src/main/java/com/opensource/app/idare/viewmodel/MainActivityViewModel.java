@@ -3,10 +3,6 @@ package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.databinding.ObservableField;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,11 +22,17 @@ import com.opensource.app.idare.view.activity.RegisterActivity;
 import com.opensource.app.idare.view.fragment.ActiveProfileFragment;
 import com.opensource.app.idare.view.fragment.AppTourFragment;
 import com.opensource.app.idare.view.fragment.CoreGroupFragment;
+import com.opensource.app.idare.view.fragment.NotificationFragment;
 import com.opensource.app.idare.view.fragment.PassiveFragment;
 import com.opensource.app.idare.view.fragment.SafePracticesFragment;
 import com.opensource.app.idare.view.fragment.SettingsFragment;
 import com.opensource.app.idare.view.fragment.SimpleTextFragment;
 import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
+
+import androidx.databinding.ObservableField;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * Created by akokala on 10/31/2017.
@@ -42,10 +44,10 @@ public class MainActivityViewModel extends IDareBaseViewModel {
 
     private DataListener dataListener;
     private MenuItem mPreviousMenuItem;
-//    private LayoutPopUpViewModel layoutPopUpViewModel;
+    //    private LayoutPopUpViewModel layoutPopUpViewModel;
     private String userNameFromBundle;
 
-//    private ObservableField<LayoutPopUpViewModel> drawerLayoutInflater = new ObservableField<>();
+    //    private ObservableField<LayoutPopUpViewModel> drawerLayoutInflater = new ObservableField<>();
     private ObservableField<Boolean> enableMakePassive = new ObservableField<>(false);
 
     public MainActivityViewModel(Context context, DataListener dataListener, String userNameFromBundle) {
@@ -113,13 +115,14 @@ public class MainActivityViewModel extends IDareBaseViewModel {
                     fragment = PassiveFragment.newInstance();
                 }
                 break;
+            case R.id.notification:
+                fragment = NotificationFragment.newInstance();
+                break;
             case R.id.core_group:
-                CoreGroupFragment coreGroupFragment = CoreGroupFragment.newInstance();
-                fragment = coreGroupFragment;
+                fragment = CoreGroupFragment.newInstance();
                 break;
             case R.id.safe_practices:
-                SafePracticesFragment safePracticesFragment = SafePracticesFragment.newInstance();
-                fragment = safePracticesFragment;
+                fragment = SafePracticesFragment.newInstance();
                 break;
             case R.id.app_tour:
                 AppTourFragment appTourFragment = AppTourFragment.newInstance();

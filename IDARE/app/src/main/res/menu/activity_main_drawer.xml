@@ -8,9 +8,9 @@
         <item
             android:id="@+id/core_group"
             android:title="@string/core_group" />
-        <!--<item-->
-        <!--android:id="@+id/invite"-->
-        <!--android:title="@string/invite" />-->
+        <item
+            android:id="@+id/notification"
+            android:title="@string/notification" />
         <item
             android:id="@+id/safe_practices"
             android:title="@string/safe_practices" />

@@ -1,14 +1,11 @@
 package com.opensource.app.idare.model.service.impl;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.opensource.app.idare.application.IDareApp;
 import com.opensource.app.idare.model.service.ServiceLocator;
@@ -75,22 +72,14 @@ public class ServiceLocatorImpl implements ServiceLocator {
         if (additionalHeaders != null) {
             headers.putAll(additionalHeaders);
         }
-        VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, buildUrl(url, params, null), url.getType(), headers, new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-                try {
-                    processResponse(response, responseListener, errorListener);
-                } catch (Exception e) {
-                    Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
-                    errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
-                }
+        VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, buildUrl(url, params, null), url.getType(), headers, response -> {
+            try {
+                processResponse(response, responseListener, errorListener);
+            } catch (Exception e) {
+                Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
+                errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, error));
-            }
-        });
+        }, error -> errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, error)));
 
         request.setRetryPolicy(new DefaultRetryPolicy(
                 Constants.MY_SOCKET_TIMEOUT_MS,
@@ -124,23 +113,15 @@ public class ServiceLocatorImpl implements ServiceLocator {
             }
         }
         final String strUrl = buildUrl(url, params, null);
-        final VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, strUrl, url.getType(), headers, new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-                try {
-                    Log.d(TAG, "*** URL ***" + strUrl);
-                    processResponse(response, responseListener, errorListener);
-                } catch (Exception e) {
-                    Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
-                    errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
-                }
+        final VolleyGSONGetRequest request = new VolleyGSONGetRequest(Request.Method.GET, strUrl, url.getType(), headers, response -> {
+            try {
+                Log.d(TAG, "*** URL ***" + strUrl);
+                processResponse(response, responseListener, errorListener);
+            } catch (Exception e) {
+                Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
+                errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, error));
-            }
-        });
+        }, error -> errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, error)));
 
         request.setRetryPolicy(new DefaultRetryPolicy(
                 Constants.MY_SOCKET_TIMEOUT_MS,
@@ -173,26 +154,18 @@ public class ServiceLocatorImpl implements ServiceLocator {
             headers.putAll(additionalHeaders);
         }
 
-        VolleyGSONPostRequest request = new VolleyGSONPostRequest(buildUrl(url, params, null), url.getType(), body, headers, new Response.Listener() {
-
-            @Override
-            public void onResponse(Object response) {
-                try {
-                    Log.d(TAG, Constants.SUCCESS);
-                    Log.d(TAG, Constants.SERVICE_CALL_ENDED);
-                    processResponse(response, responseListener, errorListener);
-                } catch (Exception e) {
-                    Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
-                    errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
-                }
+        VolleyGSONPostRequest request = new VolleyGSONPostRequest(buildUrl(url, params, null), url.getType(), body, headers, response -> {
+            try {
+                Log.d(TAG, Constants.SUCCESS);
+                Log.d(TAG, Constants.SERVICE_CALL_ENDED);
+                processResponse(response, responseListener, errorListener);
+            } catch (Exception e) {
+                Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
+                errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
             }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "@@@ onErrorResponse : " + error.getMessage() + " @@@");
-                errorListener.onError(new IDAREErrorWrapper("Error Response ", error));
-            }
+        }, error -> {
+            Log.d(TAG, "@@@ onErrorResponse : " + error.getMessage() + " @@@");
+            errorListener.onError(new IDAREErrorWrapper("Error Response ", error));
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(
@@ -226,26 +199,18 @@ public class ServiceLocatorImpl implements ServiceLocator {
             headers.putAll(additionalHeaders);
         }
 
-        VolleyGSONPutRequest request = new VolleyGSONPutRequest(buildUrl(url, params, null), url.getType(), body, headers, new Response.Listener() {
-
-            @Override
-            public void onResponse(Object response) {
-                try {
-                    Log.d(TAG, Constants.SUCCESS);
-                    Log.d(TAG, Constants.SERVICE_CALL_ENDED);
-                    processResponse(response, responseListener, errorListener);
-                } catch (Exception e) {
-                    Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
-                    errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
-                }
+        VolleyGSONPutRequest request = new VolleyGSONPutRequest(buildUrl(url, params, null), url.getType(), body, headers, response -> {
+            try {
+                Log.d(TAG, Constants.SUCCESS);
+                Log.d(TAG, Constants.SERVICE_CALL_ENDED);
+                processResponse(response, responseListener, errorListener);
+            } catch (Exception e) {
+                Log.e(TAG, Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e);
+                errorListener.onError(new IDAREErrorWrapper(Constants.ERROR_OCCURRED_IN_SERVICE_CALL, e));
             }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "@@@ onErrorResponse : " + error.getMessage() + " @@@");
-                errorListener.onError(new IDAREErrorWrapper("Error Response ", error));
-            }
+        }, error -> {
+            Log.d(TAG, "@@@ onErrorResponse : " + error.getMessage() + " @@@");
+            errorListener.onError(new IDAREErrorWrapper("Error Response ", error));
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(
@@ -259,7 +224,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
     protected String buildUrl(URLs urLs, Map<String, Object> queryParam, Map<String, String> modifier) {
         String url = urLs.fullURL();
-        Uri uri = Uri.parse(url);
         switch (urLs) {
             /** FALLTHROUGH CASES **/
             case URL_CREATE_ACCOUNT:
@@ -277,6 +241,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 break;
             case URL_IS_PASSWORD_EXISTS:
             case URL_FETCH_USERS:
+            case URL_FETCH_NOTIFICATIONS:
                 String key = queryParam.keySet().iterator().next();
                 String value = (String) queryParam.get(key);
                 url += String.format(Constants.QUERY + "{\"%s\":\"%s\"}", key, value);
@@ -292,7 +257,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 for (String keyParam : keys) {
                     query += keyParam + "=" + queryParam.get(keyParam) + "&";
                 }
-                query.substring(0, query.lastIndexOf("&"));
+                query.substring(0, query.lastIndexOf('&'));
                 url += "?" + query;
                 break;
             default:

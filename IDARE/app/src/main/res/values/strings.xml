@@ -55,6 +55,7 @@
 
     <!--Navigation Items-->
     <string name="active_profile">HOME</string>
+    <string name="notification">NOTIFICATIONS</string>
     <string name="core_group">CORE GROUP</string>
     <string name="invite">INVITE TO I-DARE</string>
     <string name="app_tour">APP TOUR</string>

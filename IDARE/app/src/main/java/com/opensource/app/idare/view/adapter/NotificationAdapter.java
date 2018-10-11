@@ -27,6 +27,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.notificationItems = notificationItems;
     }
 
+    public void setNotificationItems(List<NotificationItem> notificationItems) {
+        this.notificationItems.addAll(notificationItems);
+        notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         FragmentNotificationItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.fragment_notification_item, parent, false);

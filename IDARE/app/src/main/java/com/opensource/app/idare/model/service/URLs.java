@@ -55,7 +55,7 @@ public enum URLs {
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
         }
-    }, URL_FETCH_NOTIFICATIONS("/appdata/%s/notification", null, NotificationItem.class, null) {
+    }, URL_FETCH_NOTIFICATIONS("/appdata/%s/notification", null, NotificationItem[].class, null) {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
