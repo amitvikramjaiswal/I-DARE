@@ -10,7 +10,10 @@ import com.opensource.app.idare.model.data.entity.TriggerNotificationResponseMod
 import com.opensource.app.idare.model.data.entity.UserProfileRequestModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.pojo.NotificationItem;
 import com.opensource.app.idare.view.activity.NearBySafeHouseActivity;
+
+import java.util.List;
 
 public interface SessionFacade {
 
@@ -31,6 +34,8 @@ public interface SessionFacade {
     void registerDeviceToFCM(Context context, RegisterDevice registerDevice, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
 
     void unregisterDeviceToFCM(Context context, RegisterDevice registerDevice, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
+
+    void fetchNotifications(Context context, IDAREResponseHandler.ResponseListener<List<NotificationItem>> responseListener, IDAREResponseHandler.ErrorListener errorListener);
 
     void initiateSafeHousesSearch(Context context, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener);
 

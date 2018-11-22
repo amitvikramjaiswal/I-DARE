@@ -8,9 +8,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -22,9 +22,6 @@ import com.google.android.gms.location.LocationServices;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Session;
 
-import static com.opensource.app.idare.utils.Constants.ACTION_LOCATION_BROADCAST;
-import static com.opensource.app.idare.utils.Constants.EXTRA_LATITUDE;
-import static com.opensource.app.idare.utils.Constants.EXTRA_LONGITUDE;
 import static com.opensource.app.idare.utils.Constants.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS;
 import static com.opensource.app.idare.utils.Constants.SMALLEST_DISPLACEMENT;
 import static com.opensource.app.idare.utils.Constants.UPDATE_INTERVAL_IN_MILLISECONDS;

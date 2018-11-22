@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Arrays;
+
 public class TriggerNotificationRequestModel implements Parcelable {
 
     public static final Creator<TriggerNotificationRequestModel> CREATOR = new Creator<TriggerNotificationRequestModel>() {
@@ -22,23 +24,33 @@ public class TriggerNotificationRequestModel implements Parcelable {
     @SerializedName("userIds")
     @Expose
     private String[] userIds;
-    @SerializedName("name")
+    @SerializedName("myName")
     @Expose
     private String name;
     @SerializedName("location")
     @Expose
     private IDareLocation location;
-
-    public TriggerNotificationRequestModel(String[] userIds, String name, IDareLocation location) {
-        this.userIds = userIds;
-        this.name = name;
-        this.location = location;
-    }
+    @SerializedName("myId")
+    @Expose
+    private String id;
+    @SerializedName("timestamp")
+    @Expose
+    private long timestamp;
 
     protected TriggerNotificationRequestModel(Parcel in) {
         userIds = in.createStringArray();
         name = in.readString();
         location = in.readParcelable(IDareLocation.class.getClassLoader());
+        id = in.readString();
+        timestamp = in.readLong();
+    }
+
+    public TriggerNotificationRequestModel(String[] userIds, String name, IDareLocation location, String id, long timestamp) {
+        this.userIds = userIds;
+        this.name = name;
+        this.location = location;
+        this.id = id;
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -46,6 +58,8 @@ public class TriggerNotificationRequestModel implements Parcelable {
         dest.writeStringArray(userIds);
         dest.writeString(name);
         dest.writeParcelable(location, flags);
+        dest.writeString(id);
+        dest.writeLong(timestamp);
     }
 
     @Override
@@ -75,5 +89,32 @@ public class TriggerNotificationRequestModel implements Parcelable {
 
     public void setLocation(IDareLocation location) {
         this.location = location;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "TriggerNotificationRequestModel{" +
+                "userIds=" + Arrays.toString(userIds) +
+                ", name='" + name + '\'' +
+                ", location=" + location +
+                ", id='" + id + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

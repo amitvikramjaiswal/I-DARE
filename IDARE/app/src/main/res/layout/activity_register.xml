@@ -40,7 +40,7 @@
                     android:padding="@dimen/padding_welcome_text"
                     android:visibility="@{viewModel.visibilityOfSendVerification}">
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
@@ -48,7 +48,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/idare_text_color_bold" />
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
@@ -56,7 +56,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/idare_text_color_bold" />
 
-                    <android.support.v7.widget.AppCompatEditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/et_phone_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                         android:text="@{viewModel.phoneNumber}"
                         android:textAlignment="center" />
 
-                    <android.support.v7.widget.AppCompatButton
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_send_verification"
                         style="@style/btn_pink_background"
                         android:layout_width="wrap_content"
@@ -144,7 +144,7 @@
                     android:padding="@dimen/padding_welcome_text"
                     android:visibility="@{viewModel.visibilityOfPassword}">
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
@@ -152,7 +152,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/idare_text_color_bold" />
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_linear_layout_elements_register"
@@ -160,7 +160,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/idare_text_color_bold" />
 
-                    <android.support.v7.widget.AppCompatEditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/et_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
                         android:text="@{viewModel.password}"
                         android:textAlignment="center" />
 
-                    <android.support.v7.widget.AppCompatButton
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_password"
                         style="@style/btn_pink_background"
                         android:layout_width="wrap_content"

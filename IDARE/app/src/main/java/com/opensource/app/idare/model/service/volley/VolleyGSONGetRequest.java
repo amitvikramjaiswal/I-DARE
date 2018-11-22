@@ -54,7 +54,6 @@ public class VolleyGSONGetRequest<T> extends Request<T> {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         mHeaders = mHeaders != null ? mHeaders : super.getHeaders();
-        //mHeaders.put(Constants.COOKIE, Session.getInstance().getCookie());
         mHeaders.put(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
         return mHeaders;
     }

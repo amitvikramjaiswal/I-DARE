@@ -1,8 +1,8 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ObservableField;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableField;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,7 +17,7 @@ import com.opensource.library.sosmodelib.utils.AlertDialogHandler;
  */
 
 public class LayoutPopUpViewModel extends IDareBaseViewModel {
-    private static android.support.v7.app.AlertDialog.Builder myAlertDialog;
+    private static androidx.appcompat.app.AlertDialog.Builder myAlertDialog;
     private DataListener dataListener;
     private ObservableField<String> passCodeEditText = new ObservableField<>("");
 

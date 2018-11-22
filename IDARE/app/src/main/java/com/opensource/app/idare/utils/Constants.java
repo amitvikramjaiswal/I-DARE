@@ -50,6 +50,7 @@ public class Constants {
     public static final String NEAR_SPHERE = "$nearSphere";
     public static final String MAX_DISTANCE = "$maxDistance";
     public static final double SEARCH_RADIUS_IN_KM = 8.23;
+    public static final String DATE_PATTERN = "h:mm a";
     private static final double KM_IN_MILE = 0.621371;
     public static final double SEARCH_RADIUS_IN_MILES = SEARCH_RADIUS_IN_KM * KM_IN_MILE;
     public static final String SEARCH_RADIUS = "3000";

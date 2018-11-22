@@ -1,8 +1,8 @@
 package com.opensource.app.idare.viewmodel;
 
 import android.content.Context;
-import android.databinding.ObservableField;
-import android.databinding.adapters.SeekBarBindingAdapter;
+import androidx.databinding.ObservableField;
+import androidx.databinding.adapters.SeekBarBindingAdapter;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 

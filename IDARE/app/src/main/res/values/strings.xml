@@ -55,6 +55,7 @@
 
     <!--Navigation Items-->
     <string name="active_profile">HOME</string>
+    <string name="notification">NOTIFICATIONS</string>
     <string name="core_group">CORE GROUP</string>
     <string name="invite">INVITE TO I-DARE</string>
     <string name="app_tour">APP TOUR</string>
@@ -107,5 +108,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="notification_body">%1$s is in SOS distress and immediately needs your help. Her location is: %2$s, %3$s</string>
 
 </resources>

@@ -25,19 +25,19 @@
             android:layout_height="@dimen/line_height"
             android:background="@color/idare_pink"/>
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/vp_safe_practices"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adapter="@{viewModel.observableAdapter}">
 
-            <android.support.v4.view.PagerTabStrip
+            <androidx.viewpager.widget.PagerTabStrip
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:selectedTabColor="@{viewModel.observableColor}"
                 android:layout_gravity="top"/>
 
-        </android.support.v4.view.ViewPager>
+        </androidx.viewpager.widget.ViewPager>
 
     </LinearLayout>
 

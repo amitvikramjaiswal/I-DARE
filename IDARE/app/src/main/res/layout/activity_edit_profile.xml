@@ -31,13 +31,13 @@
                 android:onClick="@{viewModel.onPicClick()}"
                 android:image_bitmap="@{viewModel.observableProfilePic}" />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/text_input_layer_margin">
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -46,15 +46,15 @@
                     android:text="@{viewModel.nameFromEditTExt}"
                     android:inputType="textCapWords"
                     android:maxLength="40" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/text_input_layer_margin">
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,15 +63,15 @@
                     android:text="@{viewModel.emailFromEditText}"
                     android:inputType="textEmailAddress"
                     android:maxLength="40" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_alternate_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/text_input_layer_margin">
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/et_alternate_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,15 +80,15 @@
                     android:text="@{viewModel.alternativeNumFromEditText}"
                     android:inputType="number"
                     android:maxLength="10" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/text_input_layer_margin">
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,9 +97,9 @@
                     android:text="@{viewModel.passwordFromEditText}"
                     android:inputType="textPassword"
                     android:maxLength="10" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save_profile"
                 style="@style/btn_pink_background"
                 android:layout_width="@dimen/width_app_btn"

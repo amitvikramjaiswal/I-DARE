@@ -14,6 +14,9 @@ import com.opensource.app.idare.model.service.NotificationService;
 import com.opensource.app.idare.model.service.ProfileService;
 import com.opensource.app.idare.model.service.SessionFacade;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.pojo.NotificationItem;
+
+import java.util.List;
 
 public class SessionFacadeImpl implements SessionFacade {
 
@@ -78,6 +81,11 @@ public class SessionFacadeImpl implements SessionFacade {
     @Override
     public void unregisterDeviceToFCM(Context context, RegisterDevice registerDevice, IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener) {
         notificationService.unregisterDeviceToFCM(context, registerDevice, responseListener, errorListener);
+    }
+
+    @Override
+    public void fetchNotifications(Context context, IDAREResponseHandler.ResponseListener<List<NotificationItem>> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
+        notificationService.fetchNotifications(context, responseListener, errorListener);
     }
 
     @Override

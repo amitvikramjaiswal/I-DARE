@@ -6,6 +6,7 @@ import com.opensource.app.idare.model.data.entity.ProfilePic;
 import com.opensource.app.idare.model.data.entity.RegisterDeviceResponse;
 import com.opensource.app.idare.model.data.entity.TriggerNotificationResponseModel;
 import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
+import com.opensource.app.idare.pojo.NotificationItem;
 
 import java.lang.reflect.Type;
 
@@ -50,6 +51,11 @@ public enum URLs {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
         }
     }, URL_FETCH_NEARBY_USERS("/appdata/%s/iDareUsers", null, UserProfileResponseModel[].class, null) {
+        @Override
+        public String fullURL() {
+            return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);
+        }
+    }, URL_FETCH_NOTIFICATIONS("/appdata/%s/notification", null, NotificationItem[].class, null) {
         @Override
         public String fullURL() {
             return SERVICE_URL + String.format(this.getRelURL(), APP_KEY);

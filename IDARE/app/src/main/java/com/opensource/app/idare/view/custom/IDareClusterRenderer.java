@@ -3,7 +3,7 @@ package com.opensource.app.idare.view.custom;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 

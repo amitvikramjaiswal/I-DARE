@@ -13,13 +13,17 @@ import com.opensource.app.idare.model.data.entity.UserProfileResponseModel;
 import com.opensource.app.idare.model.service.NotificationService;
 import com.opensource.app.idare.model.service.URLs;
 import com.opensource.app.idare.model.service.handler.IDAREResponseHandler;
+import com.opensource.app.idare.pojo.NotificationItem;
 import com.opensource.app.idare.utils.Constants;
-import com.opensource.app.idare.utils.IDAREErrorWrapper;
 import com.opensource.app.idare.utils.PreferencesManager;
 import com.opensource.app.idare.utils.Session;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.opensource.app.idare.utils.AuthType.USER_CREDENTIALS;
 
@@ -55,78 +59,56 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void registerDeviceToFCM(Context context, RegisterDevice registerDevice, final IDAREResponseHandler.ResponseListener responseListener, IDAREResponseHandler.ErrorListener errorListener) {
         String body = gson.toJson(registerDevice);
-        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_REGISTER_FOR_PUSH, null, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener<RegisterDeviceResponse>() {
-            @Override
-            public void onSuccess(RegisterDeviceResponse response) {
-                Log.d(TAG, "****** SUCCESSFULLY REGISTERED " + response.getDeviceId() + " ******");
-                Session.getInstance().setRegistered(true);
-            }
-        }, new IDAREResponseHandler.ErrorListener() {
-            @Override
-            public void onError(IDAREErrorWrapper error) {
-                Log.e(TAG, "@@@@@@ ERROR REGISTERING " + error.getException().getMessage() + " @@@@@@");
-            }
-        });
+        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_REGISTER_FOR_PUSH, null, USER_CREDENTIALS, null, body, (IDAREResponseHandler.ResponseListener<RegisterDeviceResponse>) response -> {
+            Log.d(TAG, "****** SUCCESSFULLY REGISTERED " + response.getDeviceId() + " ******");
+            Session.getInstance().setRegistered(true);
+        }, error -> Log.e(TAG, "@@@@@@ ERROR REGISTERING " + error.getException().getMessage() + " @@@@@@"));
     }
 
     @Override
     public void unregisterDeviceToFCM(Context context, RegisterDevice registerDevice, IDAREResponseHandler.ResponseListener<RegisterDeviceResponse> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
         String body = gson.toJson(registerDevice);
-        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_UNREGISTER_FOR_PUSH, null, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener<RegisterDeviceResponse>() {
-            @Override
-            public void onSuccess(RegisterDeviceResponse response) {
-                Log.d(TAG, "****** SUCCESSFULLY UNREGISTERED " + response.getDeviceId() + " ******");
-            }
-        }, new IDAREResponseHandler.ErrorListener() {
-            @Override
-            public void onError(IDAREErrorWrapper error) {
-                Log.e(TAG, "@@@@@@ ERROR UNREGISTERING " + error.getException().getMessage() + " @@@@@@");
-            }
-        });
+        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_UNREGISTER_FOR_PUSH, null, USER_CREDENTIALS, null, body, (IDAREResponseHandler.ResponseListener<RegisterDeviceResponse>) response -> Log.d(TAG, "****** SUCCESSFULLY UNREGISTERED " + response.getDeviceId() + " ******"), error -> Log.e(TAG, "@@@@@@ ERROR UNREGISTERING " + error.getException().getMessage() + " @@@@@@"));
     }
 
     @Override
     public void initiateNotification(final Context context, final IDAREResponseHandler.ResponseListener<TriggerNotificationResponseModel> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
-        SessionFacadeImpl.getInstance().fetchNearByUsers(context, new IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>() {
-            @Override
-            public void onSuccess(UserProfileResponseModel[] arrUsers) {
-                Log.d(TAG, arrUsers.toString());
-                triggerNotification(context, arrUsers, responseListener, errorListener);
-            }
-        }, new IDAREResponseHandler.ErrorListener() {
-            @Override
-            public void onError(IDAREErrorWrapper error) {
-                Log.e(TAG, error.toString());
-            }
-        });
+        SessionFacadeImpl.getInstance().fetchNearByUsers(context, (IDAREResponseHandler.ResponseListener<UserProfileResponseModel[]>) arrUsers -> {
+            Log.d(TAG, Arrays.toString(arrUsers));
+            triggerNotification(context, arrUsers, responseListener, errorListener);
+        }, error -> Log.e(TAG, error.toString()));
     }
 
     private void triggerNotification(Context context, UserProfileResponseModel[] arrUsers, IDAREResponseHandler.ResponseListener<TriggerNotificationResponseModel> responseListener, IDAREResponseHandler.ErrorListener errorListener) {
         TriggerNotificationRequestModel model = getTriggerNotificationBody(context, arrUsers);
         String body = gson.toJson(model);
-        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_TRIGGER_NOTIFICATION, null, USER_CREDENTIALS, null, body, new IDAREResponseHandler.ResponseListener<TriggerNotificationResponseModel>() {
-            @Override
-            public void onSuccess(TriggerNotificationResponseModel response) {
-                Log.d(TAG, "onSuccess(). " + response);
-            }
-        }, new IDAREResponseHandler.ErrorListener() {
-            @Override
-            public void onError(IDAREErrorWrapper error) {
-                Log.e(TAG, "onError(). " + error.getMessage());
-            }
-        });
+        ServiceLocatorImpl.getInstance().executePostRequest(context, URLs.URL_TRIGGER_NOTIFICATION, null, USER_CREDENTIALS, null, body, (IDAREResponseHandler.ResponseListener<TriggerNotificationResponseModel>) response -> Log.d(TAG, "onSuccess(). " + response), error -> Log.e(TAG, "onError(). " + error.getMessage()));
     }
 
     private TriggerNotificationRequestModel getTriggerNotificationBody(Context context, UserProfileResponseModel[] arrUsers) {
         IDareLocation location = PreferencesManager.getInstance(context).getLastLocation();
         UserProfileResponseModel me = Session.getInstance().getUserProfileResponseModel();
         String name = me.getName();
+        String id = me.getId();
         List<String> userIds = new ArrayList<>();
         for (UserProfileResponseModel user : arrUsers) {
             if (!user.getId().equals(me.getId()))
                 userIds.add(user.getId());
         }
 
-        return new TriggerNotificationRequestModel(userIds.toArray(new String[userIds.size()]), name, location);
+        return new TriggerNotificationRequestModel(userIds.toArray(new String[userIds.size()]), name, location, id, new Date().getTime());
+    }
+
+    @Override
+    public void fetchNotifications(Context context, final IDAREResponseHandler.ResponseListener<List<NotificationItem>> responseListener, final IDAREResponseHandler.ErrorListener errorListener) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("recipientId", Session.getInstance().getUserProfileResponseModel().getId());
+        ServiceLocatorImpl.getInstance().executeGetRequest(context, URLs.URL_FETCH_NOTIFICATIONS, params, USER_CREDENTIALS, null, (IDAREResponseHandler.ResponseListener<NotificationItem[]>) response -> {
+            Log.d(TAG, "Notifications - " + Arrays.toString(response));
+            responseListener.onSuccess(Arrays.asList(response));
+        }, error -> {
+            Log.e(TAG, "Error fetching notifications - " + error.getMessage());
+            errorListener.onError(error);
+        });
     }
 }
